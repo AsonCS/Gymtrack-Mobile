@@ -1,6 +1,7 @@
 *.iml
 .kotlin
 .gradle
+.firebase/
 **/build/
 xcuserdata
 !src/**/build/
@@ -19,5 +20,4 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 kotlin-js-store/yarn.lock
-/composeApp/src/commonMain/kotlin/br/com/asoncs/multi/passwords/generated
-/composeApp/dice.preferences_pb
+/composeApp/src/commonMain/kotlin/br/com/asoncsts/multi/gymtrack/generated
