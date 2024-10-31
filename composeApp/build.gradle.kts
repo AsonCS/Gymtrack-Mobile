@@ -7,10 +7,13 @@ import org.jetbrains.kotlin.incremental.deleteDirectoryContents
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.firebaseAppdistribution)
+    alias(libs.plugins.firebaseCrashlytics)
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.kotlinMultiplatform)
 }
 
 val keystoreProperties = Properties().apply {

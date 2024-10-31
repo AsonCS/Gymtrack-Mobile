@@ -1,7 +1,5 @@
 package br.com.asoncsts.multi.gymtrack
 
-class WasmPlatform: Platform {
-    override val name: String = "Web with Kotlin/Wasm"
-}
+import br.com.asoncsts.multi.gymtrack.generated.BuildConfig
 
-actual fun getPlatform(): Platform = WasmPlatform()
+actual val isDebug = BuildConfig.DEBUG
