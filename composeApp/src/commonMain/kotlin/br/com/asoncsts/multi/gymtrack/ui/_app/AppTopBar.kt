@@ -15,6 +15,8 @@ import br.com.asoncsts.multi.gymtrack.ui.component.UserIcon
 @Composable
 fun AppTopBar(
     appViewModel: AppViewModel,
+    navigateToLogin: () -> Unit,
+    navigateToUser: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val stateAuthUser by appViewModel.stateAuth
@@ -27,7 +29,12 @@ fun AppTopBar(
             ?.user
         AppTopBar(
             handlerBack = stateTopBar.handlerBack,
-            handlerUser = stateTopBar.handlerUser,
+            handlerUser = if (stateTopBar.showUser)
+                if (user == null)
+                    navigateToLogin
+                else
+                    navigateToUser
+            else null,
             modifier = modifier,
             userDisplayName = user
                 ?.displayName,

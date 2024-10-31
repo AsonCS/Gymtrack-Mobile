@@ -10,8 +10,7 @@ data object HomeScreenDestination : HomeDestination<Args>(
     "home_screen"
 ) {
     class Args(
-        val appViewModel: AppViewModel,
-        val navigateToUser: () -> Unit
+        val appViewModel: AppViewModel
     )
 
     override operator fun invoke(

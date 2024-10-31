@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
 
 abstract class AppDestination<Args>(
@@ -20,8 +19,8 @@ abstract class AppDestination<Args>(
 @Composable
 fun AppNavHost(
     appViewModel: AppViewModel,
-    modifier: Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController,
+    modifier: Modifier
 ) {
     NavHost(
         navController = navController,
@@ -30,10 +29,7 @@ fun AppNavHost(
     ) {
         HomeNavDestination(
             HomeNavDestination.Args(
-                appViewModel,
-                navigateToUser = {
-                    // navController.navigate(UserNavDestination.route)
-                }
+                appViewModel
             ),
             this
         )
@@ -52,4 +48,14 @@ fun AppNavHost(
             this
         )
     }
+}
+
+fun NavHostController.navigateToLogin() {
+    navigate(LoginDestination.route) {
+        launchSingleTop = true
+    }
+}
+
+fun NavHostController.navigateToUser() {
+    //navigate(UserDestination.route)
 }

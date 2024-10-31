@@ -24,7 +24,7 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         args.appViewModel.stateTopBarUpdate(
-            handlerUser = args.navigateToUser
+            showUser = true
         )
     }
 }
