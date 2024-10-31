@@ -21,3 +21,4 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 kotlin-js-store/yarn.lock
 /composeApp/src/commonMain/kotlin/br/com/asoncsts/multi/gymtrack/generated
+/composeApp/src/google-services.json
