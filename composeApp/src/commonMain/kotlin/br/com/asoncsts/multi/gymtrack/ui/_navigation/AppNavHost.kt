@@ -28,7 +28,6 @@ fun AppNavHost(
         startDestination = HomeNavDestination.route,
         modifier = modifier
     ) {
-        this.route
         HomeNavDestination(
             HomeNavDestination.Args(
                 appViewModel,
