@@ -17,7 +17,7 @@ plugins {
 }
 
 val keystoreProperties = Properties().apply {
-    load(rootProject.file("keystore.properties").inputStream())
+    load(rootProject.file("keystore/keystore.properties").inputStream())
 }
 val lApplicationId = libs.versions.applicationId
     .get()
@@ -124,10 +124,28 @@ android {
 
     defaultConfig {
         applicationId = lApplicationId
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk
+            .get()
+            .toInt()
+        targetSdk = libs.versions.android.targetSdk
+            .get()
+            .toInt()
         versionCode = lApplicationVersionCode
         versionName = lApplicationVersion
+    }
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["appKeystoreUploadAlias"]
+                .toString()
+            keyPassword = keystoreProperties["appKeystoreUploadPassword"]
+                .toString()
+            storeFile = rootProject.file(
+                keystoreProperties["appKeystoreUploadFile"]
+                    .toString()
+            )
+            storePassword = keystoreProperties["appKeystoreUploadPassword"]
+                .toString()
+        }
     }
     packaging {
         resources {
@@ -140,6 +158,7 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     buildFeatures {

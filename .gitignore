@@ -6,7 +6,6 @@
 xcuserdata
 !src/**/build/
 local.properties
-keystore.properties
 composeApp/release_notes.txt
 .idea
 .DS_Store
@@ -22,3 +21,5 @@ captures
 kotlin-js-store/yarn.lock
 /composeApp/src/commonMain/kotlin/br/com/asoncsts/multi/gymtrack/generated
 /composeApp/src/google-services.json
+keystore/
+release/
