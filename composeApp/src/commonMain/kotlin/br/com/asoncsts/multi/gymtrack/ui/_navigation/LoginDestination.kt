@@ -4,13 +4,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
 import br.com.asoncsts.multi.gymtrack.ui._navigation.LoginDestination.Args
-import br.com.asoncsts.multi.gymtrack.ui.login.LoginScreen
+import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
+import br.com.asoncsts.multi.gymtrack.ui.auth.login.LoginScreen
 
 data object LoginDestination : AppDestination<Args>(
     "login"
 ) {
     class Args(
         val appViewModel: AppViewModel,
+        val authViewModel: AuthViewModel,
+        val navigateToSignup: () -> Unit,
         val navigateUp: () -> Unit
     )
 

@@ -18,7 +18,7 @@ interface AuthRepository {
 
     suspend fun logout()
 
-    suspend fun lookup(): User
+    suspend fun lookupAndEmit()
 
     suspend fun signup(
         password: String,

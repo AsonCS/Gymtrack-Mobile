@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_screen_google_login">Google</string>
+    <string name="login_screen_login">Entrar</string>
+    <string name="login_screen_username">Email</string>
+    <string name="login_screen_username_placeholder">abc@com.br</string>
+    <string name="login_screen_password">Senha</string>
+    <string name="login_screen_password_placeholder">Mínimo de 8 characteres</string>
+    <string name="login_screen_signup">Cadastrar</string>
+
+    <string name="signup_screen">Cadastrar</string>
+</resources>

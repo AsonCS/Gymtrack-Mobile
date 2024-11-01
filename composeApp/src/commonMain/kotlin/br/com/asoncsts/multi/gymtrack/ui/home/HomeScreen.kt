@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeScreenDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 
 @Composable
 fun HomeScreen(
@@ -44,7 +45,8 @@ internal fun HomeScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            "Home Screen"
+            "Home Screen",
+            style = typography().titleSmall
         )
     }
 }

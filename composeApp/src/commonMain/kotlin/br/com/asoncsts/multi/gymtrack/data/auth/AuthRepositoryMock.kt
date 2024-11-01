@@ -51,7 +51,11 @@ object AuthRepositoryMock : AuthRepository, KoinComponent {
         emit(LoggedOut)
     }
 
-    override suspend fun lookup() = mockUser
+    override suspend fun lookupAndEmit() {
+        emit(
+            LoggedIn(mockUser)
+        )
+    }
 
     override suspend fun signup(
         password: String,

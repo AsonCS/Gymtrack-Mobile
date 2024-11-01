@@ -120,7 +120,14 @@ kotlin {
 
 android {
     namespace = lApplicationId
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = libs.versions.android.compileSdk
+        .get()
+        .toInt()
+
+    sourceSets["debug"].res.srcDirs(
+        "src/androidDebug/res",
+        "src/commonMain/composeResources"
+    )
 
     defaultConfig {
         applicationId = lApplicationId

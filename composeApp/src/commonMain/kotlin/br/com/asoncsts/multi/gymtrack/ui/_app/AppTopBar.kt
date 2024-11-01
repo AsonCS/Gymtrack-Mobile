@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
+import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui.component.UserIcon
 
 @Composable
@@ -72,7 +73,8 @@ fun AppTopBar(
                     null,
                     Modifier
                         .size(size)
-                        .padding(4.dp)
+                        .padding(4.dp),
+                    tint = colors().onBackground
                 )
             }
         }

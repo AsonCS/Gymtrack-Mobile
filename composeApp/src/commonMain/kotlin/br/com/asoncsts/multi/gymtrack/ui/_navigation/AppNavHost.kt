@@ -6,6 +6,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
+import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 abstract class AppDestination<Args>(
     val route: String
@@ -20,7 +22,8 @@ abstract class AppDestination<Args>(
 fun AppNavHost(
     appViewModel: AppViewModel,
     navController: NavHostController,
-    modifier: Modifier
+    modifier: Modifier,
+    authViewModel: AuthViewModel = koinViewModel()
 ) {
     NavHost(
         navController = navController,
@@ -36,6 +39,10 @@ fun AppNavHost(
         LoginDestination(
             LoginDestination.Args(
                 appViewModel,
+                authViewModel,
+                navigateToSignup = {
+                    navController.navigate(SignupDestination.route)
+                },
                 navigateUp = navController::navigateUp
             ),
             this
