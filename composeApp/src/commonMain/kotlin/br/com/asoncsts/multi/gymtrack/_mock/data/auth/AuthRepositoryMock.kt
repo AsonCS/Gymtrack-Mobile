@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack._mock
+package br.com.asoncsts.multi.gymtrack._mock.data.auth
 
 import br.com.asoncsts.multi.gymtrack.data.auth.AuthRepository
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState

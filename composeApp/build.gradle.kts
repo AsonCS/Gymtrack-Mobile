@@ -73,8 +73,6 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
-
         androidMain.dependencies {
             implementation(project.dependencies.platform(libs.firebase.bom))
 
@@ -111,6 +109,8 @@ kotlin {
             implementation(libs.ktor.negotiation)
             implementation(libs.ktor.serialization.json)
         }
+
+        val desktopMain by getting
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
 
@@ -119,13 +119,8 @@ kotlin {
             implementation(libs.ktor.apache5)
         }
 
-        androidUnitTest.dependencies {
-            implementation(libs.test.android.junit)
-            implementation(libs.test.junit)
-            implementation(libs.test.robolectric.annotations)
-            implementation(libs.test.robolectric.robolectric)
-        }
-        androidInstrumentedTest.dependencies {
+        val desktopTest by getting
+        desktopMain.dependencies {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
             @OptIn(ExperimentalComposeLibrary::class)
@@ -133,6 +128,7 @@ kotlin {
 
             implementation(libs.test.junit)
         }
+
     }
 }
 

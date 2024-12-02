@@ -20,8 +20,7 @@ data class ExerciseSource(
             ?: "",
         id = id
             ?: "",
-        image = image
-            ?: "",
+        image = image,
         title = title
             ?: ""
     )
