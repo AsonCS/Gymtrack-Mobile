@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
-import br.com.asoncsts.multi.gymtrack.ui.component.UserIcon
+import br.com.asoncsts.multi.gymtrack.ui._components.UserIcon
 
 @Composable
 fun AppTopBar(

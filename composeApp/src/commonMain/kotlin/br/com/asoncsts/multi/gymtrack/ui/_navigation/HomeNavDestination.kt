@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
 import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui.home.HomeViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 data object HomeNavDestination : AppDestination<Args>(
     "home"
@@ -38,6 +40,7 @@ abstract class HomeDestination<Args>(
 fun HomeNavHost(
     args: Args,
     modifier: Modifier = Modifier,
+    homeViewModel: HomeViewModel = koinViewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
@@ -47,7 +50,8 @@ fun HomeNavHost(
     ) {
         HomeScreenDestination(
             HomeScreenDestination.Args(
-                args.appViewModel
+                args.appViewModel,
+                homeViewModel
             ),
             this
         )

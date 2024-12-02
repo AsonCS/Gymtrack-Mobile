@@ -14,7 +14,7 @@ import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui.auth.Fields
 import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState
 import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState.*
-import br.com.asoncsts.multi.gymtrack.ui.component.Loading
+import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import gymtrack.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

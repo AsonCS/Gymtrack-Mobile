@@ -9,6 +9,7 @@ fun koinApplication(
     modules(
         appModule(),
         platformModule,
+        dataModule(),
         uiModule()
     )
 }

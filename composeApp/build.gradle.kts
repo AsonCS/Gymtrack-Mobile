@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.jetbrains.kotlin.incremental.deleteDirectoryContents
+import java.net.InetAddress
 import java.util.Properties
 
 plugins {
@@ -15,6 +16,7 @@ plugins {
     alias(libs.plugins.firebaseCrashlytics)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 val keystoreProperties = Properties().apply {
@@ -211,29 +213,33 @@ compose.desktop {
 }
 
 val buildConfigGenerator by tasks.registering(Sync::class) {
+    val ip = InetAddress.getLocalHost().hostAddress
+
     from(
         resources.text.fromString(
             """
             |package $lApplicationId.generated
             |
             |object BuildConfig {
-            |   const val APPLICATION_ID = "$lApplicationId"
-            |   const val APPLICATION_VERSION = "$lApplicationVersion"
-            |   const val APPLICATION_VERSION_CODE = "$lApplicationVersionCode"
+            |   //const val APPLICATION_ID = "$lApplicationId"
+            |   //const val APPLICATION_VERSION = "$lApplicationVersion"
+            |   //const val APPLICATION_VERSION_CODE = "$lApplicationVersionCode"
             |
             |   const val DEBUG = true
             |
-            |   const val FIREBASE_APP_ID = "${keystoreProperties["firebaseAppId"]}"
-            |   const val FIREBASE_API_KEY = "${keystoreProperties["firebaseApiKey"]}"
-            |   const val FIREBASE_AUTH_DOMAIN = "${keystoreProperties["firebaseAuthDomain"]}"
-            |   const val FIREBASE_AUTH_API_HOST_IDENTIFY = "https://identitytoolkit.googleapis.com/v1"
-            |   const val FIREBASE_AUTH_API_HOST_TOKEN = "https://securetoken.googleapis.com/v1"
+            |   //const val FIREBASE_APP_ID = "${keystoreProperties["firebaseAppId"]}"
+            |   //const val FIREBASE_API_KEY = "${keystoreProperties["firebaseApiKey"]}"
+            |   //const val FIREBASE_AUTH_DOMAIN = "${keystoreProperties["firebaseAuthDomain"]}"
+            |   //const val FIREBASE_AUTH_API_HOST_IDENTIFY = "https://identitytoolkit.googleapis.com/v1"
+            |   //const val FIREBASE_AUTH_API_HOST_TOKEN = "https://securetoken.googleapis.com/v1"
             |   const val FIREBASE_DEFAULT_WEB_CLIENT_ID = "${keystoreProperties["firebaseDefaultWebClientId"]}"
-            |   const val FIREBASE_MEASUREMENT_ID = "${keystoreProperties["firebaseMeasurementId"]}"
-            |   const val FIREBASE_MESSAGING_SENDER_ID = "${keystoreProperties["firebaseMessagingSenderId"]}"
-            |   const val FIREBASE_PROJECT_ID = "${keystoreProperties["firebaseProjectId"]}"
-            |   const val FIREBASE_STORAGE_BUCKET = "${keystoreProperties["firebaseStorageBucket"]}"
-            |   const val FIREBASE_WEB_API_KEY = "${keystoreProperties["firebaseWebApiKey"]}"
+            |   //const val FIREBASE_MEASUREMENT_ID = "${keystoreProperties["firebaseMeasurementId"]}"
+            |   //const val FIREBASE_MESSAGING_SENDER_ID = "${keystoreProperties["firebaseMessagingSenderId"]}"
+            |   //const val FIREBASE_PROJECT_ID = "${keystoreProperties["firebaseProjectId"]}"
+            |   //const val FIREBASE_STORAGE_BUCKET = "${keystoreProperties["firebaseStorageBucket"]}"
+            |   //const val FIREBASE_WEB_API_KEY = "${keystoreProperties["firebaseWebApiKey"]}"
+            |   
+            |   const val HOST = "http://$ip:3000"
             |
             |}
             |

@@ -4,14 +4,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack.extension.log
-import br.com.asoncsts.multi.gymtrack.ui._app.TAG_APP
+import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeScreenDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 
 @Composable
@@ -19,17 +18,22 @@ fun HomeScreen(
     args: Args,
     modifier: Modifier = Modifier
 ) {
+    val state by args.homeViewModel
+        .state
+        .collectAsState()
+
     HomeScreen(
         modifier = modifier,
         props = HomeProps(),
-        state = HomeState.Loading
+        state = state
     )
 
     LaunchedEffect(Unit) {
-        TAG_APP.log("HomeScreen.appViewModel.stateTopBarUpdate")
+        //TAG_APP.log("HomeScreen.appViewModel.stateTopBarUpdate")
         args.appViewModel.stateTopBarUpdate(
             showUser = true
         )
+        args.homeViewModel.getExercises()
     }
 }
 
@@ -45,11 +49,40 @@ internal fun HomeScreen(
             .fillMaxSize()
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement
+            .spacedBy(
+                alignment = Alignment.CenterVertically,
+                space = 16.dp
+            )
     ) {
         Text(
             "Home Screen",
             style = typography().titleSmall
         )
+
+        when (state) {
+            is HomeState.Error -> {
+                Text(
+                    state.throwable.message
+                        ?: "Error",
+                    color = colors().error,
+                    style = typography().titleSmall
+                )
+            }
+
+            HomeState.Loading -> {
+                Loading()
+            }
+
+            is HomeState.Success -> {
+                state.exercises.forEach {
+                    Text(
+                        it.toString(),
+                        color = colors().primary,
+                        style = typography().titleSmall
+                    )
+                }
+            }
+        }
     }
 }

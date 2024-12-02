@@ -5,12 +5,14 @@ import androidx.navigation.compose.composable
 import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
 import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeScreenDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeScreen
+import br.com.asoncsts.multi.gymtrack.ui.home.HomeViewModel
 
 data object HomeScreenDestination : HomeDestination<Args>(
     "home_screen"
 ) {
     class Args(
-        val appViewModel: AppViewModel
+        val appViewModel: AppViewModel,
+        val homeViewModel: HomeViewModel
     )
 
     override operator fun invoke(

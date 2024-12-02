@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.component
+package br.com.asoncsts.multi.gymtrack.ui._components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator

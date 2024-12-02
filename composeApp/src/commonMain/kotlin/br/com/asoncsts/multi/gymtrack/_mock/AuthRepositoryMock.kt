@@ -1,5 +1,6 @@
-package br.com.asoncsts.multi.gymtrack.data.auth
+package br.com.asoncsts.multi.gymtrack._mock
 
+import br.com.asoncsts.multi.gymtrack.data.auth.AuthRepository
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedOut
@@ -13,7 +14,7 @@ object AuthRepositoryMock : AuthRepository, KoinComponent {
     init {
         CoroutineScope(Default).launch {
             delay(3_000)
-            emit(AuthState.LoggedOut)
+            emit(LoggedOut)
         }
     }
 
@@ -29,7 +30,7 @@ object AuthRepositoryMock : AuthRepository, KoinComponent {
     override suspend fun onAuthInit(
         emit: (AuthState) -> Unit
     ) {
-        this.emit = emit
+        AuthRepositoryMock.emit = emit
         emit(LoggedOut)
     }
 
