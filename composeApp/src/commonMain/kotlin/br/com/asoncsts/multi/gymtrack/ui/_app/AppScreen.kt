@@ -2,7 +2,7 @@ package br.com.asoncsts.multi.gymtrack.ui._app
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
@@ -18,7 +18,7 @@ fun AppScreen(
 
     Scaffold(
         modifier,
-        backgroundColor = colors().background,
+        containerColor = colors().background,
         topBar = {
             AppTopBar(
                 appViewModel,

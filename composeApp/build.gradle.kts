@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
@@ -114,6 +115,21 @@ kotlin {
             implementation(libs.coil3.jvm)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.apache5)
+        }
+
+        androidUnitTest.dependencies {
+            implementation(libs.test.android.junit)
+            implementation(libs.test.junit)
+            implementation(libs.test.robolectric.annotations)
+            implementation(libs.test.robolectric.robolectric)
+        }
+        androidInstrumentedTest.dependencies {
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTestJUnit4)
+
+            implementation(libs.test.junit)
         }
     }
 }

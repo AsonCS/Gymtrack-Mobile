@@ -13,7 +13,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-const val TAG_APP = "gymtrack"
+const val TAG_APP = "gymtrack:"
 
 @Composable
 fun App(

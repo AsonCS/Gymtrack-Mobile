@@ -1,14 +1,15 @@
-package br.com.asoncsts.multi.gymtrack.ui.auth.login
+package br.com.asoncsts.multi.gymtrack.ui.auth.signup
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.asoncsts.multi.gymtrack.ui._navigation.LoginDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui._navigation.SignupDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui.auth.Fields
 import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState
@@ -19,7 +20,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun LoginScreen(
+fun SignupScreen(
     args: Args,
     modifier: Modifier = Modifier
 ) {
@@ -27,15 +28,11 @@ fun LoginScreen(
         .state
         .collectAsState()
 
-    LoginScreen(
+    SignupScreen(
         modifier = modifier,
-        props = LoginProps(
-            googleLogin = stringResource(Res.string.login_screen_google_login),
-            login = stringResource(Res.string.login_screen_login),
+        props = SignupProps(
             logo = painterResource(Res.drawable.logo),
-            onFinish = args.authViewModel::login,
-            onGoogleLogin = args.authViewModel::loginWithGoogle,
-            onSignup = args.navigateToSignup,
+            onFinish = args.authViewModel::signup,
             onSuccess = args.navigateUp,
             onUpdatePassword = args.authViewModel::updatePassword,
             onUpdateUsername = args.authViewModel::updateUsername,
@@ -49,7 +46,7 @@ fun LoginScreen(
     )
 
     LaunchedEffect(Unit) {
-        //TAG_APP.log("LoginScreen.appViewModel.stateTopBarUpdate")
+        //TAG_APP.log("SignupScreen.appViewModel.stateTopBarUpdate")
         args.appViewModel.stateTopBarUpdate(
             handlerBack = args.navigateUp
         )
@@ -57,15 +54,16 @@ fun LoginScreen(
 }
 
 @Composable
-internal fun LoginScreen(
+internal fun SignupScreen(
     modifier: Modifier,
-    props: LoginProps,
+    props: SignupProps,
     state: LoginState
 ) {
     Column(
         modifier
             .verticalScroll(rememberScrollState())
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement
             .spacedBy(
@@ -102,30 +100,7 @@ internal fun LoginScreen(
                         .width(200.dp)
                 ) {
                     Text(
-                        props.login
-                    )
-                }
-
-                OutlinedButton(
-                    props.onSignup,
-                    Modifier
-                        .width(200.dp)
-                ) {
-                    Text(
                         props.signup
-                    )
-                }
-
-                Button(
-                    props.onGoogleLogin,
-                    Modifier
-                        .width(200.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colors().secondary
-                    )
-                ) {
-                    Text(
-                        props.googleLogin
                     )
                 }
             }

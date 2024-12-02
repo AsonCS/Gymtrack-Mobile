@@ -1,14 +1,10 @@
-package br.com.asoncsts.multi.gymtrack.ui.auth.login
+package br.com.asoncsts.multi.gymtrack.ui.auth.signup
 
 import androidx.compose.ui.graphics.painter.Painter
 import br.com.asoncsts.multi.gymtrack.ui.auth.Props
 
-internal class LoginProps(
-    val googleLogin: String,
-    val login: String,
+internal class SignupProps(
     val logo: Painter,
-    val onGoogleLogin: () -> Unit,
-    val onSignup: () -> Unit,
     val onSuccess: () -> Unit,
     val signup: String,
     override val onFinish: () -> Unit,

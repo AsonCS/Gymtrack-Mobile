@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.asoncsts.multi.gymtrack.data.auth.AuthRepository
 import br.com.asoncsts.multi.gymtrack.extension.error
-import br.com.asoncsts.multi.gymtrack.ui.auth.login.LoginState
-import br.com.asoncsts.multi.gymtrack.ui.auth.login.LoginState.Filling
+import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState.Filling
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 

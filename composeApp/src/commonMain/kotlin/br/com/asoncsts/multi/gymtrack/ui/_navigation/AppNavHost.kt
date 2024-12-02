@@ -50,11 +50,18 @@ fun AppNavHost(
         SignupDestination(
             SignupDestination.Args(
                 appViewModel,
+                authViewModel,
                 navigateUp = navController::navigateUp
             ),
             this
         )
     }
+
+    /*LaunchedEffect(Unit) {
+        navController.currentBackStack.collect {
+            TAG_APP.log(it.map { it.destination.route }.toString())
+        }
+    }// */
 }
 
 fun NavHostController.navigateToLogin() {

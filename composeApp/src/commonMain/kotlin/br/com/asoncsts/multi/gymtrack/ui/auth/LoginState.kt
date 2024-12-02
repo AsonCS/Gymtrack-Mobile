@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.auth.login
+package br.com.asoncsts.multi.gymtrack.ui.auth
 
 internal sealed class LoginState(
     val password: String,

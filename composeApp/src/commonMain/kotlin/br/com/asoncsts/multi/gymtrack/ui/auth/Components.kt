@@ -1,22 +1,32 @@
-package br.com.asoncsts.multi.gymtrack.ui.auth.login
+package br.com.asoncsts.multi.gymtrack.ui.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
-import br.com.asoncsts.multi.gymtrack.ui.auth.login.LoginState.Filling
+import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState.Filling
+
+internal interface Props {
+    val onFinish: () -> Unit
+    val onUpdatePassword: (String) -> Unit
+    val onUpdateUsername: (String) -> Unit
+    val password: String
+    val passwordPlaceholder: String
+    val userName: String
+    val userNamePlaceholder: String
+}
 
 @Composable
 internal fun Fields(
     modifier: Modifier,
-    props: LoginProps,
+    props: Props,
     state: Filling
 ) {
     Column(
@@ -31,8 +41,9 @@ internal fun Fields(
         TextField(
             state.username,
             props.onUpdateUsername,
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colors().onBackground
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = colors().onBackground,
+                unfocusedContainerColor = colors().onBackground
             ),
             keyboardOptions = KeyboardOptions(
                 autoCorrectEnabled = false,
@@ -56,8 +67,9 @@ internal fun Fields(
         TextField(
             state.password,
             props.onUpdatePassword,
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colors().onBackground
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = colors().onBackground,
+                unfocusedContainerColor = colors().onBackground
             ),
             keyboardActions = KeyboardActions(
                 onDone = {

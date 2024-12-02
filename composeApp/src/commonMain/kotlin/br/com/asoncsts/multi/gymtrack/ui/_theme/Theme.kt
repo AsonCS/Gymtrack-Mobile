@@ -13,8 +13,19 @@ private val darkColorPalette = darkColorScheme(
 
     background = Color.Black,
     onBackground = Color.White,
+
     surface = Color.Black,
     onSurface = Color.White,
+
+    onError = Color.White,
+    onErrorContainer = Color.White,
+    onPrimary = Color.White,
+    onPrimaryContainer = Color.White,
+    onSecondary = Color.White,
+    onSecondaryContainer = Color.White,
+    onSurfaceVariant = Color.White,
+    onTertiary = Color.White,
+    onTertiaryContainer = Color.White
 )
 
 private val lightColorPalette = darkColorPalette

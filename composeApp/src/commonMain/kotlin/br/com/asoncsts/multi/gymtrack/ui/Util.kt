@@ -16,7 +16,7 @@ fun PreviewContainer(
         Surface(
             Modifier
                 .fillMaxSize(),
-            color = colors().background
+            //color = colors().background
         ) {
             content()
         }

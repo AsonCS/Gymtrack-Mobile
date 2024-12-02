@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import br.com.asoncsts.multi.gymtrack.R
 import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 import br.com.asoncsts.multi.gymtrack.ui.PreviewPixel7
+import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState
 
 @PreviewPixel7
 @Composable

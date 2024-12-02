@@ -1,8 +1,7 @@
 package br.com.asoncsts.multi.gymtrack.di
 
 import android.content.Context
-import br.com.asoncsts.multi.gymtrack.data.auth.AndroidAuthRepository
-import br.com.asoncsts.multi.gymtrack.data.auth.AuthRepository
+import br.com.asoncsts.multi.gymtrack.data.auth.*
 import org.koin.dsl.module
 
 fun androidModule(
@@ -14,6 +13,6 @@ fun androidModule(
         AndroidAuthRepository(
             context
         )
-        // AuthRepositoryMock
+        AuthRepositoryMock
     }
 }
