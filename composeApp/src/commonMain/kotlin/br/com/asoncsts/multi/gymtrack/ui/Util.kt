@@ -9,13 +9,13 @@ import br.com.asoncsts.multi.gymtrack.ui._theme.AppTheme
 
 @Composable
 fun PreviewContainer(
+    modifier: Modifier = Modifier,
     alignment: Alignment = Alignment.Center,
-    darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    AppTheme(darkTheme) {
+    AppTheme {
         Box(
-            Modifier
+            modifier
                 .fillMaxSize(),
             contentAlignment = alignment
         ) {

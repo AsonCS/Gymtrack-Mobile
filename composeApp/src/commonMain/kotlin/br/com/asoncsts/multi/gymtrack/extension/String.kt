@@ -1,5 +1,7 @@
 package br.com.asoncsts.multi.gymtrack.extension
 
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
 import br.com.asoncsts.multi.gymtrack.isDebug
 
 expect fun platformError(
@@ -29,3 +31,10 @@ fun String.log(
         platformLog(message, this)
     }
 }
+
+fun String.capitalizedWords(
+    locale: Locale
+) = this.split(" ")
+    .joinToString(" ") {
+        it.capitalize(locale)
+    }

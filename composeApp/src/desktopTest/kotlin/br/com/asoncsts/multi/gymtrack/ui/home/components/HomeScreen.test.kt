@@ -1,9 +1,10 @@
 @file:OptIn(ExperimentalTestApi::class)
 
-package br.com.asoncsts.multi.gymtrack.ui.home
+package br.com.asoncsts.multi.gymtrack.ui.home.components
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
+import br.com.asoncsts.multi.gymtrack.ui.home.homeStateValuesProvider
 import org.junit.Test
 
 class HomeScreenTest {
@@ -14,7 +15,7 @@ class HomeScreenTest {
             setContent {
                 HomeScreen(
                     Modifier,
-                    HomeProps(),
+                    homeScreenProps { },
                     homeStateValuesProvider
                         .elementAt(0)
                 )
@@ -34,7 +35,7 @@ class HomeScreenTest {
             setContent {
                 HomeScreen(
                     Modifier,
-                    HomeProps(),
+                    homeScreenProps { },
                     homeStateValuesProvider
                         .elementAt(1)
                 )
@@ -53,7 +54,7 @@ class HomeScreenTest {
             setContent {
                 HomeScreen(
                     Modifier,
-                    HomeProps(),
+                    homeScreenProps { },
                     homeStateValuesProvider
                         .elementAt(2)
                 )

@@ -14,6 +14,17 @@ interface ExerciseRemote {
         private val api: ExerciseApi,
         private val client: HttpClient
     ) : ExerciseRemote {
+
+        override suspend fun getExercise(
+            id: String
+        ): Response<ExerciseSource> {
+            return client.get {
+                url {
+                    takeFrom(api.exercise(id))
+                }
+            }.body()
+        }
+
         override suspend fun getExercises(): Response<List<ExerciseSource>> {
             return client.get {
                 url {
@@ -21,7 +32,12 @@ interface ExerciseRemote {
                 }
             }.body()
         }
+
     }
+
+    suspend fun getExercise(
+        id: String
+    ): Response<ExerciseSource>
 
     suspend fun getExercises(): Response<List<ExerciseSource>>
 

@@ -1,5 +1,7 @@
 package br.com.asoncsts.multi.gymtrack
 
+import br.com.asoncsts.multi.gymtrack.extension.DeviceLanguage
+import br.com.asoncsts.multi.gymtrack.extension.deviceLanguage
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
@@ -23,6 +25,15 @@ class GenericTest {
         Assert.assertEquals(
             1,
             4 / 4
+        )
+    }
+
+    @Test
+    fun `Locale map test`() = runBlocking {
+        val lang = deviceLanguage()
+        Assert.assertEquals(
+            DeviceLanguage.PT_BR,
+            lang
         )
     }
 

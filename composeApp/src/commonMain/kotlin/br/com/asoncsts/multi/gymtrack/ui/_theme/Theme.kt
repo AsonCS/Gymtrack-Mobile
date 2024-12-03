@@ -50,12 +50,8 @@ fun AppTheme(
         lightColorPalette
     }
     MaterialTheme(
-        colorScheme = if (darkTheme) {
-            darkColorPalette
-        } else {
-            lightColorPalette
-        },
-        typography = Typography(colorScheme),
+        colorScheme = colorScheme,
+        typography = TypographyTheme(),
         shapes = Shapes,
         content = content
     )
