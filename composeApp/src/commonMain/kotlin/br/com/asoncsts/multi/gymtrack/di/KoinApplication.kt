@@ -7,7 +7,9 @@ fun koinApplication(
     platformModule: Module
 ) = koinApplication {
     modules(
+        appModule(),
         platformModule,
-        appModule()
+        dataModule(),
+        uiModule()
     )
 }

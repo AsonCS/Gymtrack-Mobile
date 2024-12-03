@@ -1,7 +1,5 @@
 package br.com.asoncsts.multi.gymtrack
 
-class JVMPlatform: Platform {
-    override val name: String = "Java ${System.getProperty("java.version")}"
-}
+import br.com.asoncsts.multi.gymtrack.generated.BuildConfig
 
-actual fun getPlatform(): Platform = JVMPlatform()
+actual val isDebug = BuildConfig.DEBUG

@@ -5,8 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
+import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 abstract class AppDestination<Args>(
     val route: String
@@ -20,27 +21,28 @@ abstract class AppDestination<Args>(
 @Composable
 fun AppNavHost(
     appViewModel: AppViewModel,
+    navController: NavHostController,
     modifier: Modifier,
-    navController: NavHostController = rememberNavController()
+    authViewModel: AuthViewModel = koinViewModel()
 ) {
     NavHost(
         navController = navController,
         startDestination = HomeNavDestination.route,
         modifier = modifier
     ) {
-        this.route
         HomeNavDestination(
             HomeNavDestination.Args(
-                appViewModel,
-                navigateToUser = {
-                    // navController.navigate(UserNavDestination.route)
-                }
+                appViewModel
             ),
             this
         )
         LoginDestination(
             LoginDestination.Args(
                 appViewModel,
+                authViewModel,
+                navigateToSignup = {
+                    navController.navigate(SignupDestination.route)
+                },
                 navigateUp = navController::navigateUp
             ),
             this
@@ -48,9 +50,26 @@ fun AppNavHost(
         SignupDestination(
             SignupDestination.Args(
                 appViewModel,
+                authViewModel,
                 navigateUp = navController::navigateUp
             ),
             this
         )
     }
+
+    /*LaunchedEffect(Unit) {
+        navController.currentBackStack.collect {
+            TAG_APP.log(it.map { it.destination.route }.toString())
+        }
+    }// */
+}
+
+fun NavHostController.navigateToLogin() {
+    navigate(LoginDestination.route) {
+        launchSingleTop = true
+    }
+}
+
+fun NavHostController.navigateToUser() {
+    //navigate(UserDestination.route)
 }

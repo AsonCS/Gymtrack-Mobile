@@ -30,12 +30,12 @@ abstract class AppViewModel : ViewModel() {
 
         override fun stateTopBarUpdate(
             handlerBack: (() -> Unit)?,
-            handlerUser: (() -> Unit)?
+            showUser: Boolean
         ) {
             _stateTopBar.update {
                 AppTopBarState(
                     handlerBack = handlerBack,
-                    handlerUser = handlerUser
+                    showUser = showUser
                 )
             }
         }
@@ -52,7 +52,7 @@ abstract class AppViewModel : ViewModel() {
 
     abstract fun stateTopBarUpdate(
         handlerBack: (() -> Unit)? = null,
-        handlerUser: (() -> Unit)? = null
+        showUser: Boolean = false
     )
 
 }

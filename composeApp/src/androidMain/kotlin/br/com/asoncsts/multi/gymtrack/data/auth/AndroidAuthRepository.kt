@@ -1,6 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.data.auth
 
-import androidx.activity.ComponentActivity
+import android.content.Context
 import androidx.credentials.*
 import androidx.credentials.exceptions.*
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState
@@ -15,10 +15,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-interface AndroidAuthRepository : AuthRepository {
+class AndroidAuthRepository(
+    private val context: Context
+) : AuthRepository {
 
-    val activity: ComponentActivity
-    var emit: (AuthState) -> Unit
+    private var emit: (AuthState) -> Unit = {}
 
     override suspend fun onAuthInit(
         emit: (AuthState) -> Unit
@@ -51,7 +52,7 @@ interface AndroidAuthRepository : AuthRepository {
         val auth = Firebase.auth
 
         val credentialManager = CredentialManager
-            .create(activity)
+            .create(context)
         val googleIdOption = GetSignInWithGoogleOption
             .Builder(BuildConfig.FIREBASE_DEFAULT_WEB_CLIENT_ID)
             .build()
@@ -62,7 +63,7 @@ interface AndroidAuthRepository : AuthRepository {
 
         try {
             val result = credentialManager.getCredential(
-                context = activity,
+                context = context,
                 request = request
             )
 
@@ -118,10 +119,10 @@ interface AndroidAuthRepository : AuthRepository {
         emit(LoggedOut)
     }
 
-    override suspend fun lookup(): User {
+    override suspend fun lookupAndEmit() {
         return Firebase.auth
             .currentUser
-            .toUser()
+            .emitUser()
     }
 
     override suspend fun signup(

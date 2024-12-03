@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import br.com.asoncsts.multi.gymtrack.di.androidModule
+import br.com.asoncsts.multi.gymtrack.ui._app.App
 
-class MainActivity : ComponentActivity()
-/*AndroidAuthRepository*/ {
-
-//    override val activity get() = this
-//    override var emit = { _: AuthState -> }
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(
         savedInstanceState: Bundle?
@@ -20,12 +18,9 @@ class MainActivity : ComponentActivity()
         window.setSoftInputMode(SOFT_INPUT_ADJUST_RESIZE)
 
         setContent {
-//            App(
-//                auth = this,
-//                platformModule = module {
-//                    factory<Context> { this@MainActivity }
-//                }
-//            )
+            App(
+                platformModule = androidModule(this)
+            )
         }
     }
 }

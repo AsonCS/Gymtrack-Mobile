@@ -1,20 +1,23 @@
 package br.com.asoncsts.multi.gymtrack.ui._app
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
-import br.com.asoncsts.multi.gymtrack.ui.component.UserIcon
+import br.com.asoncsts.multi.gymtrack.ui._theme.colors
+import br.com.asoncsts.multi.gymtrack.ui._components.UserIcon
 
 @Composable
 fun AppTopBar(
     appViewModel: AppViewModel,
+    navigateToLogin: () -> Unit,
+    navigateToUser: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val stateAuthUser by appViewModel.stateAuth
@@ -27,7 +30,12 @@ fun AppTopBar(
             ?.user
         AppTopBar(
             handlerBack = stateTopBar.handlerBack,
-            handlerUser = stateTopBar.handlerUser,
+            handlerUser = if (stateTopBar.showUser)
+                if (user == null)
+                    navigateToLogin
+                else
+                    navigateToUser
+            else null,
             modifier = modifier,
             userDisplayName = user
                 ?.displayName,
@@ -65,7 +73,8 @@ fun AppTopBar(
                     null,
                     Modifier
                         .size(size)
-                        .padding(4.dp)
+                        .padding(4.dp),
+                    tint = colors().onBackground
                 )
             }
         }

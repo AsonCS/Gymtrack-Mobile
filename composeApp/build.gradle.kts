@@ -1,20 +1,26 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.jetbrains.kotlin.incremental.deleteDirectoryContents
+import java.net.InetAddress
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.firebaseAppdistribution)
+    alias(libs.plugins.firebaseCrashlytics)
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 val keystoreProperties = Properties().apply {
-    load(rootProject.file("keystore.properties").inputStream())
+    load(rootProject.file("keystore/keystore.properties").inputStream())
 }
 val lApplicationId = libs.versions.applicationId
     .get()
@@ -67,8 +73,6 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
-
         androidMain.dependencies {
             implementation(project.dependencies.platform(libs.firebase.bom))
 
@@ -84,6 +88,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.ktor.okhttp)
         }
+
         commonMain.dependencies {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -105,6 +110,8 @@ kotlin {
             implementation(libs.ktor.negotiation)
             implementation(libs.ktor.serialization.json)
         }
+
+        val desktopMain by getting
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
 
@@ -112,19 +119,55 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.apache5)
         }
+
+        val desktopTest by getting
+        desktopMain.dependencies {
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTestJUnit4)
+
+            implementation(libs.test.junit)
+        }
+
     }
 }
 
 android {
     namespace = lApplicationId
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = libs.versions.android.compileSdk
+        .get()
+        .toInt()
+
+    sourceSets["debug"].res.srcDirs(
+        "src/androidDebug/res",
+        "src/commonMain/composeResources"
+    )
 
     defaultConfig {
         applicationId = lApplicationId
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk
+            .get()
+            .toInt()
+        targetSdk = libs.versions.android.targetSdk
+            .get()
+            .toInt()
         versionCode = lApplicationVersionCode
         versionName = lApplicationVersion
+    }
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["appKeystoreUploadAlias"]
+                .toString()
+            keyPassword = keystoreProperties["appKeystoreUploadPassword"]
+                .toString()
+            storeFile = rootProject.file(
+                keystoreProperties["appKeystoreUploadFile"]
+                    .toString()
+            )
+            storePassword = keystoreProperties["appKeystoreUploadPassword"]
+                .toString()
+        }
     }
     packaging {
         resources {
@@ -137,6 +180,7 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     buildFeatures {
@@ -166,29 +210,33 @@ compose.desktop {
 }
 
 val buildConfigGenerator by tasks.registering(Sync::class) {
+    val ip = InetAddress.getLocalHost().hostAddress
+
     from(
         resources.text.fromString(
             """
             |package $lApplicationId.generated
             |
             |object BuildConfig {
-            |   const val APPLICATION_ID = "$lApplicationId"
-            |   const val APPLICATION_VERSION = "$lApplicationVersion"
-            |   const val APPLICATION_VERSION_CODE = "$lApplicationVersionCode"
+            |   //const val APPLICATION_ID = "$lApplicationId"
+            |   //const val APPLICATION_VERSION = "$lApplicationVersion"
+            |   //const val APPLICATION_VERSION_CODE = "$lApplicationVersionCode"
             |
             |   const val DEBUG = true
             |
-            |   const val FIREBASE_APP_ID = "${keystoreProperties["firebaseAppId"]}"
-            |   const val FIREBASE_API_KEY = "${keystoreProperties["firebaseApiKey"]}"
-            |   const val FIREBASE_AUTH_DOMAIN = "${keystoreProperties["firebaseAuthDomain"]}"
-            |   const val FIREBASE_AUTH_API_HOST_IDENTIFY = "https://identitytoolkit.googleapis.com/v1"
-            |   const val FIREBASE_AUTH_API_HOST_TOKEN = "https://securetoken.googleapis.com/v1"
+            |   //const val FIREBASE_APP_ID = "${keystoreProperties["firebaseAppId"]}"
+            |   //const val FIREBASE_API_KEY = "${keystoreProperties["firebaseApiKey"]}"
+            |   //const val FIREBASE_AUTH_DOMAIN = "${keystoreProperties["firebaseAuthDomain"]}"
+            |   //const val FIREBASE_AUTH_API_HOST_IDENTIFY = "https://identitytoolkit.googleapis.com/v1"
+            |   //const val FIREBASE_AUTH_API_HOST_TOKEN = "https://securetoken.googleapis.com/v1"
             |   const val FIREBASE_DEFAULT_WEB_CLIENT_ID = "${keystoreProperties["firebaseDefaultWebClientId"]}"
-            |   const val FIREBASE_MEASUREMENT_ID = "${keystoreProperties["firebaseMeasurementId"]}"
-            |   const val FIREBASE_MESSAGING_SENDER_ID = "${keystoreProperties["firebaseMessagingSenderId"]}"
-            |   const val FIREBASE_PROJECT_ID = "${keystoreProperties["firebaseProjectId"]}"
-            |   const val FIREBASE_STORAGE_BUCKET = "${keystoreProperties["firebaseStorageBucket"]}"
-            |   const val FIREBASE_WEB_API_KEY = "${keystoreProperties["firebaseWebApiKey"]}"
+            |   //const val FIREBASE_MEASUREMENT_ID = "${keystoreProperties["firebaseMeasurementId"]}"
+            |   //const val FIREBASE_MESSAGING_SENDER_ID = "${keystoreProperties["firebaseMessagingSenderId"]}"
+            |   //const val FIREBASE_PROJECT_ID = "${keystoreProperties["firebaseProjectId"]}"
+            |   //const val FIREBASE_STORAGE_BUCKET = "${keystoreProperties["firebaseStorageBucket"]}"
+            |   //const val FIREBASE_WEB_API_KEY = "${keystoreProperties["firebaseWebApiKey"]}"
+            |   
+            |   const val HOST = "http://$ip:3000"
             |
             |}
             |
