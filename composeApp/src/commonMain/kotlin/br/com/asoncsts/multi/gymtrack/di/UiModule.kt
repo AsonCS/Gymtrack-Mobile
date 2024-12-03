@@ -11,12 +11,12 @@ internal fun uiModule() = module {
         AppViewModel.Impl()
     }
     viewModel<AuthViewModel> {
-        AuthViewModel(
+        AuthViewModel.Impl(
             auth = get()
         )
     }
     viewModel<HomeViewModel> {
-        HomeViewModel(
+        HomeViewModel.Impl(
             repository = get()
         )
     }

@@ -4,35 +4,48 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-open class HomeViewModel(
-    private val repository: ExerciseRepository
-) : ViewModel() {
+abstract class HomeViewModel : ViewModel() {
 
-    private val _state = MutableStateFlow<HomeState>(HomeState.Loading)
-    internal val state = _state.asStateFlow()
+    class Impl(
+        private val repository: ExerciseRepository,
+        scope: CoroutineScope? = null
+    ) : HomeViewModel() {
 
-    internal fun getExercises() {
-        viewModelScope.launch {
-            when (val result = repository.getExercises()) {
-                is Wrapper.Error -> {
-                    _state.update {
-                        HomeState.Error(
-                            result.error
-                        )
+        private val scope: CoroutineScope = scope
+            ?: viewModelScope
+
+        private val _state = MutableStateFlow<HomeState>(HomeState.Loading)
+        override val state = _state.asStateFlow()
+
+        override fun getExercises() {
+            scope.launch {
+                when (val result = repository.getExercises()) {
+                    is Wrapper.Error -> {
+                        _state.update {
+                            HomeState.Error(
+                                result.error
+                            )
+                        }
                     }
-                }
 
-                is Wrapper.Success -> {
-                    _state.update {
-                        HomeState.Success(
-                            result.data
-                        )
+                    is Wrapper.Success -> {
+                        _state.update {
+                            HomeState.Success(
+                                result.data
+                            )
+                        }
                     }
                 }
             }
         }
     }
+
+    internal abstract val state: StateFlow<HomeState>
+
+    internal abstract fun getExercises()
+
 }

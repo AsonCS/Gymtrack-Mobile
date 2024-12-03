@@ -88,6 +88,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.ktor.okhttp)
         }
+
         commonMain.dependencies {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)

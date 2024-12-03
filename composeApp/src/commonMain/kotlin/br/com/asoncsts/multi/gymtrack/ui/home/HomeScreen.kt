@@ -8,10 +8,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExercisesMock
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeScreenDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
+import br.com.asoncsts.multi.gymtrack.ui.home.components.Exercise
 
 @Composable
 fun HomeScreen(
@@ -76,13 +78,19 @@ internal fun HomeScreen(
 
             is HomeState.Success -> {
                 state.exercises.forEach {
-                    Text(
-                        it.toString(),
-                        color = colors().primary,
-                        style = typography().titleSmall
-                    )
+                    Exercise(it)
                 }
             }
         }
     }
 }
+
+internal val homeStateValuesProvider = sequenceOf(
+    HomeState.Loading,
+    HomeState.Error(
+        Throwable("Test error")
+    ),
+    HomeState.Success(
+        ExercisesMock.exercises
+    )
+)

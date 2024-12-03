@@ -8,10 +8,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import br.com.asoncsts.multi.gymtrack.R
 import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
-import br.com.asoncsts.multi.gymtrack.ui.PreviewPixel7
+import br.com.asoncsts.multi.gymtrack.ui.PreviewMedPhone
 import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState
 
-@PreviewPixel7
+@PreviewMedPhone
 @Composable
 private fun LoginScreen(
     @PreviewParameter(ValuesProvider::class) state: LoginState
