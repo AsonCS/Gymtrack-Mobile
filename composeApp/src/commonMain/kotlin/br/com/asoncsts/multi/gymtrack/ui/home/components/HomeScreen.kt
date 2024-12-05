@@ -21,7 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 
 data class HomeScreenProps(
     val onExerciseClick: (
-        id: String
+        alias: String
     ) -> Unit,
     val title: String
 )
@@ -29,7 +29,7 @@ data class HomeScreenProps(
 @Composable
 internal fun homeScreenProps(
     onExerciseClick: (
-        id: String
+        alias: String
     ) -> Unit
 ) = HomeScreenProps(
     onExerciseClick = onExerciseClick,

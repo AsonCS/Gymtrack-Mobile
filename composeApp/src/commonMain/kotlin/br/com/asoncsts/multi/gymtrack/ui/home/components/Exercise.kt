@@ -49,7 +49,10 @@ fun Exercise(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                repo.image(exercise.image),
+                repo.image(
+                    exercise.alias,
+                    exercise.image
+                ),
                 exercise.title,
                 Modifier
                     .size(100.dp)
@@ -69,16 +72,6 @@ fun Exercise(
                     fontWeight = FontWeight.Bold,
                     style = typography().titleLarge
                 )
-                /*
-                Text(
-                    exercise.description.capitalize(locale),
-                    color = colors().onBackground
-                        .copy(.7f),
-                    maxLines = 6,
-                    overflow = TextOverflow.Ellipsis,
-                    style = typography().bodySmall
-                )
-                */
             }
         }
     }

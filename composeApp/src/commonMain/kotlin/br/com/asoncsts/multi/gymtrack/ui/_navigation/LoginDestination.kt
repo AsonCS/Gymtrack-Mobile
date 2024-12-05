@@ -6,7 +6,7 @@ import br.com.asoncsts.multi.gymtrack.ui._navigation.LoginDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
 import br.com.asoncsts.multi.gymtrack.ui.auth.login.LoginScreen
 
-data object LoginDestination : AppDestination<Args>(
+data object LoginDestination : AppNavDestination<Args>(
     false,
     "login"
 ) {

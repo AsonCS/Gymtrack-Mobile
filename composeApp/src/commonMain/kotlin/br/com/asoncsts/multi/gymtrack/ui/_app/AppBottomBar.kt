@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
 import br.com.asoncsts.multi.gymtrack.ui._components.UserIcon
-import br.com.asoncsts.multi.gymtrack.ui._navigation.AppDestination
+import br.com.asoncsts.multi.gymtrack.ui._navigation.AppNavDestination
 
 internal data class AppBottomBarProps(
     val appViewModel: AppViewModel,
-    val destinationState: State<AppDestination<*>>,
+    val destinationState: State<AppNavDestination<*>>,
     val navigateToHome: () -> Unit,
     val navigateToLogin: () -> Unit,
     val navigateToUser: () -> Unit
@@ -24,7 +24,7 @@ internal data class AppBottomBarProps(
 @Composable
 internal fun appBottomBarProps(
     appViewModel: AppViewModel,
-    destinationState: State<AppDestination<*>>,
+    destinationState: State<AppNavDestination<*>>,
     navigateToHome: () -> Unit,
     navigateToLogin: () -> Unit,
     navigateToUser: () -> Unit,

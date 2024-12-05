@@ -7,15 +7,15 @@ interface ExerciseApi {
     ) : ExerciseApi {
 
         override fun exercise(
-            id: String
-        ) = "$host/exercises/$id"
+            idOrAlias: String
+        ) = "$host/exercises/$idOrAlias"
 
         override fun exercises() = "$host/exercises"
 
     }
 
     fun exercise(
-        id: String
+        idOrAlias: String
     ): String
 
     fun exercises(): String

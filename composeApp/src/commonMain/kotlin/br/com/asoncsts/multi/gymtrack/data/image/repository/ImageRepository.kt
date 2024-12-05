@@ -10,6 +10,7 @@ interface ImageRepository {
         private val api: ImageApi
     ) : ImageRepository {
         override fun image(
+            alias: String,
             image: String?
         ): String? {
             image ?: return null
@@ -17,7 +18,7 @@ interface ImageRepository {
             return try {
                 api.image(
                     name = image,
-                    path = image.split(".")[0]
+                    path = alias
                 )
             } catch (t: Throwable) {
                 TAG_DATA.error("ImageRepository", t)
@@ -27,6 +28,7 @@ interface ImageRepository {
     }
 
     fun image(
+        alias: String,
         image: String?
     ): String?
 

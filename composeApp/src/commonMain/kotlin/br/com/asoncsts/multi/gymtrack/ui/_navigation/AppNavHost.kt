@@ -9,7 +9,7 @@ import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
 import kotlinx.coroutines.flow.map
 import org.koin.compose.viewmodel.koinViewModel
 
-sealed class AppDestination<Args>(
+sealed class AppNavDestination<Args>(
     val hasBottomBar: Boolean,
     val route: String
 ) {
@@ -27,11 +27,19 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeNavDestination.route,
+        startDestination = HomeDestination.route,
         modifier = modifier
     ) {
-        HomeNavDestination(
-            Unit,
+        ExerciseDetailDestination(
+            ExerciseDetailDestination.Args(
+                navigateUp = navController::navigateUp
+            ),
+            this
+        )
+        HomeDestination(
+            HomeDestination.Args(
+                navigateToExerciseDetail = navController::navigateToExerciseDetail
+            ),
             this
         )
         LoginDestination(
@@ -55,20 +63,27 @@ fun AppNavHost(
 }
 
 @Composable
-fun NavHostController.appDestinationState(): State<AppDestination<*>> {
+fun NavHostController.appNavDestinationState(): State<AppNavDestination<*>> {
     return currentBackStackEntryFlow
         .map {
             when (it.destination.route) {
-                HomeNavDestination.route -> HomeNavDestination
+                ExerciseDetailDestination.route -> ExerciseDetailDestination
+                HomeDestination.route -> HomeDestination
                 LoginDestination.route -> LoginDestination
                 SignupDestination.route -> SignupDestination
                 else -> throw IllegalStateException("Unknown route")
             }
-        }.collectAsState(HomeNavDestination)
+        }.collectAsState(HomeDestination)
+}
+
+fun NavHostController.navigateToExerciseDetail(
+    alias: String
+) {
+    navigate(ExerciseDetailDestination.route(alias))
 }
 
 fun NavHostController.navigateToHome() {
-    navigate(HomeNavDestination.route) {
+    navigate(HomeDestination.route) {
         launchSingleTop = true
     }
 }

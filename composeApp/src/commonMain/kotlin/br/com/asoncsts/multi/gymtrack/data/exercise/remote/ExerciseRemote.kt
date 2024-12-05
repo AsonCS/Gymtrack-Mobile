@@ -16,11 +16,11 @@ interface ExerciseRemote {
     ) : ExerciseRemote {
 
         override suspend fun getExercise(
-            id: String
+            idOrAlias: String
         ): Response<ExerciseSource> {
             return client.get {
                 url {
-                    takeFrom(api.exercise(id))
+                    takeFrom(api.exercise(idOrAlias))
                 }
             }.body()
         }
@@ -36,7 +36,7 @@ interface ExerciseRemote {
     }
 
     suspend fun getExercise(
-        id: String
+        idOrAlias: String
     ): Response<ExerciseSource>
 
     suspend fun getExercises(): Response<List<ExerciseSource>>

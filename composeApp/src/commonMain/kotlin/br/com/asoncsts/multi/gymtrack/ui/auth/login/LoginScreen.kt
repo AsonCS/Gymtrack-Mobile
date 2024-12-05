@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._navigation.LoginDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
@@ -27,26 +28,33 @@ fun LoginScreen(
         .state
         .collectAsState()
 
-    LoginScreen(
-        modifier = modifier,
-        props = LoginProps(
-            googleLogin = stringResource(Res.string.login_screen_google_login),
-            login = stringResource(Res.string.login_screen_login),
-            logo = painterResource(Res.drawable.logo),
-            onFinish = args.authViewModel::login,
-            onGoogleLogin = args.authViewModel::loginWithGoogle,
-            onSignup = args.navigateToSignup,
-            onSuccess = args.navigateUp,
-            onUpdatePassword = args.authViewModel::updatePassword,
-            onUpdateUsername = args.authViewModel::updateUsername,
-            password = stringResource(Res.string.login_screen_password),
-            passwordPlaceholder = stringResource(Res.string.login_screen_password_placeholder),
-            signup = stringResource(Res.string.login_screen_signup),
-            userName = stringResource(Res.string.login_screen_username),
-            userNamePlaceholder = stringResource(Res.string.login_screen_username_placeholder)
-        ),
-        state = state
-    )
+    BackHandlerContainer(
+        args.navigateUp,
+        modifier
+            .fillMaxSize()
+    ) {
+        LoginScreen(
+            modifier = Modifier
+                .matchParentSize(),
+            props = LoginProps(
+                googleLogin = stringResource(Res.string.login_screen_google_login),
+                login = stringResource(Res.string.login_screen_login),
+                logo = painterResource(Res.drawable.logo),
+                onFinish = args.authViewModel::login,
+                onGoogleLogin = args.authViewModel::loginWithGoogle,
+                onSignup = args.navigateToSignup,
+                onSuccess = args.navigateUp,
+                onUpdatePassword = args.authViewModel::updatePassword,
+                onUpdateUsername = args.authViewModel::updateUsername,
+                password = stringResource(Res.string.login_screen_password),
+                passwordPlaceholder = stringResource(Res.string.login_screen_password_placeholder),
+                signup = stringResource(Res.string.login_screen_signup),
+                userName = stringResource(Res.string.login_screen_username),
+                userNamePlaceholder = stringResource(Res.string.login_screen_username_placeholder)
+            ),
+            state = state
+        )
+    }
 }
 
 @Composable
@@ -57,8 +65,7 @@ internal fun LoginScreen(
 ) {
     Column(
         modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize(),
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement
             .spacedBy(

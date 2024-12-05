@@ -21,7 +21,7 @@ fun AppScreen(
             AppBottomBar(
                 appBottomBarProps(
                     appViewModel,
-                    destinationState = navController.appDestinationState(),
+                    destinationState = navController.appNavDestinationState(),
                     navigateToHome = navController::navigateToHome,
                     navigateToLogin = navController::navigateToLogin,
                     navigateToUser = navController::navigateToUser

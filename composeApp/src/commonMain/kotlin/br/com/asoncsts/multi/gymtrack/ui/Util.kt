@@ -1,10 +1,15 @@
 package br.com.asoncsts.multi.gymtrack.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.*
+import androidx.compose.ui.input.key.Key.Companion.Escape
+import androidx.compose.ui.input.key.KeyEventType.Companion.KeyDown
 import br.com.asoncsts.multi.gymtrack.ui._theme.AppTheme
 
 @Composable
@@ -21,5 +26,33 @@ fun PreviewContainer(
         ) {
             content()
         }
+    }
+}
+
+@Composable
+fun BackHandlerContainer(
+    navigateUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable BoxScope.() -> Unit
+) {
+    val focusRequester = remember {
+        FocusRequester()
+    }
+
+    Box(
+        modifier
+            .focusRequester(focusRequester)
+            .focusable()
+            .onKeyEvent {
+                if (it.type == KeyDown && it.key == Escape) {
+                    navigateUp()
+                }
+                false
+            },
+        content = content
+    )
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
