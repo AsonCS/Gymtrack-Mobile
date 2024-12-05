@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
+import br.com.asoncsts.multi.gymtrack.ui.search.SearchViewModel
 import kotlinx.coroutines.flow.map
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -24,12 +25,13 @@ fun AppNavHost(
     isLoggedIn: Boolean,
     navController: NavHostController,
     modifier: Modifier,
-    authViewModel: AuthViewModel = koinViewModel()
+    authViewModel: AuthViewModel = koinViewModel(),
+    searchViewModel: SearchViewModel = koinViewModel()
 ) {
     NavHost(
         navController = navController,
         startDestination = if (isLoggedIn)
-            TODO("Implement Home")
+            HomeDestination.route
         else
             SearchDestination.route,
         modifier = modifier
@@ -38,6 +40,10 @@ fun AppNavHost(
             ExerciseDetailDestination.Args(
                 navigateUp = navController::navigateUp
             ),
+            this
+        )
+        HomeDestination(
+            Unit,
             this
         )
         LoginDestination(
@@ -52,7 +58,8 @@ fun AppNavHost(
         )
         SearchDestination(
             SearchDestination.Args(
-                navigateToExerciseDetail = navController::navigateToExerciseDetail
+                navigateToExerciseDetail = navController::navigateToExerciseDetail,
+                searchViewModel
             ),
             this
         )
@@ -72,8 +79,9 @@ fun NavHostController.appNavDestinationState(): State<AppNavDestination<*>> {
         .map {
             when (it.destination.route) {
                 ExerciseDetailDestination.route -> ExerciseDetailDestination
-                SearchDestination.route -> SearchDestination
+                HomeDestination.route -> HomeDestination
                 LoginDestination.route -> LoginDestination
+                SearchDestination.route -> SearchDestination
                 SignupDestination.route -> SignupDestination
                 else -> throw IllegalStateException("Unknown route")
             }
@@ -87,7 +95,9 @@ fun NavHostController.navigateToExerciseDetail(
 }
 
 fun NavHostController.navigateToHome() {
-    TODO("Implement Home")
+    navigate(HomeDestination.route) {
+        launchSingleTop = true
+    }
 }
 
 fun NavHostController.navigateToLogin() {

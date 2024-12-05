@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui._navigation.search
+package br.com.asoncsts.multi.gymtrack.ui._navigation.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,9 +6,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import br.com.asoncsts.multi.gymtrack.ui._navigation.SearchDestination.Args
 
-sealed class SearchNavDestination<Args>(
+sealed class HomeNavDestination<Args>(
     val route: String
 ) {
     abstract operator fun invoke(
@@ -18,21 +17,17 @@ sealed class SearchNavDestination<Args>(
 }
 
 @Composable
-fun SearchNavHost(
-    args: Args,
+fun HomeNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
-        startDestination = SearchDestination.route,
+        startDestination = HomeDestination.route,
         modifier = modifier
     ) {
-        SearchDestination(
-            SearchDestination.Args(
-                args.searchViewModel,
-                navigateToExerciseDetail = args.navigateToExerciseDetail
-            ),
+        HomeDestination(
+            Unit,
             this
         )
     }

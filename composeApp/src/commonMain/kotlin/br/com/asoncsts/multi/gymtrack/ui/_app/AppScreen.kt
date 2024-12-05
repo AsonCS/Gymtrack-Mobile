@@ -1,14 +1,15 @@
 package br.com.asoncsts.multi.gymtrack.ui._app
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
+import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.Unknown
+import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._navigation.*
-import kotlinx.coroutines.flow.map
 
 @Composable
 fun AppScreen(
@@ -17,10 +18,11 @@ fun AppScreen(
 ) {
     val navController = rememberNavController()
     val destination by navController.appNavDestinationState()
-    val user by appViewModel
+    val userState by appViewModel
         .stateAuth
-        .map { (it as? LoggedIn)?.user }
         .collectAsState(null)
+
+    val user = (userState as? LoggedIn)?.user
 
     Scaffold(
         modifier,
@@ -38,12 +40,22 @@ fun AppScreen(
             }
         }
     ) {
-        AppNavHost(
-            isLoggedIn = user != null,
-            navController,
-            modifier
-                .padding(it)
-                .fillMaxSize()
-        )
+        if (userState !is Unknown) {
+            AppNavHost(
+                isLoggedIn = user != null,
+                navController,
+                Modifier
+                    .padding(it)
+                    .fillMaxSize()
+            )
+        } else {
+            Box(
+                Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Loading()
+            }
+        }
     }
 }
