@@ -1,29 +1,29 @@
-package br.com.asoncsts.multi.gymtrack.data.exercise.repository
+package br.com.asoncsts.multi.gymtrack.data.userExercise.repository
 
 import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
 import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
 import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
-import br.com.asoncsts.multi.gymtrack.model.Exercise
-import br.com.asoncsts.multi.gymtrack.data.exercise.remote.ExerciseRemote
+import br.com.asoncsts.multi.gymtrack.data.userExercise.remote.UserExerciseRemote
 import br.com.asoncsts.multi.gymtrack.extension.*
+import br.com.asoncsts.multi.gymtrack.model.UserExercise
 
-interface ExerciseRepository {
+interface UserExerciseRepository {
 
     class Impl(
-        private val remote: ExerciseRemote,
+        private val remote: UserExerciseRemote,
         private val lang: () -> DeviceLanguage = ::deviceLanguage
-    ) : ExerciseRepository {
+    ) : UserExerciseRepository {
 
-        override suspend fun getExercise(
-            idOrAlias: String
-        ): Wrapper<Exercise.Detail> {
+        override suspend fun getUserExercise(
+            id: String
+        ): Wrapper<UserExercise.Detail> {
             return try {
-                val result = remote.getExercise(idOrAlias)
+                val result = remote.getUserExercise(id)
                 when {
                     result.data != null -> {
                         return Wrapper.Success(
-                            result.data.toExerciseDetail(
+                            result.data.toUserExerciseDetail(
                                 lang()
                             )
                         )
@@ -42,21 +42,21 @@ interface ExerciseRepository {
                     }
                 }
             } catch (t: Throwable) {
-                TAG_DATA.error("ExerciseRepository", t)
+                TAG_DATA.error("UserExerciseRepository", t)
                 Wrapper.Error(
                     UnknownException(t)
                 )
             }
         }
 
-        override suspend fun getExercises(): Wrapper<List<Exercise>> {
+        override suspend fun getUserExercises(): Wrapper<List<UserExercise>> {
             return try {
-                val result = remote.getExercises()
+                val result = remote.getUserExercises()
                 when {
                     !result.data.isNullOrEmpty() -> {
                         Wrapper.Success(
                             result.data.map {
-                                it.toExercise(
+                                it.toUserExercise(
                                     lang()
                                 )
                             }
@@ -82,7 +82,7 @@ interface ExerciseRepository {
                     }
                 }
             } catch (t: Throwable) {
-                TAG_DATA.error("ExerciseRepository", t)
+                TAG_DATA.error("UserExerciseRepository", t)
                 Wrapper.Error(
                     UnknownException(t)
                 )
@@ -91,10 +91,10 @@ interface ExerciseRepository {
 
     }
 
-    suspend fun getExercise(
-        idOrAlias: String
-    ): Wrapper<Exercise.Detail>
+    suspend fun getUserExercise(
+        id: String
+    ): Wrapper<UserExercise.Detail>
 
-    suspend fun getExercises(): Wrapper<List<Exercise>>
+    suspend fun getUserExercises(): Wrapper<List<UserExercise>>
 
 }

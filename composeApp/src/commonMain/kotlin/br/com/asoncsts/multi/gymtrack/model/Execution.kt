@@ -1,7 +1,6 @@
-package br.com.asoncsts.multi.gymtrack.data.exercise.model
+package br.com.asoncsts.multi.gymtrack.model
 
 data class Execution(
-    val exercise: Exercise,
     val id: String,
     val notes: String,
     val reps: Int,

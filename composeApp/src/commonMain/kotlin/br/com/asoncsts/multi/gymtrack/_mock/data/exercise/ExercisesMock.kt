@@ -1,6 +1,6 @@
 package br.com.asoncsts.multi.gymtrack._mock.data.exercise
 
-import br.com.asoncsts.multi.gymtrack.data.exercise.model.Exercise
+import br.com.asoncsts.multi.gymtrack.model.Exercise
 
 object ExercisesMock {
     val exercises = listOf(

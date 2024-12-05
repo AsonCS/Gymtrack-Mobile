@@ -6,6 +6,9 @@ import br.com.asoncsts.multi.gymtrack.data.exercise.remote.ExerciseRemote
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
 import br.com.asoncsts.multi.gymtrack.data.image.api.ImageApi
 import br.com.asoncsts.multi.gymtrack.data.image.repository.ImageRepository
+import br.com.asoncsts.multi.gymtrack.data.userExercise.api.UserExerciseApi
+import br.com.asoncsts.multi.gymtrack.data.userExercise.remote.UserExerciseRemote
+import br.com.asoncsts.multi.gymtrack.data.userExercise.repository.UserExerciseRepository
 import br.com.asoncsts.multi.gymtrack.extension.log
 import br.com.asoncsts.multi.gymtrack.generated.BuildConfig
 import io.ktor.client.HttpClient
@@ -31,10 +34,19 @@ internal fun dataModule() = module {
     factory<ImageApi> {
         ImageApi.Impl(BuildConfig.HOST)
     }
+    factory<UserExerciseApi> {
+        UserExerciseApi.Impl(BuildConfig.HOST)
+    }
 
     // Remote
     single<ExerciseRemote> {
         ExerciseRemote.Impl(
+            api = get(),
+            client = get()
+        )
+    }
+    single<UserExerciseRemote> {
+        UserExerciseRemote.Impl(
             api = get(),
             client = get()
         )
@@ -49,6 +61,11 @@ internal fun dataModule() = module {
     single<ImageRepository> {
         ImageRepository.Impl(
             api = get()
+        )
+    }
+    single<UserExerciseRepository> {
+        UserExerciseRepository.Impl(
+            remote = get()
         )
     }
 

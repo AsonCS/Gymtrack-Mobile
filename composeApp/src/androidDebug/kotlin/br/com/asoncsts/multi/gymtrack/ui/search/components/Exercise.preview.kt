@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.R
-import br.com.asoncsts.multi.gymtrack.data.exercise.model.Exercise
+import br.com.asoncsts.multi.gymtrack.model.Exercise
 import br.com.asoncsts.multi.gymtrack.ui.PreviewComponent
 import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 
