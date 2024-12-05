@@ -1,15 +1,16 @@
 package br.com.asoncsts.multi.gymtrack.ui._navigation
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
 import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
+import kotlinx.coroutines.flow.map
 import org.koin.compose.viewmodel.koinViewModel
 
-abstract class AppDestination<Args>(
+sealed class AppDestination<Args>(
+    val hasBottomBar: Boolean,
     val route: String
 ) {
     abstract operator fun invoke(
@@ -20,7 +21,6 @@ abstract class AppDestination<Args>(
 
 @Composable
 fun AppNavHost(
-    appViewModel: AppViewModel,
     navController: NavHostController,
     modifier: Modifier,
     authViewModel: AuthViewModel = koinViewModel()
@@ -31,14 +31,11 @@ fun AppNavHost(
         modifier = modifier
     ) {
         HomeNavDestination(
-            HomeNavDestination.Args(
-                appViewModel
-            ),
+            Unit,
             this
         )
         LoginDestination(
             LoginDestination.Args(
-                appViewModel,
                 authViewModel,
                 navigateToSignup = {
                     navController.navigate(SignupDestination.route)
@@ -49,19 +46,31 @@ fun AppNavHost(
         )
         SignupDestination(
             SignupDestination.Args(
-                appViewModel,
                 authViewModel,
                 navigateUp = navController::navigateUp
             ),
             this
         )
     }
+}
 
-    /*LaunchedEffect(Unit) {
-        navController.currentBackStack.collect {
-            TAG_APP.log(it.map { it.destination.route }.toString())
-        }
-    }// */
+@Composable
+fun NavHostController.appDestinationState(): State<AppDestination<*>> {
+    return currentBackStackEntryFlow
+        .map {
+            when (it.destination.route) {
+                HomeNavDestination.route -> HomeNavDestination
+                LoginDestination.route -> LoginDestination
+                SignupDestination.route -> SignupDestination
+                else -> throw IllegalStateException("Unknown route")
+            }
+        }.collectAsState(HomeNavDestination)
+}
+
+fun NavHostController.navigateToHome() {
+    navigate(HomeNavDestination.route) {
+        launchSingleTop = true
+    }
 }
 
 fun NavHostController.navigateToLogin() {

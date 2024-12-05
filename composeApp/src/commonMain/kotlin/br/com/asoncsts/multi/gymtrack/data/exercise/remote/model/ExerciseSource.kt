@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ExerciseSource(
+    @SerialName("alias")
+    val alias: String? = null,
     @SerialName("description")
     val description: String? = null,
     @SerialName("description_pt_br")
@@ -18,25 +20,39 @@ data class ExerciseSource(
     @SerialName("title")
     val title: String? = null,
     @SerialName("title_pt_br")
-    val titlePtBr: String? = null
+    val titlePtBr: String? = null,
+    @SerialName("video")
+    val video: String? = null
 ) {
     fun toExercise(
         lang: DeviceLanguage
     ): Exercise {
+        val title = when (lang) {
+            DeviceLanguage.PT_BR -> titlePtBr
+            else -> title
+        } ?: title ?: throw IllegalStateException("Alias is null")
+        return Exercise.Impl(
+            alias = alias
+                ?: throw IllegalStateException("Alias is null"),
+            image = image,
+            title = title
+        )
+    }
+
+    fun toExerciseDetail(
+        lang: DeviceLanguage
+    ): Exercise.Detail {
+        val exercise = toExercise(lang)
         val description = when (lang) {
             DeviceLanguage.PT_BR -> descriptionPtBr
             else -> description
         } ?: description ?: ""
-        val title = when (lang) {
-            DeviceLanguage.PT_BR -> titlePtBr
-            else -> title
-        } ?: title ?: ""
-        return Exercise(
+        return Exercise.Detail(
+            alias = exercise.alias,
             description = description,
-            id = id
-                ?: "",
-            image = image,
-            title = title
+            image = exercise.image,
+            title = exercise.title,
+            video = video
         )
     }
 }

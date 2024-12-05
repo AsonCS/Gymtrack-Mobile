@@ -17,13 +17,13 @@ interface ExerciseRepository {
 
         override suspend fun getExercise(
             id: String
-        ): Wrapper<Exercise> {
+        ): Wrapper<Exercise.Detail> {
             return try {
                 val result = remote.getExercise(id)
                 when {
                     result.data != null -> {
                         return Wrapper.Success(
-                            result.data.toExercise(
+                            result.data.toExerciseDetail(
                                 lang()
                             )
                         )
@@ -93,7 +93,7 @@ interface ExerciseRepository {
 
     suspend fun getExercise(
         id: String
-    ): Wrapper<Exercise>
+    ): Wrapper<Exercise.Detail>
 
     suspend fun getExercises(): Wrapper<List<Exercise>>
 

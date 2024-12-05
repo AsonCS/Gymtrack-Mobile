@@ -5,18 +5,19 @@ import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedOut
 import br.com.asoncsts.multi.gymtrack.data.auth.model.User
-import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
 
 object AuthRepositoryMock : AuthRepository, KoinComponent {
 
+    /*
     init {
         CoroutineScope(Default).launch {
             delay(3_000)
             emit(LoggedOut)
         }
     }
+    */
 
     var mockUser = User(
         "AsonCS Mock",
@@ -31,7 +32,8 @@ object AuthRepositoryMock : AuthRepository, KoinComponent {
         emit: (AuthState) -> Unit
     ) {
         AuthRepositoryMock.emit = emit
-        emit(LoggedOut)
+        emit(LoggedIn(mockUser))
+        //emit(LoggedOut)
     }
 
     override suspend fun login(

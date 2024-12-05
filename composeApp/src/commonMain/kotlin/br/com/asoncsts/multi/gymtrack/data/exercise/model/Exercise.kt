@@ -1,8 +1,22 @@
 package br.com.asoncsts.multi.gymtrack.data.exercise.model
 
-data class Exercise(
-    val description: String,
-    val id: String,
-    val image: String?,
+
+interface Exercise {
+    val alias: String
+    val image: String?
     val title: String
-)
+
+    data class Impl(
+        override val alias: String,
+        override val image: String?,
+        override val title: String
+    ) : Exercise
+
+    data class Detail(
+        override val alias: String,
+        override val image: String?,
+        override val title: String,
+        val description: String,
+        val video: String?
+    ) : Exercise
+}

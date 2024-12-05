@@ -3,10 +3,13 @@ package br.com.asoncsts.multi.gymtrack.ui._app
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.data.auth.AuthRepository
+import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState
 import br.com.asoncsts.multi.gymtrack.di.koinApplication
 import br.com.asoncsts.multi.gymtrack.ui._theme.AppTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.StateFlow
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -40,4 +43,12 @@ fun App(
             }
         }
     }
+}
+
+abstract class AppViewModel : ViewModel() {
+    abstract val stateAuth: StateFlow<AuthState>
+
+    abstract fun stateAuthUpdate(
+        state: AuthState
+    )
 }

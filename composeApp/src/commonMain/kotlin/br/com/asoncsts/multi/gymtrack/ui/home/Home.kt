@@ -29,10 +29,6 @@ fun HomeScreen(
     )
 
     LaunchedEffect(Unit) {
-        //TAG_APP.log("HomeScreen.appViewModel.stateTopBarUpdate")
-        args.appViewModel.stateTopBarUpdate(
-            showUser = true
-        )
         args.homeViewModel.getExercises()
     }
 }

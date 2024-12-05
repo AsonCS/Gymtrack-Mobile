@@ -5,20 +5,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
-import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
-data object HomeNavDestination : AppDestination<Args>(
+data object HomeNavDestination : AppDestination<Unit>(
+    true,
     "home"
 ) {
-    class Args(
-        val appViewModel: AppViewModel
-    )
-
     override operator fun invoke(
-        args: Args,
+        args: Unit,
         builder: NavGraphBuilder
     ) {
         builder.composable(route) {
@@ -38,7 +33,7 @@ abstract class HomeDestination<Args>(
 
 @Composable
 fun HomeNavHost(
-    args: Args,
+    args: Unit,
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = koinViewModel(),
     navController: NavHostController = rememberNavController()
@@ -50,7 +45,6 @@ fun HomeNavHost(
     ) {
         HomeScreenDestination(
             HomeScreenDestination.Args(
-                args.appViewModel,
                 homeViewModel
             ),
             this

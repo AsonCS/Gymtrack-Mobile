@@ -9,12 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._navigation.SignupDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui.auth.Fields
 import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState
 import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState.*
-import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import gymtrack.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -44,13 +44,6 @@ fun SignupScreen(
         ),
         state = state
     )
-
-    LaunchedEffect(Unit) {
-        //TAG_APP.log("SignupScreen.appViewModel.stateTopBarUpdate")
-        args.appViewModel.stateTopBarUpdate(
-            handlerBack = args.navigateUp
-        )
-    }
 }
 
 @Composable

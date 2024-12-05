@@ -5,27 +5,30 @@ import br.com.asoncsts.multi.gymtrack.data.exercise.model.Exercise
 object ExercisesMock {
     val exercises = listOf(
         "Remada maquina 30".let {
-            Exercise(
+            Exercise.Detail(
+                alias = it,
                 description = it,
-                id = it,
                 image = null,
-                title = it
+                title = it,
+                video = null
             )
         },
         "Remada Alta".let {
-            Exercise(
+            Exercise.Detail(
+                alias = it,
                 description = it,
-                id = it,
                 image = null,
-                title = it
+                title = it,
+                video = null
             )
         },
         "Biceps Halter".let {
-            Exercise(
+            Exercise.Detail(
+                alias = it,
                 description = it,
-                id = it,
                 image = null,
-                title = it
+                title = it,
+                video = null
             )
         },
     )

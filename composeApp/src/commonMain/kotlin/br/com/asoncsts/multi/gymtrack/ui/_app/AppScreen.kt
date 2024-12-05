@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import br.com.asoncsts.multi.gymtrack.ui._navigation.*
-import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 
 @Composable
 fun AppScreen(
@@ -18,17 +17,19 @@ fun AppScreen(
 
     Scaffold(
         modifier,
-        containerColor = colors().background,
-        topBar = {
-            AppTopBar(
-                appViewModel,
-                navigateToLogin = navController::navigateToLogin,
-                navigateToUser = navController::navigateToUser
+        bottomBar = {
+            AppBottomBar(
+                appBottomBarProps(
+                    appViewModel,
+                    destinationState = navController.appDestinationState(),
+                    navigateToHome = navController::navigateToHome,
+                    navigateToLogin = navController::navigateToLogin,
+                    navigateToUser = navController::navigateToUser
+                )
             )
         }
     ) {
         AppNavHost(
-            appViewModel,
             navController,
             modifier
                 .padding(it)

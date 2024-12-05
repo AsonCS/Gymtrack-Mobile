@@ -9,10 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExercisesMock
 import br.com.asoncsts.multi.gymtrack.data.exercise.model.Exercise
@@ -71,6 +69,7 @@ fun Exercise(
                     fontWeight = FontWeight.Bold,
                     style = typography().titleLarge
                 )
+                /*
                 Text(
                     exercise.description.capitalize(locale),
                     color = colors().onBackground
@@ -79,6 +78,7 @@ fun Exercise(
                     overflow = TextOverflow.Ellipsis,
                     style = typography().bodySmall
                 )
+                */
             }
         }
     }

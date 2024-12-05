@@ -88,7 +88,7 @@ internal fun HomeScreen(
                 ) {
                     items(
                         items = state.exercises,
-                        key = { it.id }
+                        key = { it.alias }
                     ) { exercise ->
                         Exercise(
                             exercise,
@@ -96,7 +96,7 @@ internal fun HomeScreen(
                                 .fillMaxWidth()
                                 .clickable {
                                     props.onExerciseClick(
-                                        exercise.id
+                                        exercise.alias
                                     )
                                 }
                         )
