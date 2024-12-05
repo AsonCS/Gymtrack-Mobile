@@ -2,12 +2,12 @@ package br.com.asoncsts.multi.gymtrack.ui._navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeDestination.Args
-import br.com.asoncsts.multi.gymtrack.ui._navigation.home.HomeNavHost
+import br.com.asoncsts.multi.gymtrack.ui._navigation.SearchDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui._navigation.search.SearchNavHost
 
-data object HomeDestination : AppNavDestination<Args>(
+data object SearchDestination : AppNavDestination<Args>(
     true,
-    "home"
+    "search"
 ) {
     class Args(
         val navigateToExerciseDetail: (
@@ -20,7 +20,7 @@ data object HomeDestination : AppNavDestination<Args>(
         builder: NavGraphBuilder
     ) {
         builder.composable(route) {
-            HomeNavHost(args)
+            SearchNavHost(args)
         }
     }
 }

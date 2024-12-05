@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home
+package br.com.asoncsts.multi.gymtrack.ui.search
 
 import androidx.lifecycle.viewModelScope
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
@@ -7,27 +7,27 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class HomeViewModelImpl(
+class SearchViewModelImpl(
     private val repository: ExerciseRepository,
     scope: CoroutineScope? = null
-) : HomeViewModel() {
+) : SearchViewModel() {
 
     private val scope: CoroutineScope = scope
         ?: viewModelScope
 
-    private val _state = MutableStateFlow<HomeState>(HomeState.Loading)
+    private val _state = MutableStateFlow<SearchState>(SearchState.Loading)
     override val state = _state.asStateFlow()
 
     override fun getExercises(
         force: Boolean
     ) {
-        if (_state.value is HomeState.Success && !force) return
+        if (_state.value is SearchState.Success && !force) return
 
         scope.launch {
             when (val result = repository.getExercises()) {
                 is Wrapper.Error -> {
                     _state.update {
-                        HomeState.Error(
+                        SearchState.Error(
                             result.error
                         )
                     }
@@ -35,7 +35,7 @@ class HomeViewModelImpl(
 
                 is Wrapper.Success -> {
                     _state.update {
-                        HomeState.Success(
+                        SearchState.Success(
                             result.data
                         )
                     }

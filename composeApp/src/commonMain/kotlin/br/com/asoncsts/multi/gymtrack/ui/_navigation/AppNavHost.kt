@@ -21,24 +21,22 @@ sealed class AppNavDestination<Args>(
 
 @Composable
 fun AppNavHost(
+    isLoggedIn: Boolean,
     navController: NavHostController,
     modifier: Modifier,
     authViewModel: AuthViewModel = koinViewModel()
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestination.route,
+        startDestination = if (isLoggedIn)
+            TODO("Implement Home")
+        else
+            SearchDestination.route,
         modifier = modifier
     ) {
         ExerciseDetailDestination(
             ExerciseDetailDestination.Args(
                 navigateUp = navController::navigateUp
-            ),
-            this
-        )
-        HomeDestination(
-            HomeDestination.Args(
-                navigateToExerciseDetail = navController::navigateToExerciseDetail
             ),
             this
         )
@@ -49,6 +47,12 @@ fun AppNavHost(
                     navController.navigate(SignupDestination.route)
                 },
                 navigateUp = navController::navigateUp
+            ),
+            this
+        )
+        SearchDestination(
+            SearchDestination.Args(
+                navigateToExerciseDetail = navController::navigateToExerciseDetail
             ),
             this
         )
@@ -68,12 +72,12 @@ fun NavHostController.appNavDestinationState(): State<AppNavDestination<*>> {
         .map {
             when (it.destination.route) {
                 ExerciseDetailDestination.route -> ExerciseDetailDestination
-                HomeDestination.route -> HomeDestination
+                SearchDestination.route -> SearchDestination
                 LoginDestination.route -> LoginDestination
                 SignupDestination.route -> SignupDestination
                 else -> throw IllegalStateException("Unknown route")
             }
-        }.collectAsState(HomeDestination)
+        }.collectAsState(SearchDestination)
 }
 
 fun NavHostController.navigateToExerciseDetail(
@@ -83,13 +87,17 @@ fun NavHostController.navigateToExerciseDetail(
 }
 
 fun NavHostController.navigateToHome() {
-    navigate(HomeDestination.route) {
-        launchSingleTop = true
-    }
+    TODO("Implement Home")
 }
 
 fun NavHostController.navigateToLogin() {
     navigate(LoginDestination.route) {
+        launchSingleTop = true
+    }
+}
+
+fun NavHostController.navigateToSearch() {
+    navigate(SearchDestination.route) {
         launchSingleTop = true
     }
 }

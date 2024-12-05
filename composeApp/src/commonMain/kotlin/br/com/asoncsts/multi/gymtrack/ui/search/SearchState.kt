@@ -1,15 +1,15 @@
-package br.com.asoncsts.multi.gymtrack.ui.home
+package br.com.asoncsts.multi.gymtrack.ui.search
 
 import br.com.asoncsts.multi.gymtrack.data.exercise.model.Exercise
 
-internal sealed class HomeState {
-    data object Loading : HomeState()
+internal sealed class SearchState {
+    data object Loading : SearchState()
 
     data class Success(
         val exercises: List<Exercise>
-    ) : HomeState()
+    ) : SearchState()
 
     data class Error(
         val throwable: Throwable
-    ) : HomeState()
+    ) : SearchState()
 }

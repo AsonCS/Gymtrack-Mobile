@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.components
+package br.com.asoncsts.multi.gymtrack.ui.search.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
-import br.com.asoncsts.multi.gymtrack.ui.home.HomeState
+import br.com.asoncsts.multi.gymtrack.ui.search.SearchState
 import gymtrack.composeapp.generated.resources.Res
-import gymtrack.composeapp.generated.resources.home_title
+import gymtrack.composeapp.generated.resources.search_title
 import org.jetbrains.compose.resources.stringResource
 
-data class HomeScreenProps(
+data class SearchScreenProps(
     val onExerciseClick: (
         alias: String
     ) -> Unit,
@@ -27,20 +27,20 @@ data class HomeScreenProps(
 )
 
 @Composable
-internal fun homeScreenProps(
+internal fun searchScreenProps(
     onExerciseClick: (
         alias: String
     ) -> Unit
-) = HomeScreenProps(
+) = SearchScreenProps(
     onExerciseClick = onExerciseClick,
-    title = stringResource(Res.string.home_title)
+    title = stringResource(Res.string.search_title)
 )
 
 @Composable
-internal fun HomeScreen(
+internal fun SearchScreen(
     modifier: Modifier,
-    props: HomeScreenProps,
-    state: HomeState
+    props: SearchScreenProps,
+    state: SearchState
 ) {
     Column(
         modifier
@@ -64,7 +64,7 @@ internal fun HomeScreen(
         )
 
         when (state) {
-            is HomeState.Error -> {
+            is SearchState.Error -> {
                 Text(
                     state.throwable.message
                         ?: "Error",
@@ -73,11 +73,11 @@ internal fun HomeScreen(
                 )
             }
 
-            HomeState.Loading -> {
+            SearchState.Loading -> {
                 Loading()
             }
 
-            is HomeState.Success -> {
+            is SearchState.Success -> {
                 LazyColumn(
                     Modifier
                         .weight(1f),

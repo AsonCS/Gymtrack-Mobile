@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.components
+package br.com.asoncsts.multi.gymtrack.ui.search.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable

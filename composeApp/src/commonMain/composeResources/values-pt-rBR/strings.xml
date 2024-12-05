@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_title">Todos os exercícios.</string>
+    <string name="search_title">Todos os exercícios.</string>
 
     <string name="login_screen_google_login">Google</string>
     <string name="login_screen_login">Entrar</string>

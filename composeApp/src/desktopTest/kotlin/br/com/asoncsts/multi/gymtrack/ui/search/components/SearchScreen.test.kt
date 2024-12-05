@@ -1,27 +1,27 @@
 @file:OptIn(ExperimentalTestApi::class)
 
-package br.com.asoncsts.multi.gymtrack.ui.home.components
+package br.com.asoncsts.multi.gymtrack.ui.search.components
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
-import br.com.asoncsts.multi.gymtrack.ui.home.homeStateValuesProvider
+import br.com.asoncsts.multi.gymtrack.ui.search.searchStateValuesProvider
 import org.junit.Test
 
-class HomeScreenTest {
+class SearchScreenTest {
 
     @Test
-    fun homeScreen_HomeState0() {
+    fun searchScreen_SearchState0() {
         runComposeUiTest {
             setContent {
-                HomeScreen(
+                SearchScreen(
                     Modifier,
-                    homeScreenProps { },
-                    homeStateValuesProvider
+                    searchScreenProps { },
+                    searchStateValuesProvider
                         .elementAt(0)
                 )
             }
 
-            onNodeWithText("Home Screen")
+            onNodeWithText("Search Screen")
                 .assertIsDisplayed()
 
             onNodeWithContentDescription("Loading component")
@@ -30,18 +30,18 @@ class HomeScreenTest {
     }
 
     @Test
-    fun homeScreen_HomeState1() {
+    fun searchScreen_SearchState1() {
         runComposeUiTest {
             setContent {
-                HomeScreen(
+                SearchScreen(
                     Modifier,
-                    homeScreenProps { },
-                    homeStateValuesProvider
+                    searchScreenProps { },
+                    searchStateValuesProvider
                         .elementAt(1)
                 )
             }
 
-            onNodeWithText("Home Screen")
+            onNodeWithText("Search Screen")
                 .assertIsDisplayed()
             onNodeWithText("Test error")
                 .assertIsDisplayed()
@@ -49,18 +49,18 @@ class HomeScreenTest {
     }
 
     @Test
-    fun homeScreen_HomeState2() {
+    fun searchScreen_SearchState2() {
         runComposeUiTest {
             setContent {
-                HomeScreen(
+                SearchScreen(
                     Modifier,
-                    homeScreenProps { },
-                    homeStateValuesProvider
+                    searchScreenProps { },
+                    searchStateValuesProvider
                         .elementAt(2)
                 )
             }
 
-            onNodeWithText("Home Screen")
+            onNodeWithText("Search Screen")
                 .assertIsDisplayed()
 
             onNodeWithText("Remada maquina 30", substring = true)

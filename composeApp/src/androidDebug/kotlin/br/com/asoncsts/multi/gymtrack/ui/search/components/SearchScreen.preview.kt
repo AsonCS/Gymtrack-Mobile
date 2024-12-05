@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.components
+package br.com.asoncsts.multi.gymtrack.ui.search.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,29 +8,29 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import br.com.asoncsts.multi.gymtrack.R
 import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 import br.com.asoncsts.multi.gymtrack.ui.PreviewMedPhone
-import br.com.asoncsts.multi.gymtrack.ui.home.HomeState
-import br.com.asoncsts.multi.gymtrack.ui.home.homeStateValuesProvider
+import br.com.asoncsts.multi.gymtrack.ui.search.SearchState
+import br.com.asoncsts.multi.gymtrack.ui.search.searchStateValuesProvider
 
 @PreviewMedPhone
 @Composable
 private fun Preview(
-    @PreviewParameter(HomeStateValuesProvider::class) state: HomeState
+    @PreviewParameter(SearchStateValuesProvider::class) state: SearchState
 ) {
     PreviewContainer {
-        HomeScreen(
+        SearchScreen(
             Modifier,
-            homeScreenProps(),
+            searchScreenProps(),
             state
         )
     }
 }
 
 @Composable
-private fun homeScreenProps() = HomeScreenProps(
+private fun searchScreenProps() = SearchScreenProps(
     onExerciseClick = {},
-    title = stringResource(R.string.home_title)
+    title = stringResource(R.string.search_title)
 )
 
-private class HomeStateValuesProvider : PreviewParameterProvider<HomeState> {
-    override val values = homeStateValuesProvider
+private class SearchStateValuesProvider : PreviewParameterProvider<SearchState> {
+    override val values = searchStateValuesProvider
 }

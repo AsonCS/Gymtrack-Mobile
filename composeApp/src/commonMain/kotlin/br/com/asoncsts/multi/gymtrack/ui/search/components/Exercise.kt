@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.components
+package br.com.asoncsts.multi.gymtrack.ui.search.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ElevatedCard
