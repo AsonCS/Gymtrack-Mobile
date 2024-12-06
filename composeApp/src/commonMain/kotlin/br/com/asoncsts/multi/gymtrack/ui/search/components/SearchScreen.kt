@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExerciseMock
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
@@ -19,7 +20,7 @@ import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.search_title
 import org.jetbrains.compose.resources.stringResource
 
-data class SearchScreenProps(
+internal data class SearchScreenProps(
     val onExerciseClick: (
         alias: String
     ) -> Unit,
@@ -68,13 +69,21 @@ internal fun SearchScreen(
                 Text(
                     state.throwable.message
                         ?: "Error",
+                    Modifier
+                        .weight(1f),
                     color = colors().error,
                     style = typography().titleSmall
                 )
             }
 
             SearchState.Loading -> {
-                Loading()
+                Box(
+                    Modifier
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Loading()
+                }
             }
 
             is SearchState.Success -> {
@@ -106,3 +115,13 @@ internal fun SearchScreen(
         }
     }
 }
+
+internal val searchStateValuesProvider = sequenceOf(
+    SearchState.Loading,
+    SearchState.Error(
+        Throwable("Test error")
+    ),
+    SearchState.Success(
+        ExerciseMock.exercises
+    )
+)

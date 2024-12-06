@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="search_title">Todos os exercícios.</string>
+    <string name="home_label_amount">Exercícios: %d</string>
+    <string name="home_label_title">Seus treinos.</string>
 
     <string name="login_screen_google_login">Google</string>
     <string name="login_screen_login">Entrar</string>
@@ -9,6 +10,8 @@
     <string name="login_screen_password">Senha</string>
     <string name="login_screen_password_placeholder">Mínimo de 8 characteres</string>
     <string name="login_screen_signup">Cadastrar</string>
+
+    <string name="search_title">Todos os exercícios.</string>
 
     <string name="signup_screen">Cadastrar</string>
 </resources>

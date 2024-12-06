@@ -1,13 +1,13 @@
-package br.com.asoncsts.multi.gymtrack.data.userExercise.remote.model
+package br.com.asoncsts.multi.gymtrack.data.user.remote.model
 
 import br.com.asoncsts.multi.gymtrack.data.exercise.remote.model.ExerciseSource
 import br.com.asoncsts.multi.gymtrack.extension.DeviceLanguage
-import br.com.asoncsts.multi.gymtrack.model.UserExercise
+import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserExerciseSource(
+data class ExerciseExecutionSource(
     @SerialName("description")
     val description: String? = null,
     @SerialName("executions")
@@ -19,13 +19,13 @@ data class UserExerciseSource(
     @SerialName("name")
     val name: String? = null
 ) {
-    fun toUserExercise(
+    fun toExerciseExecution(
         lang: DeviceLanguage
-    ): UserExercise {
+    ): ExerciseExecution {
         exercise ?: throw IllegalStateException("Exercise is null")
         val exercise = exercise.toExercise(lang)
 
-        return UserExercise.Impl(
+        return ExerciseExecution.Impl(
             exercise = exercise,
             id = id
                 ?: throw IllegalStateException("Id is null"),
@@ -34,12 +34,12 @@ data class UserExerciseSource(
         )
     }
 
-    fun toUserExerciseDetail(
+    fun toExerciseExecutionDetail(
         lang: DeviceLanguage
-    ): UserExercise.Detail {
-        val exercise = toUserExercise(lang)
+    ): ExerciseExecution.Detail {
+        val exercise = toExerciseExecution(lang)
 
-        return UserExercise.Detail(
+        return ExerciseExecution.Detail(
             description = description,
             exercise = exercise.exercise,
             id = exercise.id,

@@ -3,7 +3,7 @@ package br.com.asoncsts.multi.gymtrack.ui.exerciseDetail
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
-import br.com.asoncsts.multi.gymtrack.model.Exercise
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
 import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
 import br.com.asoncsts.multi.gymtrack.ui._navigation.ExerciseDetailDestination.Args

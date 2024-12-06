@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.model
+package br.com.asoncsts.multi.gymtrack.model.exercise
 
 interface Exercise {
     val alias: String

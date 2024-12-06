@@ -1,33 +1,120 @@
 package br.com.asoncsts.multi.gymtrack.ui.home.components
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
-import br.com.asoncsts.multi.gymtrack.data.userExercise.repository.UserExerciseRepository
-import br.com.asoncsts.multi.gymtrack.extension.log
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack._mock.data.user.workout.WorkoutMock
+import br.com.asoncsts.multi.gymtrack.ui._components.Loading
+import br.com.asoncsts.multi.gymtrack.ui._theme.colors
+import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeState
-import br.com.asoncsts.multi.gymtrack.ui.home.TAG_HOME
-import org.koin.compose.koinInject
+import gymtrack.composeapp.generated.resources.Res
+import gymtrack.composeapp.generated.resources.home_label_title
+import org.jetbrains.compose.resources.stringResource
+
+internal data class HomeScreenProps(
+    val labelTitle: String
+)
+
+@Composable
+internal fun homeScreenProps(
+    labelTitle: String = stringResource(Res.string.home_label_title)
+) = HomeScreenProps(
+    labelTitle
+)
 
 @Composable
 internal fun HomeScreen(
+    props: HomeScreenProps,
     state: HomeState,
-    modifier: Modifier = Modifier,
-    repository: UserExerciseRepository = koinInject()
+    modifier: Modifier = Modifier
 ) {
-    Box {
+    Column(
+        modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement
+            .spacedBy(
+                alignment = Alignment.CenterVertically,
+                space = 16.dp
+            )
+    ) {
         Text(
-            "Home Screen"
+            props.labelTitle,
+            Modifier
+                .fillMaxWidth(),
+            color = colors().onBackground,
+            fontWeight = FontWeight.Bold,
+            style = typography().headlineLarge,
+            textAlign = TextAlign.Start
         )
-    }
 
-    LaunchedEffect(Unit) {
-        val exercises = (repository.getUserExercises() as Wrapper.Success).data
-        TAG_HOME.log("UserExercises: $exercises")
-        val exercise = (repository.getUserExercise(exercises[1].id) as Wrapper.Success).data
-        TAG_HOME.log("UserExercise: $exercise")
+        when (state) {
+            is HomeState.Error -> {
+                Text(
+                    state.throwable.message
+                        ?: "Error",
+                    Modifier
+                        .weight(1f),
+                    color = colors().error,
+                    style = typography().titleSmall
+                )
+            }
+
+            HomeState.Loading -> {
+                Box(
+                    Modifier
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Loading()
+                }
+            }
+
+            is HomeState.Success -> {
+                LazyColumn(
+                    Modifier
+                        .weight(1f),
+                    verticalArrangement = Arrangement
+                        .spacedBy(
+                            8.dp
+                        )
+                ) {
+                    items(
+                        items = state.workouts,
+                        key = { it.id }
+                    ) { workout ->
+                        Workout(
+                            workoutProps(
+                                workout
+                            ),
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable { }
+                        )
+                    }
+                }
+            }
+        }
+
     }
 }
+
+internal val homeStateValuesProvider = sequenceOf(
+    HomeState.Loading,
+    HomeState.Error(
+        Throwable("Test error")
+    ),
+    HomeState.Success(
+        WorkoutMock.workouts
+    )
+)

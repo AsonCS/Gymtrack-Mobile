@@ -3,7 +3,6 @@ package br.com.asoncsts.multi.gymtrack.ui.search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
-import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExercisesMock
 import br.com.asoncsts.multi.gymtrack.ui._navigation.search.SearchDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.search.components.SearchScreen
 import br.com.asoncsts.multi.gymtrack.ui.search.components.searchScreenProps
@@ -42,13 +41,3 @@ abstract class SearchViewModel : ViewModel() {
     )
 
 }
-
-internal val searchStateValuesProvider = sequenceOf(
-    SearchState.Loading,
-    SearchState.Error(
-        Throwable("Test error")
-    ),
-    SearchState.Success(
-        ExercisesMock.exercises
-    )
-)

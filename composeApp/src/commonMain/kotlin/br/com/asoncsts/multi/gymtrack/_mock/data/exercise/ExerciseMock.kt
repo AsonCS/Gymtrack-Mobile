@@ -1,9 +1,9 @@
 package br.com.asoncsts.multi.gymtrack._mock.data.exercise
 
-import br.com.asoncsts.multi.gymtrack.model.Exercise
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 
-object ExercisesMock {
-    val exercises = listOf(
+object ExerciseMock {
+    val exerciseDetails = listOf(
         "Remada maquina 30".let {
             Exercise.Detail(
                 alias = it,
@@ -32,4 +32,7 @@ object ExercisesMock {
             )
         },
     )
+
+    val exercises: List<Exercise>
+        get() = exerciseDetails
 }

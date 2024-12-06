@@ -1,6 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.ui.search
 
-import br.com.asoncsts.multi.gymtrack.model.Exercise
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 
 internal sealed class SearchState {
     data object Loading : SearchState()

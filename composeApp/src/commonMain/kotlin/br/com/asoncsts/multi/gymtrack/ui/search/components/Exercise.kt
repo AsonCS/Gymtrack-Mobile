@@ -12,10 +12,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExercisesMock
-import br.com.asoncsts.multi.gymtrack.model.Exercise
+import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExerciseMock
 import br.com.asoncsts.multi.gymtrack.data.image.repository.ImageRepository
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.ui._theme.*
 import coil3.compose.AsyncImage
 import gymtrack.composeapp.generated.resources.Res
@@ -78,5 +78,5 @@ fun Exercise(
 }
 
 internal val exerciseValuesProvider = sequenceOf(
-    *(ExercisesMock.exercises.toTypedArray())
+    *(ExerciseMock.exerciseDetails.toTypedArray())
 )

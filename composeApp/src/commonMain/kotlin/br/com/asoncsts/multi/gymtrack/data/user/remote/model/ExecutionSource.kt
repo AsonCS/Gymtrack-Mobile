@@ -1,6 +1,6 @@
-package br.com.asoncsts.multi.gymtrack.data.userExercise.remote.model
+package br.com.asoncsts.multi.gymtrack.data.user.remote.model
 
-import br.com.asoncsts.multi.gymtrack.model.Execution
+import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

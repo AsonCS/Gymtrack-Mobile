@@ -9,7 +9,6 @@ import br.com.asoncsts.multi.gymtrack.R
 import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 import br.com.asoncsts.multi.gymtrack.ui.PreviewMedPhone
 import br.com.asoncsts.multi.gymtrack.ui.search.SearchState
-import br.com.asoncsts.multi.gymtrack.ui.search.searchStateValuesProvider
 
 @PreviewMedPhone
 @Composable

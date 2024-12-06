@@ -6,9 +6,12 @@ import br.com.asoncsts.multi.gymtrack.data.exercise.remote.ExerciseRemote
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
 import br.com.asoncsts.multi.gymtrack.data.image.api.ImageApi
 import br.com.asoncsts.multi.gymtrack.data.image.repository.ImageRepository
-import br.com.asoncsts.multi.gymtrack.data.userExercise.api.UserExerciseApi
-import br.com.asoncsts.multi.gymtrack.data.userExercise.remote.UserExerciseRemote
-import br.com.asoncsts.multi.gymtrack.data.userExercise.repository.UserExerciseRepository
+import br.com.asoncsts.multi.gymtrack.data.user.api.ExerciseExecutionApi
+import br.com.asoncsts.multi.gymtrack.data.user.api.WorkoutApi
+import br.com.asoncsts.multi.gymtrack.data.user.remote.ExerciseExecutionRemote
+import br.com.asoncsts.multi.gymtrack.data.user.remote.WorkoutRemote
+import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
+import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
 import br.com.asoncsts.multi.gymtrack.extension.log
 import br.com.asoncsts.multi.gymtrack.generated.BuildConfig
 import io.ktor.client.HttpClient
@@ -31,11 +34,14 @@ internal fun dataModule() = module {
     factory<ExerciseApi> {
         ExerciseApi.Impl(BuildConfig.HOST)
     }
+    factory<ExerciseExecutionApi> {
+        ExerciseExecutionApi.Impl(BuildConfig.HOST)
+    }
     factory<ImageApi> {
         ImageApi.Impl(BuildConfig.HOST)
     }
-    factory<UserExerciseApi> {
-        UserExerciseApi.Impl(BuildConfig.HOST)
+    factory<WorkoutApi> {
+        WorkoutApi.Impl(BuildConfig.HOST)
     }
 
     // Remote
@@ -45,8 +51,14 @@ internal fun dataModule() = module {
             client = get()
         )
     }
-    single<UserExerciseRemote> {
-        UserExerciseRemote.Impl(
+    single<ExerciseExecutionRemote> {
+        ExerciseExecutionRemote.Impl(
+            api = get(),
+            client = get()
+        )
+    }
+    single<WorkoutRemote> {
+        WorkoutRemote.Impl(
             api = get(),
             client = get()
         )
@@ -58,13 +70,18 @@ internal fun dataModule() = module {
             remote = get()
         )
     }
+    single<ExerciseExecutionRepository> {
+        ExerciseExecutionRepository.Impl(
+            remote = get()
+        )
+    }
     single<ImageRepository> {
         ImageRepository.Impl(
             api = get()
         )
     }
-    single<UserExerciseRepository> {
-        UserExerciseRepository.Impl(
+    single<WorkoutRepository> {
+        WorkoutRepository.Impl(
             remote = get()
         )
     }
