@@ -3,7 +3,7 @@ package br.com.asoncsts.multi.gymtrack.ui.search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
-import br.com.asoncsts.multi.gymtrack.ui._navigation.search.SearchDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui._navigation.SearchDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.search.components.SearchScreen
 import br.com.asoncsts.multi.gymtrack.ui.search.components.searchScreenProps
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ fun SearchScreen(
     args: Args,
     modifier: Modifier = Modifier
 ) {
-    val state by args.searchViewModel
+    val state by args.viewModel
         .state
         .collectAsState()
 
@@ -28,7 +28,7 @@ fun SearchScreen(
     )
 
     LaunchedEffect(Unit) {
-        args.searchViewModel.getExercises()
+        args.viewModel.getExercises()
     }
 }
 

@@ -20,7 +20,7 @@ data object ExerciseDetailDestination : AppNavDestination<Args>(
         builder.composable(route) {
             val alias = it.arguments
                 ?.getString("alias")
-                ?: ""
+                ?: throw IllegalStateException("Alias is required")
             ExerciseDetailScreen(alias, args)
         }
     }

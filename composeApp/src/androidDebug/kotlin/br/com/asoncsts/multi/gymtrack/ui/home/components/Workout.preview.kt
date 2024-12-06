@@ -23,8 +23,7 @@ private fun Preview() {
                     R.string.home_label_amount,
                     WorkoutMock
                         .workouts[0]
-                        .exerciseExecutionIds
-                        .size
+                        .amount
                 ),
                 workout = WorkoutMock
                     .workouts[0]

@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavDestination.Args
 
 sealed class HomeNavDestination<Args>(
     val route: String
@@ -18,16 +19,22 @@ sealed class HomeNavDestination<Args>(
 
 @Composable
 fun HomeNavHost(
+    args: Args,
+    destination: String,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestination.route,
+        startDestination = destination,
         modifier = modifier
     ) {
-        HomeDestination(
-            Unit,
+        WorkoutDestination(
+            WorkoutDestination.Args(
+                args.homeViewModel
+                    .navigationArgumentWorkout
+                    ?: throw IllegalStateException("Workout is required")
+            ),
             this
         )
     }

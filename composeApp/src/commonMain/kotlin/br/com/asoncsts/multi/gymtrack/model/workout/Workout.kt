@@ -8,6 +8,9 @@ interface Workout {
     val id: String
     val name: String
 
+    val amount: String
+        get() = exerciseExecutionIds.size.toString()
+
     data class Impl(
         override val description: String?,
         override val exerciseExecutionIds: List<String>,

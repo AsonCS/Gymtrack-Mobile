@@ -5,7 +5,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,8 +26,7 @@ internal data class WorkoutProps(
 internal fun workoutProps(
     workout: Workout,
     labelAmount: String = stringResource(
-        Res.string.home_label_amount,
-        workout.exerciseExecutionIds.size
+        Res.string.home_label_amount
     )
 ) = WorkoutProps(
     labelAmount,
@@ -74,9 +73,19 @@ internal fun Workout(
             )
 
             Text(
-                props.labelAmount,
+                buildAnnotatedString {
+                    append(props.labelAmount)
+                    append(" ")
+
+                    withStyle(
+                        SpanStyle(
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append(props.workout.amount)
+                    }
+                },
                 color = colors().onBackground,
-                fontWeight = FontWeight.SemiBold,
                 style = typography().bodyLarge
             )
         }

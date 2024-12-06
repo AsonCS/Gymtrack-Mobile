@@ -3,7 +3,7 @@ package br.com.asoncsts.multi.gymtrack.ui._navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import br.com.asoncsts.multi.gymtrack.ui._navigation.SearchDestination.Args
-import br.com.asoncsts.multi.gymtrack.ui._navigation.search.SearchNavHost
+import br.com.asoncsts.multi.gymtrack.ui.search.SearchScreen
 import br.com.asoncsts.multi.gymtrack.ui.search.SearchViewModel
 
 data object SearchDestination : AppNavDestination<Args>(
@@ -14,7 +14,7 @@ data object SearchDestination : AppNavDestination<Args>(
         val navigateToExerciseDetail: (
             alias: String
         ) -> Unit,
-        val searchViewModel: SearchViewModel
+        val viewModel: SearchViewModel
     )
 
     override operator fun invoke(
@@ -22,7 +22,7 @@ data object SearchDestination : AppNavDestination<Args>(
         builder: NavGraphBuilder
     ) {
         builder.composable(route) {
-            SearchNavHost(args)
+            SearchScreen(args)
         }
     }
 }

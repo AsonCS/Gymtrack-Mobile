@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
+import br.com.asoncsts.multi.gymtrack.ui.home.HomeViewModel
 import br.com.asoncsts.multi.gymtrack.ui.search.SearchViewModel
 import kotlinx.coroutines.flow.map
 import org.koin.compose.viewmodel.koinViewModel
@@ -26,6 +27,7 @@ fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier,
     authViewModel: AuthViewModel = koinViewModel(),
+    homeViewModel: HomeViewModel = koinViewModel(),
     searchViewModel: SearchViewModel = koinViewModel()
 ) {
     NavHost(
@@ -43,7 +45,19 @@ fun AppNavHost(
             this
         )
         HomeDestination(
-            Unit,
+            HomeDestination.Args(
+                navigateToWorkout = {
+                    homeViewModel.navigationArgumentWorkout = it
+                    navController.navigateToWorkout()
+                },
+                homeViewModel
+            ),
+            this
+        )
+        HomeNavDestination(
+            HomeNavDestination.Args(
+                homeViewModel
+            ),
             this
         )
         LoginDestination(
@@ -80,6 +94,7 @@ fun NavHostController.appNavDestinationState(): State<AppNavDestination<*>> {
             when (it.destination.route) {
                 ExerciseDetailDestination.route -> ExerciseDetailDestination
                 HomeDestination.route -> HomeDestination
+                HomeNavDestination.route -> HomeNavDestination
                 LoginDestination.route -> LoginDestination
                 SearchDestination.route -> SearchDestination
                 SignupDestination.route -> SignupDestination
@@ -114,4 +129,10 @@ fun NavHostController.navigateToSearch() {
 
 fun NavHostController.navigateToUser() {
     //navigate(UserDestination.route)
+}
+
+fun NavHostController.navigateToWorkout() {
+    navigate(
+        HomeNavDestination.routeToWorkout()
+    )
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_label_amount">Exercícios: %d</string>
+    <string name="home_label_amount">Exercícios:</string>
     <string name="home_label_title">Seus treinos.</string>
 
     <string name="login_screen_google_login">Google</string>

@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.user.workout.WorkoutMock
+import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
@@ -21,14 +22,21 @@ import gymtrack.composeapp.generated.resources.home_label_title
 import org.jetbrains.compose.resources.stringResource
 
 internal data class HomeScreenProps(
-    val labelTitle: String
+    val labelTitle: String,
+    val navigateToWorkout: (
+        workout: Workout
+    ) -> Unit
 )
 
 @Composable
 internal fun homeScreenProps(
+    navigateToWorkout: (
+        workout: Workout
+    ) -> Unit,
     labelTitle: String = stringResource(Res.string.home_label_title)
 ) = HomeScreenProps(
-    labelTitle
+    labelTitle,
+    navigateToWorkout
 )
 
 @Composable
@@ -99,7 +107,11 @@ internal fun HomeScreen(
                             ),
                             Modifier
                                 .fillMaxWidth()
-                                .clickable { }
+                                .clickable {
+                                    props.navigateToWorkout(
+                                        workout
+                                    )
+                                }
                         )
                     }
                 }
