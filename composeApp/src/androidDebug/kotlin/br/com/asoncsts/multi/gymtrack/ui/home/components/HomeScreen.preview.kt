@@ -25,7 +25,8 @@ private fun Preview(
             homeScreenProps(
                 labelTitle = stringResource(
                     R.string.home_label_title
-                )
+                ),
+                navigateToWorkout = {}
             ),
             state
         )

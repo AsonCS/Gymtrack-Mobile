@@ -21,6 +21,7 @@ data object WorkoutDestination : HomeNavDestination<Args>(
             Text(
                 args.workout.toString()
             )
+            Here
             //WorkoutScreen(args)
         }
     }
