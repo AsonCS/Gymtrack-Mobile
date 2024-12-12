@@ -89,7 +89,6 @@ internal fun dataModule() = module {
     single {
         HttpClient(platform.engine) {
             install(Logging) {
-                //  logger = Logger.DEFAULT
                 level = LogLevel.INFO
 
                 logger = object : Logger {

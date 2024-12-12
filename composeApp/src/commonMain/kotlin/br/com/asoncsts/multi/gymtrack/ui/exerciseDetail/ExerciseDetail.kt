@@ -11,8 +11,6 @@ import br.com.asoncsts.multi.gymtrack.ui.exerciseDetail.components.ExerciseDetai
 import br.com.asoncsts.multi.gymtrack.ui.exerciseDetail.components.exerciseDetailScreenProps
 import org.koin.compose.koinInject
 
-const val TAG_EXERCISE_DETAIL = "gymtrack:exerciseDetail"
-
 @Composable
 fun ExerciseDetailScreen(
     alias: String,

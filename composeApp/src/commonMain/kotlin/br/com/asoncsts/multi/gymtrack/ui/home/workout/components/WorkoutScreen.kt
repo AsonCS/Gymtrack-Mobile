@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.components
+package br.com.asoncsts.multi.gymtrack.ui.home.workout.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,38 +10,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack._mock.data.user.workout.WorkoutMock
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
-import br.com.asoncsts.multi.gymtrack.ui.home.HomeState
-import gymtrack.composeapp.generated.resources.Res
-import gymtrack.composeapp.generated.resources.home_label_title
-import org.jetbrains.compose.resources.stringResource
+import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState
+import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState.*
 
-internal data class HomeScreenProps(
-    val labelTitle: String,
-    val navigateToWorkout: (
-        workout: Workout
-    ) -> Unit
-)
-
-@Composable
-internal fun homeScreenProps(
-    navigateToWorkout: (
-        workout: Workout
+internal data class WorkoutScreenProps(
+    val navigateToExerciseExecution: (
+        id: String
     ) -> Unit,
-    labelTitle: String = stringResource(Res.string.home_label_title)
-) = HomeScreenProps(
-    labelTitle,
-    navigateToWorkout
+    val workout: Workout
 )
 
 @Composable
-internal fun HomeScreen(
-    props: HomeScreenProps,
-    state: HomeState,
+internal fun workoutScreenProps(
+    navigateToExerciseExecution: (
+        id: String
+    ) -> Unit,
+    workout: Workout
+) = WorkoutScreenProps(
+    navigateToExerciseExecution,
+    workout
+)
+
+@Composable
+internal fun WorkoutScreen(
+    props: WorkoutScreenProps,
+    state: WorkoutState,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -50,13 +47,10 @@ internal fun HomeScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement
-            .spacedBy(
-                alignment = Alignment.CenterVertically,
-                space = 16.dp
-            )
+            .spacedBy(16.dp)
     ) {
         Text(
-            props.labelTitle,
+            props.workout.name,
             Modifier
                 .fillMaxWidth(),
             color = colors().onBackground,
@@ -66,7 +60,7 @@ internal fun HomeScreen(
         )
 
         when (state) {
-            is HomeState.Error -> {
+            is Error -> {
                 Text(
                     state.throwable.message
                         ?: "Error",
@@ -77,7 +71,7 @@ internal fun HomeScreen(
                 )
             }
 
-            HomeState.Loading -> {
+            Loading -> {
                 Box(
                     Modifier
                         .weight(1f),
@@ -87,7 +81,7 @@ internal fun HomeScreen(
                 }
             }
 
-            is HomeState.Success -> {
+            is Success -> {
                 LazyColumn(
                     Modifier
                         .weight(1f),
@@ -95,33 +89,24 @@ internal fun HomeScreen(
                         .spacedBy(8.dp)
                 ) {
                     items(
-                        items = state.workouts,
+                        items = state.exerciseExecutions,
                         key = { it.id }
-                    ) { workout ->
-                        Workout(
-                            workoutProps(
-                                navigateToWorkout = {
-                                    props.navigateToWorkout(
-                                        workout
+                    ) { exerciseExecution ->
+                        ExerciseExecution(
+                            exerciseExecutionProps(
+                                exerciseExecution,
+                                navigateToExerciseExecution = {
+                                    props.navigateToExerciseExecution(
+                                        exerciseExecution.id
                                     )
-                                },
-                                workout = workout
-                            )
+                                }
+                            ),
+                            Modifier
+                                .fillMaxWidth()
                         )
                     }
                 }
             }
         }
-
     }
 }
-
-internal val homeStateValuesProvider = sequenceOf(
-    HomeState.Loading,
-    HomeState.Error(
-        Throwable("Test error")
-    ),
-    HomeState.Success(
-        WorkoutMock.workouts
-    )
-)

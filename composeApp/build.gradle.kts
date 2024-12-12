@@ -236,7 +236,7 @@ val buildConfigGenerator by tasks.registering(Sync::class) {
             |   //const val FIREBASE_STORAGE_BUCKET = "${keystoreProperties["firebaseStorageBucket"]}"
             |   //const val FIREBASE_WEB_API_KEY = "${keystoreProperties["firebaseWebApiKey"]}"
             |   
-            |   const val HOST = "http://$ip:3000"
+            |   const val HOST = "http://$ip:3000/api"
             |
             |}
             |

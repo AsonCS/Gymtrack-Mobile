@@ -10,9 +10,11 @@ interface ExerciseExecutionApi {
             id: String
         ) = "$host/user/exercise-executions/$id"
 
-        override fun exerciseExecutions(
+        override fun exerciseExecutionsGet(
             ids: List<String>
         ) = "$host/user/exercise-executions?ids=${ids.joinToString(",")}"
+
+        override fun exerciseExecutionsPost() = "$host/user/exercise-executions"
 
     }
 
@@ -20,8 +22,10 @@ interface ExerciseExecutionApi {
         id: String
     ): String
 
-    fun exerciseExecutions(
+    fun exerciseExecutionsGet(
         ids: List<String>
     ): String
+
+    fun exerciseExecutionsPost(): String
 
 }

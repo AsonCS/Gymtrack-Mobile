@@ -16,7 +16,7 @@ data class WorkoutSource(
     val name: String? = null
 ) {
     fun toWorkout(): Workout {
-        return Workout.Impl(
+        return Workout(
             description = description,
             exerciseExecutionIds = exerciseExecutionIds ?: emptyList(),
             id = id

@@ -53,7 +53,7 @@ interface ExerciseExecutionRepository {
             ids: List<String>
         ): Wrapper<List<ExerciseExecution>> {
             return try {
-                val result = remote.getExerciseExecutions(ids)
+                val result = remote.getExerciseExecutionsPost(ids)
                 when {
                     !result.data.isNullOrEmpty() -> {
                         Wrapper.Success(

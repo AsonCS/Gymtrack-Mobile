@@ -5,8 +5,9 @@ import br.com.asoncsts.multi.gymtrack.data.user.api.ExerciseExecutionApi
 import br.com.asoncsts.multi.gymtrack.data.user.remote.model.ExerciseExecutionSource
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.http.takeFrom
+import io.ktor.client.request.*
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 
 interface ExerciseExecutionRemote {
 
@@ -18,20 +19,23 @@ interface ExerciseExecutionRemote {
         override suspend fun getExerciseExecution(
             id: String
         ): Response<ExerciseExecutionSource> {
-            return client.get {
-                url {
-                    takeFrom(api.exerciseExecution(id))
-                }
-            }.body()
+            return client.get(api.exerciseExecution(id))
+                .body()
         }
 
-        override suspend fun getExerciseExecutions(
+        override suspend fun getExerciseExecutionsGet(
             ids: List<String>
         ): Response<List<ExerciseExecutionSource>> {
-            return client.get {
-                url {
-                    takeFrom(api.exerciseExecutions(ids))
-                }
+            return client.get(api.exerciseExecutionsGet(ids))
+                .body()
+        }
+
+        override suspend fun getExerciseExecutionsPost(
+            ids: List<String>
+        ): Response<List<ExerciseExecutionSource>> {
+            return client.post(api.exerciseExecutionsPost()) {
+                contentType(ContentType.Application.Json)
+                setBody(ids)
             }.body()
         }
 
@@ -41,7 +45,11 @@ interface ExerciseExecutionRemote {
         id: String
     ): Response<ExerciseExecutionSource>
 
-    suspend fun getExerciseExecutions(
+    suspend fun getExerciseExecutionsGet(
+        ids: List<String>
+    ): Response<List<ExerciseExecutionSource>>
+
+    suspend fun getExerciseExecutionsPost(
         ids: List<String>
     ): Response<List<ExerciseExecutionSource>>
 

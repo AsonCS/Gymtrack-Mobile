@@ -25,6 +25,7 @@ private fun Preview() {
                         .workouts[0]
                         .amount
                 ),
+                navigateToWorkout = {},
                 workout = WorkoutMock
                     .workouts[0]
             )

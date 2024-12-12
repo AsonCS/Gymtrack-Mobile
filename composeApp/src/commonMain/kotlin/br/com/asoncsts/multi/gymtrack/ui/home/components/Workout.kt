@@ -19,17 +19,20 @@ import org.jetbrains.compose.resources.stringResource
 
 internal data class WorkoutProps(
     val labelAmount: String,
+    val navigateToWorkout: () -> Unit,
     val workout: Workout
 )
 
 @Composable
 internal fun workoutProps(
     workout: Workout,
+    navigateToWorkout: () -> Unit,
     labelAmount: String = stringResource(
         Res.string.home_label_amount
     )
 ) = WorkoutProps(
     labelAmount,
+    navigateToWorkout,
     workout
 )
 
@@ -41,6 +44,7 @@ internal fun Workout(
     val locale = Locale.current
 
     ElevatedCard(
+        props.navigateToWorkout,
         modifier,
         shape = shapes().extraSmall
     ) {
