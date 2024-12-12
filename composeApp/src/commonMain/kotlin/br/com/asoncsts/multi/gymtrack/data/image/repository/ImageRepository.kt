@@ -2,7 +2,7 @@ package br.com.asoncsts.multi.gymtrack.data.image.repository
 
 import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data.image.api.ImageApi
-import br.com.asoncsts.multi.gymtrack.extension.error
+import br.com.asoncsts.multi.gymtrack.extension.log
 
 interface ImageRepository {
 
@@ -15,15 +15,13 @@ interface ImageRepository {
         ): String? {
             image ?: return null
 
-            return try {
-                api.image(
-                    name = image,
-                    path = alias
-                )
-            } catch (t: Throwable) {
-                TAG_DATA.error("ImageRepository", t)
-                null
-            }
+            val url = api.image(
+                alias = alias,
+                image = image
+            )
+            TAG_DATA.log("Image: $url")
+
+            return url
         }
     }
 

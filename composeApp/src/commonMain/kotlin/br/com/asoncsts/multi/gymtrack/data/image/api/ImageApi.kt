@@ -6,14 +6,14 @@ interface ImageApi {
         private val host: String
     ) : ImageApi {
         override fun image(
-            name: String,
-            path: String
-        ) = "$host/$path/$name"
+            alias: String,
+            image: String
+        ) = "$host/$alias%2F$image"
     }
 
     fun image(
-        name: String,
-        path: String
+        alias: String,
+        image: String
     ): String
 
 }

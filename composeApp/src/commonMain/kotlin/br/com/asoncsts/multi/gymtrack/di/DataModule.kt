@@ -38,7 +38,7 @@ internal fun dataModule() = module {
         ExerciseExecutionApi.Impl(BuildConfig.HOST)
     }
     factory<ImageApi> {
-        ImageApi.Impl(BuildConfig.HOST)
+        ImageApi.Impl(BuildConfig.HOST_IMAGE)
     }
     factory<WorkoutApi> {
         WorkoutApi.Impl(BuildConfig.HOST)
