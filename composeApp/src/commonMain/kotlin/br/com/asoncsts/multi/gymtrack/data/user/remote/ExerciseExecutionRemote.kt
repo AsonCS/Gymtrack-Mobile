@@ -1,8 +1,11 @@
 package br.com.asoncsts.multi.gymtrack.data.user.remote
 
+import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
+import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
 import br.com.asoncsts.multi.gymtrack.data._utils.Response
 import br.com.asoncsts.multi.gymtrack.data.user.api.ExerciseExecutionApi
 import br.com.asoncsts.multi.gymtrack.data.user.remote.model.ExerciseExecutionSource
+import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.*
@@ -39,6 +42,20 @@ interface ExerciseExecutionRemote {
             }.body()
         }
 
+        override suspend fun getExerciseExecutions(): List<ExerciseExecution.SimpleView> {
+            val result = api.getExerciseExecutions()
+
+            return when {
+                result.data == null -> throw UnknownException(
+                    result.error
+                )
+
+                result.data.isEmpty() -> throw EmptyException()
+
+                else -> result.data
+                    .map { it.toSimpleView() }
+            }
+        }
     }
 
     suspend fun getExerciseExecution(
@@ -52,5 +69,7 @@ interface ExerciseExecutionRemote {
     suspend fun getExerciseExecutionsPost(
         ids: List<String>
     ): Response<List<ExerciseExecutionSource>>
+
+    suspend fun getExerciseExecutions(): List<ExerciseExecution.SimpleView>
 
 }

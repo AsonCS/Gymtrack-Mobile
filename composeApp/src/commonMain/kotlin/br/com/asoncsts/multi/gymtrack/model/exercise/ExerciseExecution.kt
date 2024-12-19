@@ -18,4 +18,9 @@ interface ExerciseExecution {
         val description: String?,
         val executions: List<Execution>
     ) : ExerciseExecution
+
+    data class SimpleView(
+        val id: String,
+        val name: String
+    )
 }

@@ -63,7 +63,8 @@ internal fun HomeScreen(
     ) {
         Row(
             Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 props.labelTitle,
@@ -81,7 +82,6 @@ internal fun HomeScreen(
                         props.navigateToNewWorkout()
                     },
                 color = colors().secondary,
-                fontWeight = FontWeight.Bold,
                 style = typography().headlineSmall
             )
         }

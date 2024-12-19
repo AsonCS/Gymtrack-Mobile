@@ -37,7 +37,9 @@ internal fun uiModule() = module {
         )
     }
     viewModel<NewWorkoutViewModel> {
-        NewWorkoutViewModelImpl()
+        NewWorkoutViewModelImpl(
+            repo = get()
+        )
     }
     viewModel<SearchViewModel> {
         SearchViewModelImpl(

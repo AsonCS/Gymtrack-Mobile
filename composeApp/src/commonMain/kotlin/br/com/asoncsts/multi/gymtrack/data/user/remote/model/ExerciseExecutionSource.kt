@@ -49,4 +49,13 @@ data class ExerciseExecutionSource(
             } ?: emptyList()
         )
     }
+
+    fun toSimpleView(): ExerciseExecution.SimpleView {
+        return ExerciseExecution.SimpleView(
+            id = id
+                ?: throw IllegalStateException("Id is null"),
+            name = name
+                ?: throw IllegalStateException("Name is null")
+        )
+    }
 }

@@ -12,6 +12,12 @@
     <string name="login_screen_password_placeholder">8 characters minimum</string>
     <string name="login_screen_signup">Sign up</string>
 
+    <string name="new_workout_label_description">Description</string>
+    <string name="new_workout_label_name">Name</string>
+    <string name="new_workout_label_new_workout">New workout</string>
+    <string name="new_workout_placeholder_description">Workout description</string>
+    <string name="new_workout_placeholder_name">Workout name</string>
+
     <string name="search_title">All exercises.</string>
 
     <string name="signup_screen">Sign up</string>

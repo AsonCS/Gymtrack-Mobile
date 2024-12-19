@@ -33,7 +33,10 @@ internal fun dataModule() = module {
         ExerciseApi.Impl(BuildConfig.HOST)
     }
     factory<ExerciseExecutionApi> {
-        ExerciseExecutionApi.Impl(BuildConfig.HOST)
+        ExerciseExecutionApi.Impl(
+            client = get(),
+            host = BuildConfig.HOST
+        )
     }
     factory<WorkoutApi> {
         WorkoutApi.Impl(

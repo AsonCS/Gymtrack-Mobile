@@ -49,6 +49,17 @@ interface ExerciseExecutionRepository {
             }
         }
 
+        override suspend fun getExerciseExecutions(): Wrapper<List<ExerciseExecution.SimpleView>> {
+            return try {
+                Wrapper.Success(
+                    remote.getExerciseExecutions()
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error("UserExerciseRepository.getExerciseExecutions", t)
+                Wrapper.Error(t)
+            }
+        }
+
         override suspend fun getExerciseExecutions(
             ids: List<String>
         ): Wrapper<List<ExerciseExecution>> {
@@ -96,6 +107,8 @@ interface ExerciseExecutionRepository {
     suspend fun getExerciseExecution(
         id: String
     ): Wrapper<ExerciseExecution.Detail>
+
+    suspend fun getExerciseExecutions(): Wrapper<List<ExerciseExecution.SimpleView>>
 
     suspend fun getExerciseExecutions(
         ids: List<String>
