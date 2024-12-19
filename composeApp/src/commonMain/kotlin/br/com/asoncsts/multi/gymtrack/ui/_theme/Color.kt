@@ -10,7 +10,7 @@ fun colors(): ColorScheme = MaterialTheme.colorScheme
 
 val PrimaryColor = Color(0xFFFF4747)
 val PrimaryVariantColor = Color(0xFFCA3D49)
-val AccentColor = Color(0xFFC62F79)
+val AccentColor = Color(0xff212dd5)
 val BackgroundContent = Color(0xFFf6f6f6)
 val lightSurface = Color(0xFFf5f5f5)
 

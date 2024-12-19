@@ -1,30 +1,50 @@
 package br.com.asoncsts.multi.gymtrack.data.user.remote
 
-import br.com.asoncsts.multi.gymtrack.data._utils.Response
+import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
+import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
 import br.com.asoncsts.multi.gymtrack.data.user.api.WorkoutApi
-import br.com.asoncsts.multi.gymtrack.data.user.remote.model.WorkoutSource
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.http.takeFrom
+import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 
 interface WorkoutRemote {
 
     class Impl(
-        private val api: WorkoutApi,
-        private val client: HttpClient
+        private val api: WorkoutApi
     ) : WorkoutRemote {
 
-        override suspend fun getWorkouts(): Response<List<WorkoutSource>> {
-            return client.get {
-                url {
-                    takeFrom(api.workouts())
-                }
-            }.body()
+        override suspend fun getWorkouts(): List<Workout> {
+            val result = api.getWorkouts()
+
+            return when {
+                result.data == null -> throw UnknownException(
+                    result.error
+                )
+
+                result.data.isEmpty() -> throw EmptyException()
+
+                else -> result.data
+                    .map { it.toWorkout() }
+            }
         }
 
+        override suspend fun putWorkout(
+            workout: Workout
+        ): Workout {
+            val result = api.putWorkout(workout)
+
+            return when {
+                result.data == null -> throw UnknownException(
+                    result.error
+                )
+
+                else -> result.data.toWorkout()
+            }
+        }
     }
 
-    suspend fun getWorkouts(): Response<List<WorkoutSource>>
+    suspend fun getWorkouts(): List<Workout>
+
+    suspend fun putWorkout(
+        workout: Workout
+    ): Workout
 
 }

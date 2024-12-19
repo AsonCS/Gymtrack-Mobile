@@ -14,16 +14,14 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
-import br.com.asoncsts.multi.gymtrack.data.image.repository.ImageRepository
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._theme.*
 import coil3.compose.AsyncImage
 import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.logo
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
 
 internal data class ExerciseDetailScreenProps(
     val exercise: Exercise.Detail?,
@@ -41,8 +39,7 @@ internal fun exerciseDetailScreenProps(
 @Composable
 internal fun ExerciseDetailScreen(
     props: ExerciseDetailScreenProps,
-    modifier: Modifier = Modifier,
-    repo: ImageRepository = koinInject()
+    modifier: Modifier = Modifier
 ) {
     if (props.exercise == null) {
         Loading(modifier)
@@ -62,10 +59,7 @@ internal fun ExerciseDetailScreen(
             )
     ) {
         AsyncImage(
-            repo.image(
-                props.exercise.alias,
-                props.exercise.image
-            ),
+            props.exercise.image,
             props.exercise.title,
             Modifier
                 .size(400.dp)

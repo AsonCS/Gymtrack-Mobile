@@ -10,6 +10,8 @@ import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutViewModel
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutViewModelImpl
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionViewModel
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionViewModelImpl
+import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutViewModel
+import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutViewModelImpl
 import br.com.asoncsts.multi.gymtrack.ui.search.SearchViewModel
 import br.com.asoncsts.multi.gymtrack.ui.search.SearchViewModelImpl
 import org.koin.core.module.dsl.viewModel
@@ -33,6 +35,9 @@ internal fun uiModule() = module {
         HomeViewModelImpl(
             repo = get()
         )
+    }
+    viewModel<NewWorkoutViewModel> {
+        NewWorkoutViewModelImpl()
     }
     viewModel<SearchViewModel> {
         SearchViewModelImpl(

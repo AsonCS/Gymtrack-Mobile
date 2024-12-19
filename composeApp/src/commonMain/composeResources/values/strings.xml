@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="home_label_amount">Exercises:</string>
+    <string name="home_label_new">+ New</string>
     <string name="home_label_title">Your workouts.</string>
 
     <string name="login_screen_google_login">Google</string>

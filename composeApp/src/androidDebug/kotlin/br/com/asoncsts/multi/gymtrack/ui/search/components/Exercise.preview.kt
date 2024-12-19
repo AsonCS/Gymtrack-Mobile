@@ -9,7 +9,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.R
 import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
-import br.com.asoncsts.multi.gymtrack.ui.*
+import br.com.asoncsts.multi.gymtrack.ui.PreviewComponent
+import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 
 @PreviewComponent
 @Composable
@@ -22,8 +23,7 @@ private fun Preview(
     ) {
         Exercise(
             exercise,
-            props = exerciseProps,
-            repo = imageRepository()
+            props = exerciseProps
         )
     }
 }

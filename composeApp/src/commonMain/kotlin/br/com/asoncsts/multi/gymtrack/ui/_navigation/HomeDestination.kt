@@ -12,6 +12,7 @@ data object HomeDestination : AppNavDestination<Args>(
     "home_screen"
 ) {
     class Args(
+        val navigateToNewWorkout: () -> Unit,
         val navigateToWorkout: (
             workout: Workout
         ) -> Unit,

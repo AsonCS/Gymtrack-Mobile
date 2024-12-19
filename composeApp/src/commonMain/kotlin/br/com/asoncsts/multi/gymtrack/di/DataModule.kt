@@ -4,8 +4,6 @@ import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data.exercise.api.ExerciseApi
 import br.com.asoncsts.multi.gymtrack.data.exercise.remote.ExerciseRemote
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
-import br.com.asoncsts.multi.gymtrack.data.image.api.ImageApi
-import br.com.asoncsts.multi.gymtrack.data.image.repository.ImageRepository
 import br.com.asoncsts.multi.gymtrack.data.user.api.ExerciseExecutionApi
 import br.com.asoncsts.multi.gymtrack.data.user.api.WorkoutApi
 import br.com.asoncsts.multi.gymtrack.data.user.remote.ExerciseExecutionRemote
@@ -37,11 +35,11 @@ internal fun dataModule() = module {
     factory<ExerciseExecutionApi> {
         ExerciseExecutionApi.Impl(BuildConfig.HOST)
     }
-    factory<ImageApi> {
-        ImageApi.Impl(BuildConfig.HOST_IMAGE)
-    }
     factory<WorkoutApi> {
-        WorkoutApi.Impl(BuildConfig.HOST)
+        WorkoutApi.Impl(
+            client = get(),
+            host = BuildConfig.HOST
+        )
     }
 
     // Remote
@@ -59,8 +57,7 @@ internal fun dataModule() = module {
     }
     single<WorkoutRemote> {
         WorkoutRemote.Impl(
-            api = get(),
-            client = get()
+            api = get()
         )
     }
 
@@ -73,11 +70,6 @@ internal fun dataModule() = module {
     single<ExerciseExecutionRepository> {
         ExerciseExecutionRepository.Impl(
             remote = get()
-        )
-    }
-    single<ImageRepository> {
-        ImageRepository.Impl(
-            api = get()
         )
     }
     single<WorkoutRepository> {

@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExerciseMock
-import br.com.asoncsts.multi.gymtrack.data.image.repository.ImageRepository
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
 import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.ui._theme.*
@@ -21,7 +20,6 @@ import coil3.compose.AsyncImage
 import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.logo
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
 
 interface ExerciseProps {
     @Composable
@@ -32,8 +30,7 @@ interface ExerciseProps {
 fun Exercise(
     exercise: Exercise,
     modifier: Modifier = Modifier,
-    props: ExerciseProps = object : ExerciseProps {},
-    repo: ImageRepository = koinInject()
+    props: ExerciseProps = object : ExerciseProps {}
 ) {
     ElevatedCard(
         modifier,
@@ -49,10 +46,7 @@ fun Exercise(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                repo.image(
-                    exercise.alias,
-                    exercise.image
-                ),
+                exercise.image,
                 exercise.title,
                 Modifier
                     .size(100.dp)

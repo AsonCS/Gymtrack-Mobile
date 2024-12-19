@@ -15,14 +15,28 @@ data class WorkoutSource(
     @SerialName("name")
     val name: String? = null
 ) {
+
+    constructor(
+        workout: Workout
+    ) : this(
+        description = workout.description,
+        exerciseExecutionIds = workout.exerciseExecutionIds,
+        id = workout.id
+            .takeIf { it.isNotBlank() },
+        name = workout.name
+    )
+
     fun toWorkout(): Workout {
         return Workout(
             description = description,
-            exerciseExecutionIds = exerciseExecutionIds ?: emptyList(),
+            exerciseExecutionIds = exerciseExecutionIds
+                ?: emptyList(),
             id = id
+                ?.takeIf { it.isNotBlank() }
                 ?: throw IllegalStateException("Id is null"),
             name = name
                 ?: ""
         )
     }
+
 }

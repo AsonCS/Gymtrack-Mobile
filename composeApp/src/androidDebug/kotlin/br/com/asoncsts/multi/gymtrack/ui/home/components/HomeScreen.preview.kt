@@ -26,6 +26,7 @@ private fun Preview(
                 labelTitle = stringResource(
                     R.string.home_label_title
                 ),
+                navigateToNewWorkout = {},
                 navigateToWorkout = {}
             ),
             state

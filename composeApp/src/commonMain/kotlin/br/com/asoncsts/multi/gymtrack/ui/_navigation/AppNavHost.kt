@@ -46,6 +46,7 @@ fun AppNavHost(
         )
         HomeDestination(
             HomeDestination.Args(
+                navigateToNewWorkout = navController::navigateToNewWorkout,
                 navigateToWorkout = {
                     homeViewModel.navigationArgumentWorkout = it
                     navController.navigateToWorkout()
@@ -68,6 +69,10 @@ fun AppNavHost(
                 },
                 navigateUp = navController::navigateUp
             ),
+            this
+        )
+        NewWorkoutDestination(
+            NewWorkoutDestination.Args(),
             this
         )
         SearchDestination(
@@ -96,9 +101,12 @@ fun NavHostController.appNavDestinationState(): State<AppNavDestination<*>> {
                 HomeDestination.route -> HomeDestination
                 HomeNavDestination.route -> HomeNavDestination
                 LoginDestination.route -> LoginDestination
+                NewWorkoutDestination.route -> NewWorkoutDestination
                 SearchDestination.route -> SearchDestination
                 SignupDestination.route -> SignupDestination
-                else -> throw IllegalStateException("Unknown route")
+                else -> throw IllegalStateException(
+                    "NavHostController.appNavDestinationState: Unknown route"
+                )
             }
         }.collectAsState(SearchDestination)
 }
@@ -119,6 +127,10 @@ fun NavHostController.navigateToLogin() {
     navigate(LoginDestination.route) {
         launchSingleTop = true
     }
+}
+
+fun NavHostController.navigateToNewWorkout() {
+    navigate(NewWorkoutDestination.route)
 }
 
 fun NavHostController.navigateToSearch() {
