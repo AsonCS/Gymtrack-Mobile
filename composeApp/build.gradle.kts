@@ -20,7 +20,12 @@ plugins {
 }
 
 val keystoreProperties = Properties().apply {
-    load(rootProject.file("keystore/keystore.properties").inputStream())
+    runCatching {
+        load(
+            rootProject.file("keystore/keystore.propertiesss")
+                .inputStream()
+        )
+    }
 }
 val lApplicationId = libs.versions.applicationId
     .get()
