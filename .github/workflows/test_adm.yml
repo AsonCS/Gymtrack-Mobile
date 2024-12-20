@@ -20,6 +20,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run:
           chmod +x gradlew
+      - name: Generate BuildConfigGenerator
+        run:
+          ./gradlew buildConfigGenerator
       - name: All tests with Gradle
         run:
           ./gradlew :composeApp:cleanDesktopTest :composeApp:desktopTest --tests "br.com.asoncsts.multi.gymtrack.*"
