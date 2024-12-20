@@ -37,7 +37,7 @@ jobs:
           ./gradlew :composeApp:packageDebug
       - name: Publish on files.boxcontrol.io
         env:
-          APK_NAME: ${{ github.event.head_commit.message }}
+          APK_NAME: composeApp-debug.apk
           APK_PATH: ./composeApp/build/outputs/apk/debug/composeApp-debug.apk
           USER_NAME: ${{ secrets.ADM_FILES_BOXCONTROL_USER_NAME }}
           USER_PASSWORD: ${{ secrets.ADM_FILES_BOXCONTROL_USER_PASSWORD }}
