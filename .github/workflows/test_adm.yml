@@ -37,9 +37,10 @@ jobs:
           ./gradlew :composeApp:packageDebug
       - name: Publish on files.boxcontrol.io
         env:
-          APK_NAME: composeApp-debug.apk
+          APK_NAME: composeApp-debug
           APK_PATH: ./composeApp/build/outputs/apk/debug/composeApp-debug.apk
           USER_NAME: ${{ secrets.ADM_FILES_BOXCONTROL_USER_NAME }}
+          USER_NAME_URL: ${{ secrets.ADM_FILES_BOXCONTROL_USER_NAME_URL }}
           USER_PASSWORD: ${{ secrets.ADM_FILES_BOXCONTROL_USER_PASSWORD }}
         run:
-          curl -u "${USER_NAME}":"${USER_PASSWORD}" -T "${APK_PATH}" "https://files.boxcontrol.io/remote.php/dav/files/${USER_NAME}/adm-team/test-ci/${APK_NAME}.apk"
+          curl -u "${USER_NAME}":"${USER_PASSWORD}" -T "${APK_PATH}" "https://files.boxcontrol.io/remote.php/dav/files/${USER_NAME_URL}/adm-team/test-ci/${APK_NAME}.apk"
