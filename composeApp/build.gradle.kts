@@ -22,7 +22,7 @@ plugins {
 val keystoreProperties = Properties().apply {
     runCatching {
         load(
-            rootProject.file("keystore/keystore.propertiesss")
+            rootProject.file("keystore/keystore.properties")
                 .inputStream()
         )
     }
