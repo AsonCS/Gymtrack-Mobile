@@ -125,7 +125,7 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
             @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTestJUnit4)
+            implementation(compose.desktop.uiTestJUnit4)
 
             implementation(libs.test.junit)
         }

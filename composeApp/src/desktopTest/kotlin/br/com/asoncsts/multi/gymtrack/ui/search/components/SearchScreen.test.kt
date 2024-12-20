@@ -4,10 +4,10 @@ package br.com.asoncsts.multi.gymtrack.ui.search.components
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
-import br.com.asoncsts.multi.gymtrack.ui.search.searchStateValuesProvider
+import br.com.asoncsts.multi.gymtrack.BaseTest
 import org.junit.Test
 
-class SearchScreenTest {
+class SearchScreenTest : BaseTest {
 
     @Test
     fun searchScreen_SearchState0() {
@@ -21,7 +21,7 @@ class SearchScreenTest {
                 )
             }
 
-            onNodeWithText("Search Screen")
+            onNodeWithText("All exercises.", ignoreCase = true, useUnmergedTree = true)
                 .assertIsDisplayed()
 
             onNodeWithContentDescription("Loading component")
@@ -41,7 +41,7 @@ class SearchScreenTest {
                 )
             }
 
-            onNodeWithText("Search Screen")
+            onNodeWithText("All exercises.")
                 .assertIsDisplayed()
             onNodeWithText("Test error")
                 .assertIsDisplayed()
@@ -60,10 +60,10 @@ class SearchScreenTest {
                 )
             }
 
-            onNodeWithText("Search Screen")
+            onNodeWithText("All exercises.")
                 .assertIsDisplayed()
 
-            onNodeWithText("Remada maquina 30", substring = true)
+            onNodeWithText("Remada Maquina 30", substring = true)
                 .assertIsDisplayed()
             onNodeWithText("Remada Alta", substring = true)
                 .assertIsDisplayed()
