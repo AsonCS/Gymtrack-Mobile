@@ -42,4 +42,4 @@ jobs:
           USER_NAME: ${{ secrets.ADM_FILES_BOXCONTROL_USER_NAME }}
           USER_PASSWORD: ${{ secrets.ADM_FILES_BOXCONTROL_USER_PASSWORD }}
         run:
-          curl -u ${USER_NAME}:${USER_PASSWORD} -T "${APK_PATH}" "https://files.boxcontrol.io/remote.php/dav/files/${USER_NAME}/adm-team/test-ci/${APK_NAME}.apk"
+          curl -u "${USER_NAME}":"${USER_PASSWORD}" -T "${APK_PATH}" "https://files.boxcontrol.io/remote.php/dav/files/${USER_NAME}/adm-team/test-ci/${APK_NAME}.apk"
