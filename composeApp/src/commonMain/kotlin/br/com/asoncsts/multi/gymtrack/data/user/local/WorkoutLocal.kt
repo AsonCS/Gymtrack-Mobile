@@ -1,6 +1,7 @@
-package br.com.asoncsts.multi.gymtrack.data.user.local.model
+package br.com.asoncsts.multi.gymtrack.data.user.local
 
 import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
+import br.com.asoncsts.multi.gymtrack.data.user.local.model.WorkoutDao
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 
 interface WorkoutLocal {

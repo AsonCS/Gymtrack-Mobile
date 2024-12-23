@@ -54,6 +54,8 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            // Required when using NativeSQLiteDriver
+            linkerOpts.add("-lsqlite3")
         }
     }
 
@@ -96,7 +98,6 @@ kotlin {
             implementation(libs.ktor.logging)
             implementation(libs.ktor.negotiation)
             implementation(libs.ktor.serialization.json)
-            implementation(libs.room.plugin)
             implementation(libs.room.runtime)
             implementation(libs.sqlite)
         }
@@ -184,7 +185,7 @@ android {
 }
 
 dependencies {
-    add("kspCommonMainMetadata", libs.room.compiler)
+    ksp(libs.room.compiler)
     debugImplementation(compose.uiTooling)
 }
 

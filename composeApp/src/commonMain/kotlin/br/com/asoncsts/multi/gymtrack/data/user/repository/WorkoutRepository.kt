@@ -3,7 +3,7 @@ package br.com.asoncsts.multi.gymtrack.data.user.repository
 import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
 import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
-import br.com.asoncsts.multi.gymtrack.data.user.local.model.WorkoutLocal
+import br.com.asoncsts.multi.gymtrack.data.user.local.WorkoutLocal
 import br.com.asoncsts.multi.gymtrack.data.user.remote.WorkoutRemote
 import br.com.asoncsts.multi.gymtrack.extension.error
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout

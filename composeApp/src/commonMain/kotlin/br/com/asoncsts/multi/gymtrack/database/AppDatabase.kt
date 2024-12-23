@@ -4,7 +4,6 @@ import androidx.room.*
 import br.com.asoncsts.multi.gymtrack.data.user.local.model.*
 
 // https://developer.android.com/kotlin/multiplatform/room#android
-here
 @ConstructedBy(AppDatabaseConstructor::class)
 @Database(
     entities = [
