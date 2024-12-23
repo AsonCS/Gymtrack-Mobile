@@ -20,10 +20,10 @@ koin = "4.0.0-RC2"
 kotlin = "2.0.21"
 kotlinx-coroutines = "1.9.0"
 ktor = "3.0.0"
+room = "2.7.0-alpha12"
+sqlite = "2.5.0-alpha12"
 
-test-android-junit = "1.2.1"
 test-junit = "4.13.2"
-test-robolectric = "4.13"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -35,7 +35,7 @@ coil3-jvm = { module = "io.coil-kt.coil3:coil-network-okhttp-jvm", version.ref =
 coil3-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil3" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-bom = "com.google.firebase:firebase-bom:33.6.0"
+firebase-bom = "com.google.firebase:firebase-bom:33.7.0"
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-ui = { group = "com.firebaseui", name = "firebase-ui-auth", version.ref = "firebase-ui" }
 google-id = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "google-id" }
@@ -50,11 +50,12 @@ ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = 
 ktor-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-serialization-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-plugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+sqlite = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
 
-test-android-junit = { group = "androidx.test.ext", name = "junit", version.ref = "test-android-junit" }
 test-junit = { group = "junit", name = "junit", version.ref = "test-junit" }
-test-robolectric-annotations = { group = "org.robolectric", name = "annotations", version.ref = "test-robolectric" }
-test-robolectric-robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "test-robolectric" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -66,3 +67,4 @@ firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "f
 googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version = "2.1.0-1.0.29" }

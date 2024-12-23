@@ -1,10 +1,7 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
-import org.jetbrains.kotlin.incremental.deleteDirectoryContents
 import java.net.InetAddress
 import java.util.Properties
 
@@ -17,6 +14,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
+    id("com.google.devtools.ksp")
 }
 
 val keystoreProperties = Properties().apply {
@@ -35,6 +33,10 @@ val lApplicationVersionCode = libs.versions.applicationVersion
     .get()
     .replace(".", "")
     .toInt()
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
 
 kotlin {
     androidTarget {
@@ -56,26 +58,6 @@ kotlin {
     }
 
     jvm("desktop")
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-        binaries.executable()
-    }
 
     sourceSets {
         androidMain.dependencies {
@@ -114,6 +96,9 @@ kotlin {
             implementation(libs.ktor.logging)
             implementation(libs.ktor.negotiation)
             implementation(libs.ktor.serialization.json)
+            implementation(libs.room.plugin)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite)
         }
 
         val desktopMain by getting
@@ -199,6 +184,7 @@ android {
 }
 
 dependencies {
+    add("kspCommonMainMetadata", libs.room.compiler)
     debugImplementation(compose.uiTooling)
 }
 
@@ -263,24 +249,5 @@ val buildConfigGenerator by tasks.registering(Sync::class) {
                 )
             }/generated/"
         )
-    )
-}
-
-val moveBuiltFiles by tasks.registering(Sync::class) {
-    val destination = layout.projectDirectory.dir(
-        "../dist/"
-    )
-    try {
-        destination.asFile.deleteDirectoryContents()
-    } catch (_: Throwable) {
-        // Do nothing
-    }
-    from(
-        layout.projectDirectory.dir(
-            "build/dist/wasmJs/productionExecutable/"
-        )
-    )
-    into(
-        destination
     )
 }

@@ -77,6 +77,7 @@ internal fun dataModule() = module {
     }
     single<WorkoutRepository> {
         WorkoutRepository.Impl(
+            local = get(),
             remote = get()
         )
     }
