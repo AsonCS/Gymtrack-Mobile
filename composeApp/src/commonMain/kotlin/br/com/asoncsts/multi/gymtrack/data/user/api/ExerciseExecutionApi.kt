@@ -4,7 +4,9 @@ import br.com.asoncsts.multi.gymtrack.data._utils.Response
 import br.com.asoncsts.multi.gymtrack.data.user.remote.model.ExerciseExecutionSource
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.get
+import io.ktor.client.request.*
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 
 interface ExerciseExecutionApi {
 
@@ -13,30 +15,42 @@ interface ExerciseExecutionApi {
         private val host: String
     ) : ExerciseExecutionApi {
 
-        override fun exerciseExecution(
+        override suspend fun exerciseExecution(
             id: String
-        ) = "$host/user/exercise-executions/$id"
+        ) = client
+            .get("$host/user/exercise-executions/$id")
+            .body<Response<ExerciseExecutionSource>>()
 
-        override fun exerciseExecutionsGet(
+        override suspend fun exerciseExecutionsGet(
             ids: List<String>
-        ) = "$host/user/exercise-executions?ids=${ids.joinToString(",")}"
+        ) = client
+            .get("$host/user/exercise-executions?ids=${ids.joinToString(",")}")
+            .body<Response<List<ExerciseExecutionSource>>>()
 
-        override fun exerciseExecutionsPost() = "$host/user/exercise-executions"
+        override suspend fun exerciseExecutionsPost(
+            ids: List<String>
+        ) = client
+            .post("$host/user/exercise-executions") {
+                contentType(ContentType.Application.Json)
+                setBody(ids)
+            }.body<Response<List<ExerciseExecutionSource>>>()
 
         override suspend fun getExerciseExecutions() = client
             .get("$host/user/exercise-executions")
             .body<Response<List<ExerciseExecutionSource>>>()
     }
 
-    fun exerciseExecution(
+    suspend fun exerciseExecution(
         id: String
-    ): String
+    ): Response<ExerciseExecutionSource>
 
-    fun exerciseExecutionsGet(
+    suspend fun exerciseExecutionsGet(
         ids: List<String>
-    ): String
+    ): Response<List<ExerciseExecutionSource>>
 
-    fun exerciseExecutionsPost(): String
+    suspend fun exerciseExecutionsPost(
+        ids: List<String>
+    ): Response<List<ExerciseExecutionSource>>
 
     suspend fun getExerciseExecutions(): Response<List<ExerciseExecutionSource>>
 

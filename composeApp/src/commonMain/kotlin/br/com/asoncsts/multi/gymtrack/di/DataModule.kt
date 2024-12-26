@@ -77,7 +77,10 @@ internal fun dataModule() = module {
 
     // Api
     single<ExerciseApi> {
-        ExerciseApi.Impl(BuildConfig.HOST)
+        ExerciseApi.Impl(
+            client = get(),
+            host = BuildConfig.HOST
+        )
     }
     single<ExerciseExecutionApi> {
         ExerciseExecutionApi.Impl(
@@ -103,14 +106,12 @@ internal fun dataModule() = module {
     // Remote
     single<ExerciseRemote> {
         ExerciseRemote.Impl(
-            api = get(),
-            client = get()
+            api = get()
         )
     }
     single<ExerciseExecutionRemote> {
         ExerciseExecutionRemote.Impl(
-            api = get(),
-            client = get()
+            api = get()
         )
     }
     single<WorkoutRemote> {

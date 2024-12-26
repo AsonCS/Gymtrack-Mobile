@@ -16,7 +16,7 @@ data object NewWorkoutDestination : AppNavDestination<Args>(
         builder: NavGraphBuilder
     ) {
         builder.composable(route) {
-            NewWorkoutScreen(args)
+            NewWorkoutScreen()
         }
     }
 }

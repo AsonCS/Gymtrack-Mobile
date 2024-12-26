@@ -45,7 +45,8 @@ internal fun Workout(
 
     ElevatedCard(
         props.navigateToWorkout,
-        modifier,
+        modifier
+            .fillMaxWidth(),
         shape = shapes().extraSmall
     ) {
         Column(

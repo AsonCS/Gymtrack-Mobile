@@ -1,44 +1,59 @@
 package br.com.asoncsts.multi.gymtrack.data.exercise.remote
 
-import br.com.asoncsts.multi.gymtrack.data._utils.Response
+import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
+import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
 import br.com.asoncsts.multi.gymtrack.data.exercise.api.ExerciseApi
-import br.com.asoncsts.multi.gymtrack.data.exercise.remote.model.ExerciseSource
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
-import io.ktor.http.takeFrom
+import br.com.asoncsts.multi.gymtrack.extension.DeviceLanguage
+import br.com.asoncsts.multi.gymtrack.extension.deviceLanguage
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 
 interface ExerciseRemote {
 
     class Impl(
         private val api: ExerciseApi,
-        private val client: HttpClient
+        private val lang: () -> DeviceLanguage = ::deviceLanguage
     ) : ExerciseRemote {
 
+        @Suppress("UNREACHABLE_CODE")
         override suspend fun getExercise(
             idOrAlias: String
-        ): Response<ExerciseSource> {
-            return client.get {
-                url {
-                    takeFrom(api.exercise(idOrAlias))
-                }
-            }.body()
+        ): Exercise.Detail {
+            TODO("Not yet implemented")
+            val result = api.exercise(idOrAlias)
+
+            return when {
+                result.data == null -> throw UnknownException(
+                    result.error
+                )
+
+                else -> result.data
+                    .toExerciseDetail(lang())
+            }
         }
 
-        override suspend fun getExercises(): Response<List<ExerciseSource>> {
-            return client.get {
-                url {
-                    takeFrom(api.exercises())
-                }
-            }.body()
+        @Suppress("UNREACHABLE_CODE")
+        override suspend fun getExercises(): List<Exercise> {
+            TODO("Not yet implemented")
+            val result = api.exercises()
+
+            return when {
+                result.data == null -> throw UnknownException(
+                    result.error
+                )
+
+                result.data.isEmpty() -> throw EmptyException()
+
+                else -> result.data
+                    .map { it.toExercise(lang()) }
+            }
         }
 
     }
 
     suspend fun getExercise(
         idOrAlias: String
-    ): Response<ExerciseSource>
+    ): Exercise.Detail
 
-    suspend fun getExercises(): Response<List<ExerciseSource>>
+    suspend fun getExercises(): List<Exercise>
 
 }

@@ -9,6 +9,8 @@ sealed class NewWorkoutState {
         val exerciseExecutions: List<ExerciseExecution.SimpleView>
     ) : NewWorkoutState()
 
+    data object SuccessNewWorkout : NewWorkoutState()
+
     data class Error(
         val throwable: Throwable
     ) : NewWorkoutState()

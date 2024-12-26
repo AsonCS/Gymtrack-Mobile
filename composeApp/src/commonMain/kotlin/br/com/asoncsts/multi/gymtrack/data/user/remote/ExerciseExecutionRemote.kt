@@ -2,47 +2,76 @@ package br.com.asoncsts.multi.gymtrack.data.user.remote
 
 import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
 import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
-import br.com.asoncsts.multi.gymtrack.data._utils.Response
 import br.com.asoncsts.multi.gymtrack.data.user.api.ExerciseExecutionApi
-import br.com.asoncsts.multi.gymtrack.data.user.remote.model.ExerciseExecutionSource
+import br.com.asoncsts.multi.gymtrack.extension.DeviceLanguage
+import br.com.asoncsts.multi.gymtrack.extension.deviceLanguage
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.*
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 
 interface ExerciseExecutionRemote {
 
     class Impl(
         private val api: ExerciseExecutionApi,
-        private val client: HttpClient
+        private val lang: () -> DeviceLanguage = ::deviceLanguage
     ) : ExerciseExecutionRemote {
 
+        @Suppress("UNREACHABLE_CODE")
         override suspend fun getExerciseExecution(
             id: String
-        ): Response<ExerciseExecutionSource> {
-            return client.get(api.exerciseExecution(id))
-                .body()
+        ): ExerciseExecution.Detail {
+            TODO("Not yet implemented")
+            val result = api.exerciseExecution(id)
+
+            return when {
+                result.data == null -> throw UnknownException(
+                    result.error
+                )
+
+                else -> result.data
+                    .toExerciseExecutionDetail(lang())
+            }
         }
 
+        @Suppress("UNREACHABLE_CODE")
         override suspend fun getExerciseExecutionsGet(
             ids: List<String>
-        ): Response<List<ExerciseExecutionSource>> {
-            return client.get(api.exerciseExecutionsGet(ids))
-                .body()
+        ): List<ExerciseExecution> {
+            TODO("Not yet implemented")
+            val result = api.exerciseExecutionsGet(ids)
+
+            return when {
+                result.data == null -> throw UnknownException(
+                    result.error
+                )
+
+                result.data.isEmpty() -> throw EmptyException()
+
+                else -> result.data
+                    .map { it.toExerciseExecution(lang()) }
+            }
         }
 
+        @Suppress("UNREACHABLE_CODE")
         override suspend fun getExerciseExecutionsPost(
             ids: List<String>
-        ): Response<List<ExerciseExecutionSource>> {
-            return client.post(api.exerciseExecutionsPost()) {
-                contentType(ContentType.Application.Json)
-                setBody(ids)
-            }.body()
+        ): List<ExerciseExecution> {
+            TODO("Not yet implemented")
+            val result = api.exerciseExecutionsGet(ids)
+
+            return when {
+                result.data == null -> throw UnknownException(
+                    result.error
+                )
+
+                result.data.isEmpty() -> throw EmptyException()
+
+                else -> result.data
+                    .map { it.toExerciseExecution(lang()) }
+            }
         }
 
+        @Suppress("UNREACHABLE_CODE")
         override suspend fun getExerciseExecutions(): List<ExerciseExecution.SimpleView> {
+            TODO("Not yet implemented")
             val result = api.getExerciseExecutions()
 
             return when {
@@ -60,15 +89,15 @@ interface ExerciseExecutionRemote {
 
     suspend fun getExerciseExecution(
         id: String
-    ): Response<ExerciseExecutionSource>
+    ): ExerciseExecution.Detail
 
     suspend fun getExerciseExecutionsGet(
         ids: List<String>
-    ): Response<List<ExerciseExecutionSource>>
+    ): List<ExerciseExecution>
 
     suspend fun getExerciseExecutionsPost(
         ids: List<String>
-    ): Response<List<ExerciseExecutionSource>>
+    ): List<ExerciseExecution>
 
     suspend fun getExerciseExecutions(): List<ExerciseExecution.SimpleView>
 

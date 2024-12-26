@@ -19,6 +19,7 @@ internal data class NewWorkoutScreenProps(
     val labelDescription: String,
     val labelName: String,
     val labelNewWorkout: String,
+    val onSave: () -> Unit,
     val placeholderDescription: String,
     val placeholderName: String
 )
@@ -28,12 +29,14 @@ internal fun newWorkoutScreenProps(
     labelDescription: String,
     labelName: String,
     labelNewWorkout: String,
+    onSave: () -> Unit,
     placeholderDescription: String,
     placeholderName: String
 ) = NewWorkoutScreenProps(
     labelDescription,
     labelName,
     labelNewWorkout,
+    onSave,
     placeholderDescription,
     placeholderName
 )
@@ -83,7 +86,10 @@ internal fun NewWorkoutScreen(
             placeholder = props.placeholderDescription,
             value = stateFields.description,
             Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            onDone = {
+                props.onSave()
+            }
         )
 
         if (state is NewWorkoutState.Success) {

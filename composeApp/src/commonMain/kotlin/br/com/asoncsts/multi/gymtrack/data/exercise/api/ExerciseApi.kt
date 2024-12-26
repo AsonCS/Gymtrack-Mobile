@@ -1,23 +1,34 @@
 package br.com.asoncsts.multi.gymtrack.data.exercise.api
 
+import br.com.asoncsts.multi.gymtrack.data._utils.Response
+import br.com.asoncsts.multi.gymtrack.data.exercise.remote.model.ExerciseSource
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+
 interface ExerciseApi {
 
     class Impl(
+        private val client: HttpClient,
         private val host: String
     ) : ExerciseApi {
 
-        override fun exercise(
+        override suspend fun exercise(
             idOrAlias: String
-        ) = "$host/exercises/$idOrAlias"
+        ) = client
+            .get("$host/exercises/$idOrAlias")
+            .body<Response<ExerciseSource>>()
 
-        override fun exercises() = "$host/exercises"
+        override suspend fun exercises() = client
+            .get("$host/exercises")
+            .body<Response<List<ExerciseSource>>>()
 
     }
 
-    fun exercise(
+    suspend fun exercise(
         idOrAlias: String
-    ): String
+    ): Response<ExerciseSource>
 
-    fun exercises(): String
+    suspend fun exercises(): Response<List<ExerciseSource>>
 
 }

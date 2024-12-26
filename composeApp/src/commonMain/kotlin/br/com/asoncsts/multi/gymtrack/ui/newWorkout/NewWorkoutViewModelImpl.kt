@@ -2,11 +2,14 @@ package br.com.asoncsts.multi.gymtrack.ui.newWorkout
 
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
+import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
+import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutState.*
 import kotlinx.coroutines.flow.*
 
 class NewWorkoutViewModelImpl(
-    private val repo: ExerciseExecutionRepository
+    private val exerciseExecutionRepo: ExerciseExecutionRepository,
+    private val workoutRepo: WorkoutRepository
 ) : NewWorkoutViewModel() {
 
     private val _state = MutableStateFlow<NewWorkoutState>(Loading)
@@ -24,7 +27,8 @@ class NewWorkoutViewModelImpl(
     override val stateFields = _stateFields.asStateFlow()
 
     override suspend fun getExerciseExecutions() {
-        when (val result = repo.getExerciseExecutions()) {
+        val result = exerciseExecutionRepo.getExerciseExecutions()
+        when (result) {
             is Wrapper.Error -> {
                 _state.update {
                     Error(
@@ -42,4 +46,48 @@ class NewWorkoutViewModelImpl(
             }
         }
     }
+
+    override suspend fun save() {
+        val description = stateFields
+            .value
+            .description
+            .also {
+                if (it.isBlank()) {
+                    return
+                }
+            }
+        val name = stateFields
+            .value
+            .name
+            .also {
+                if (it.isBlank()) {
+                    return
+                }
+            }
+
+        val result = workoutRepo.putWorkout(
+            Workout(
+                description = description,
+                exerciseExecutionIds = listOf(),
+                name = name
+            )
+        )
+
+        when (result) {
+            is Wrapper.Error -> {
+                _state.update {
+                    Error(
+                        result.error
+                    )
+                }
+            }
+
+            is Wrapper.Success -> {
+                _state.update {
+                    SuccessNewWorkout
+                }
+            }
+        }
+    }
+
 }

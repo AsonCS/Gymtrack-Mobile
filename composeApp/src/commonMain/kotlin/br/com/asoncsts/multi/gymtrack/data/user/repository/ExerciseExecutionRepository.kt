@@ -1,51 +1,25 @@
 package br.com.asoncsts.multi.gymtrack.data.user.repository
 
-import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
-import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
-import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.remote.ExerciseExecutionRemote
-import br.com.asoncsts.multi.gymtrack.extension.*
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 
 interface ExerciseExecutionRepository {
 
     class Impl(
-        private val remote: ExerciseExecutionRemote,
-        private val lang: () -> DeviceLanguage = ::deviceLanguage
+        private val remote: ExerciseExecutionRemote
     ) : ExerciseExecutionRepository {
 
         override suspend fun getExerciseExecution(
             id: String
         ): Wrapper<ExerciseExecution.Detail> {
             return try {
-                val result = remote.getExerciseExecution(id)
-                when {
-                    result.data != null -> {
-                        return Wrapper.Success(
-                            result.data.toExerciseExecutionDetail(
-                                lang()
-                            )
-                        )
-                    }
-
-                    result.error != null -> {
-                        return Wrapper.Error(
-                            Throwable(result.error)
-                        )
-                    }
-
-                    else -> {
-                        Wrapper.Error(
-                            UnknownException()
-                        )
-                    }
-                }
-            } catch (t: Throwable) {
-                TAG_DATA.error("UserExerciseRepository", t)
-                Wrapper.Error(
-                    UnknownException(t)
+                Wrapper.Success(
+                    remote.getExerciseExecution(id)
                 )
+            } catch (t: Throwable) {
+                //TAG_DATA.error("UserExerciseRepository", t)
+                Wrapper.Error(t)
             }
         }
 
@@ -55,7 +29,7 @@ interface ExerciseExecutionRepository {
                     remote.getExerciseExecutions()
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("UserExerciseRepository.getExerciseExecutions", t)
+                //TAG_DATA.error("UserExerciseRepository.getExerciseExecutions", t)
                 Wrapper.Error(t)
             }
         }
@@ -64,41 +38,12 @@ interface ExerciseExecutionRepository {
             ids: List<String>
         ): Wrapper<List<ExerciseExecution>> {
             return try {
-                val result = remote.getExerciseExecutionsPost(ids)
-                when {
-                    !result.data.isNullOrEmpty() -> {
-                        Wrapper.Success(
-                            result.data.map {
-                                it.toExerciseExecution(
-                                    lang()
-                                )
-                            }
-                        )
-                    }
-
-                    result.data != null -> {
-                        Wrapper.Error(
-                            EmptyException()
-                        )
-                    }
-
-                    result.error != null -> {
-                        Wrapper.Error(
-                            Throwable(result.error)
-                        )
-                    }
-
-                    else -> {
-                        Wrapper.Error(
-                            UnknownException()
-                        )
-                    }
-                }
-            } catch (t: Throwable) {
-                TAG_DATA.error("UserExerciseRepository", t)
-                Wrapper.Error(
-                    UnknownException(t)
+                Wrapper.Success(
+                    remote.getExerciseExecutionsPost(ids)
                 )
+            } catch (t: Throwable) {
+                //TAG_DATA.error("UserExerciseRepository", t)
+                Wrapper.Error(t)
             }
         }
 

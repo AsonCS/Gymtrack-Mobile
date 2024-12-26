@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeLibrary::class)
+
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -112,10 +114,8 @@ kotlin {
         }
 
         val desktopTest by getting
-        desktopMain.dependencies {
-            @OptIn(ExperimentalComposeLibrary::class)
+        desktopTest.dependencies {
             implementation(compose.uiTest)
-            @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.desktop.uiTestJUnit4)
 
             implementation(libs.test.junit)
@@ -185,7 +185,9 @@ android {
 }
 
 dependencies {
-    ksp(libs.room.compiler)
+    add("kspCommonMainMetadata", libs.room.compiler)
+    add("kspAndroid", libs.room.compiler)
+    add("kspDesktop", libs.room.compiler)
     debugImplementation(compose.uiTooling)
 }
 

@@ -44,14 +44,20 @@ interface WorkoutRepository {
         override suspend fun putWorkout(
             workout: Workout
         ): Wrapper<Workout> {
-            return try {
-                Wrapper.Success(
-                    remote.putWorkout(
-                        workout
-                    )
+            val result = try {
+                remote.putWorkout(
+                    workout
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("WorkoutRepository.putWorkout", t)
+                //TAG_DATA.error("WorkoutRepository.remote.putWorkout", t)
+                return Wrapper.Error(t)
+            }
+            return try {
+                Wrapper.Success(
+                    local.putWorkout(result)
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error("WorkoutRepository.local.putWorkout", t)
                 Wrapper.Error(t)
             }
         }
