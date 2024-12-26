@@ -84,7 +84,9 @@ class NewWorkoutViewModelImpl(
 
             is Wrapper.Success -> {
                 _state.update {
-                    SuccessNewWorkout
+                    SuccessNewWorkout(
+                        result.data
+                    )
                 }
             }
         }

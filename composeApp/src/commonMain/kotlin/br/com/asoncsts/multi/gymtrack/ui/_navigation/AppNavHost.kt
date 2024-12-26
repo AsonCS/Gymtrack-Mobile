@@ -71,10 +71,6 @@ fun AppNavHost(
             ),
             this
         )
-        NewWorkoutDestination(
-            NewWorkoutDestination.Args(),
-            this
-        )
         SearchDestination(
             SearchDestination.Args(
                 navigateToExerciseDetail = navController::navigateToExerciseDetail,
@@ -101,7 +97,6 @@ fun NavHostController.appNavDestinationState(): State<AppNavDestination<*>> {
                 HomeDestination.route -> HomeDestination
                 HomeNavDestination.route -> HomeNavDestination
                 LoginDestination.route -> LoginDestination
-                NewWorkoutDestination.route -> NewWorkoutDestination
                 SearchDestination.route -> SearchDestination
                 SignupDestination.route -> SignupDestination
                 else -> throw IllegalStateException(
@@ -130,7 +125,9 @@ fun NavHostController.navigateToLogin() {
 }
 
 fun NavHostController.navigateToNewWorkout() {
-    navigate(NewWorkoutDestination.route)
+    navigate(
+        HomeNavDestination.routeToNewWorkout()
+    )
 }
 
 fun NavHostController.navigateToSearch() {

@@ -15,6 +15,9 @@ fun WorkoutScreen(
     args: Args,
     modifier: Modifier = Modifier
 ) {
+    val workout = args.workout()
+        ?: throw IllegalStateException("Workout is required")
+
     val state by args.viewModel
         .state
         .collectAsState()
@@ -22,7 +25,8 @@ fun WorkoutScreen(
     WorkoutScreen(
         workoutScreenProps(
             args.navigateToExerciseExecution,
-            args.workout
+            args.navigateToNewExerciseExecution,
+            workout
         ),
         state,
         modifier
@@ -30,7 +34,7 @@ fun WorkoutScreen(
 
     LaunchedEffect(Unit) {
         args.viewModel.launch {
-            getWorkout(args.workout)
+            getWorkout(workout)
         }
     }
 }

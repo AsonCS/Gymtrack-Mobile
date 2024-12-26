@@ -16,6 +16,7 @@ fun TextField(
     placeholder: String,
     value: String,
     modifier: Modifier = Modifier,
+    capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     onDone: (KeyboardActionScope.() -> Unit)? = null,
     singleLine: Boolean = true
 ) {
@@ -44,7 +45,7 @@ fun TextField(
             onDone = onDone
         ),
         keyboardOptions = KeyboardOptions(
-            capitalization = KeyboardCapitalization.None,
+            capitalization = capitalization,
             keyboardType = keyboardType,
             imeAction = when {
                 onDone != null -> ImeAction.Done

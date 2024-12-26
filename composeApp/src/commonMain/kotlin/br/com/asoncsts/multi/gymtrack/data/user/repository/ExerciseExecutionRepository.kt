@@ -30,7 +30,8 @@ interface ExerciseExecutionRepository {
                 )
             } catch (t: Throwable) {
                 //TAG_DATA.error("UserExerciseRepository.getExerciseExecutions", t)
-                Wrapper.Error(t)
+                //Wrapper.Error(t)
+                Wrapper.Success(listOf())
             }
         }
 

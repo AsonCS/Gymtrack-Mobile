@@ -29,6 +29,7 @@ private fun Preview(
                 labelNewWorkout = stringResource(
                     R.string.new_workout_label_new_workout
                 ),
+                navigateToWorkout = {},
                 onSave = {},
                 placeholderDescription = stringResource(
                     R.string.new_workout_placeholder_description

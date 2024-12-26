@@ -3,8 +3,7 @@ package br.com.asoncsts.multi.gymtrack.ui._navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavDestination.Args
-import br.com.asoncsts.multi.gymtrack.ui._navigation.home.HomeNavHost
-import br.com.asoncsts.multi.gymtrack.ui._navigation.home.WorkoutDestination
+import br.com.asoncsts.multi.gymtrack.ui._navigation.home.*
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeViewModel
 
 data object HomeNavDestination : AppNavDestination<Args>(
@@ -26,6 +25,8 @@ data object HomeNavDestination : AppNavDestination<Args>(
             HomeNavHost(args, destination)
         }
     }
+
+    fun routeToNewWorkout() = "home/${NewWorkoutDestination.route}"
 
     fun routeToWorkout() = "home/${WorkoutDestination.route}"
 }

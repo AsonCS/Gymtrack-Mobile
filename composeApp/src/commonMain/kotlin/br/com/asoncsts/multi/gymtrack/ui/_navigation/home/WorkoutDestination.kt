@@ -14,8 +14,9 @@ data object WorkoutDestination : HomeNavDestination<Args>(
         val navigateToExerciseExecution: (
             id: String
         ) -> Unit,
+        val navigateToNewExerciseExecution: () -> Unit,
         val viewModel: WorkoutViewModel,
-        val workout: Workout
+        val workout: () -> Workout?
     )
 
     override fun invoke(

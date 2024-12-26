@@ -1,5 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.ui.home.workout.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,11 +17,16 @@ import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState.*
+import gymtrack.composeapp.generated.resources.Res
+import gymtrack.composeapp.generated.resources.home_label_new
+import org.jetbrains.compose.resources.stringResource
 
 internal data class WorkoutScreenProps(
+    val labelNew: String,
     val navigateToExerciseExecution: (
         id: String
     ) -> Unit,
+    val navigateToNewExerciseExecution: () -> Unit,
     val workout: Workout
 )
 
@@ -29,9 +35,13 @@ internal fun workoutScreenProps(
     navigateToExerciseExecution: (
         id: String
     ) -> Unit,
-    workout: Workout
+    navigateToNewExerciseExecution: () -> Unit,
+    workout: Workout,
+    labelNew: String = stringResource(Res.string.home_label_new)
 ) = WorkoutScreenProps(
+    labelNew,
     navigateToExerciseExecution,
+    navigateToNewExerciseExecution,
     workout
 )
 
@@ -49,15 +59,30 @@ internal fun WorkoutScreen(
         verticalArrangement = Arrangement
             .spacedBy(16.dp)
     ) {
-        Text(
-            props.workout.name,
+        Row(
             Modifier
                 .fillMaxWidth(),
-            color = colors().onBackground,
-            fontWeight = FontWeight.Bold,
-            style = typography().headlineLarge,
-            textAlign = TextAlign.Start
-        )
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                props.workout.name,
+                Modifier
+                    .weight(1f),
+                color = colors().onBackground,
+                fontWeight = FontWeight.Bold,
+                style = typography().headlineLarge,
+                textAlign = TextAlign.Start
+            )
+            Text(
+                props.labelNew,
+                Modifier
+                    .clickable {
+                        props.navigateToNewExerciseExecution()
+                    },
+                color = colors().secondary,
+                style = typography().headlineSmall
+            )
+        }
 
         when (state) {
             is Error -> {

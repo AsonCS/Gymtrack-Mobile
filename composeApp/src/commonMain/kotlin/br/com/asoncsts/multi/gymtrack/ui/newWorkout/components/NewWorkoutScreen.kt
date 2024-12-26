@@ -6,9 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.model.workout.Workout
+import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._components.TextField
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
@@ -19,6 +22,9 @@ internal data class NewWorkoutScreenProps(
     val labelDescription: String,
     val labelName: String,
     val labelNewWorkout: String,
+    val navigateToWorkout: (
+        workout: Workout
+    ) -> Unit,
     val onSave: () -> Unit,
     val placeholderDescription: String,
     val placeholderName: String
@@ -29,6 +35,9 @@ internal fun newWorkoutScreenProps(
     labelDescription: String,
     labelName: String,
     labelNewWorkout: String,
+    navigateToWorkout: (
+        workout: Workout
+    ) -> Unit,
     onSave: () -> Unit,
     placeholderDescription: String,
     placeholderName: String
@@ -36,6 +45,7 @@ internal fun newWorkoutScreenProps(
     labelDescription,
     labelName,
     labelNewWorkout,
+    navigateToWorkout,
     onSave,
     placeholderDescription,
     placeholderName
@@ -70,37 +80,66 @@ internal fun NewWorkoutScreen(
         )
 
         TextField(
-            keyboardType = KeyboardType.Text,
-            label = props.labelName,
-            onValueChange = stateFields::updateName,
-            placeholder = props.placeholderName,
-            value = stateFields.name,
+            KeyboardType.Text,
+            props.labelName,
+            stateFields::updateName,
+            props.placeholderName,
+            stateFields.name,
             Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            capitalization = KeyboardCapitalization.Words
         )
 
         TextField(
-            keyboardType = KeyboardType.Text,
-            label = props.labelDescription,
-            onValueChange = stateFields::updateDescription,
-            placeholder = props.placeholderDescription,
-            value = stateFields.description,
+            KeyboardType.Text,
+            props.labelDescription,
+            stateFields::updateDescription,
+            props.placeholderDescription,
+            stateFields.description,
             Modifier
                 .fillMaxWidth(),
+            capitalization = KeyboardCapitalization.Sentences,
             onDone = {
                 props.onSave()
             }
         )
 
-        if (state is NewWorkoutState.Success) {
-            state.exerciseExecutions.forEach {
+        when (state) {
+            is NewWorkoutState.Error -> {
                 Text(
-                    "name: ${it.name} - id: ${it.id}",
+                    state.throwable.message
+                        ?: "Error",
                     Modifier
-                        .fillMaxWidth(),
-                    color = colors().onBackground,
-                    style = typography().titleMedium
+                        .weight(1f),
+                    color = colors().error,
+                    style = typography().titleSmall
                 )
+            }
+
+            NewWorkoutState.Loading -> {
+                Box(
+                    Modifier
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Loading()
+                }
+            }
+
+            is NewWorkoutState.Success -> {
+                state.exerciseExecutions.forEach {
+                    Text(
+                        "name: ${it.name} - id: ${it.id}",
+                        Modifier
+                            .fillMaxWidth(),
+                        color = colors().onBackground,
+                        style = typography().titleMedium
+                    )
+                }
+            }
+
+            is NewWorkoutState.SuccessNewWorkout -> {
+                props.navigateToWorkout(state.workout)
             }
         }
     }

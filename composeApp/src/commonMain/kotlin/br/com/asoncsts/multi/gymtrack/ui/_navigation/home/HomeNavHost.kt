@@ -40,13 +40,25 @@ fun HomeNavHost(
             ),
             this
         )
+        NewWorkoutDestination(
+            NewWorkoutDestination.Args(
+                navigateToWorkout = {
+                    args.homeViewModel
+                        .navigationArgumentWorkout = it
+                    navController.navigateToWorkout()
+                }
+            ),
+            this
+        )
         WorkoutDestination(
             WorkoutDestination.Args(
                 navController::navigateToExerciseExecution,
+                navController::navigateToNewExerciseExecution,
                 workoutViewModel,
-                args.homeViewModel
-                    .navigationArgumentWorkout
-                    ?: throw IllegalStateException("Workout is required")
+                workout = {
+                    args.homeViewModel
+                        .navigationArgumentWorkout
+                }
             ),
             this
         )
@@ -57,4 +69,16 @@ fun NavHostController.navigateToExerciseExecution(
     id: String
 ) {
     navigate(ExerciseExecutionDestination.route(id))
+}
+
+fun NavHostController.navigateToNewExerciseExecution() {
+    //navigate(NewExerciseExecutionDestination.route(id))
+}
+
+fun NavHostController.navigateToWorkout() {
+    navigate(WorkoutDestination.route) {
+        popUpTo(NewWorkoutDestination.route) {
+            inclusive = true
+        }
+    }
 }

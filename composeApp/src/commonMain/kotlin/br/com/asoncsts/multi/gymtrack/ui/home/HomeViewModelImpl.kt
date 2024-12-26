@@ -15,7 +15,8 @@ class HomeViewModelImpl(
     override suspend fun getWorkouts() {
         if (_state.value is Success) return
 
-        when (val result = repo.getWorkouts()) {
+        val result = repo.getWorkouts()
+        when (result) {
             is Wrapper.Error -> {
                 _state.update {
                     Error(
@@ -25,10 +26,12 @@ class HomeViewModelImpl(
             }
 
             is Wrapper.Success -> {
-                _state.update {
-                    Success(
-                        result.data
-                    )
+                result.data.collect { workouts ->
+                    _state.update {
+                        Success(
+                            workouts
+                        )
+                    }
                 }
             }
         }

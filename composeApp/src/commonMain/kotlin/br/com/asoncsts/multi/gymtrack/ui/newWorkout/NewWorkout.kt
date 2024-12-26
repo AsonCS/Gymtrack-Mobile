@@ -4,6 +4,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.extension.launch
+import br.com.asoncsts.multi.gymtrack.ui._navigation.home.NewWorkoutDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.newWorkout.components.NewWorkoutScreen
 import br.com.asoncsts.multi.gymtrack.ui.newWorkout.components.newWorkoutScreenProps
 import gymtrack.composeapp.generated.resources.*
@@ -13,6 +14,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun NewWorkoutScreen(
+    args: Args,
     modifier: Modifier = Modifier,
     viewModel: NewWorkoutViewModel = koinViewModel()
 ) {
@@ -31,6 +33,7 @@ fun NewWorkoutScreen(
             labelName = stringResource(
                 Res.string.new_workout_label_name
             ),
+            navigateToWorkout = args.navigateToWorkout,
             onSave = {
                 viewModel.launch {
                     save()
