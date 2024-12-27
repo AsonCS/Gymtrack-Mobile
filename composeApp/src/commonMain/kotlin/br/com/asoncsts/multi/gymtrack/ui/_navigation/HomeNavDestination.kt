@@ -11,7 +11,8 @@ data object HomeNavDestination : AppNavDestination<Args>(
     "home/{destination}"
 ) {
     class Args(
-        val homeViewModel: HomeViewModel
+        val homeViewModel: HomeViewModel,
+        val navigateUp: () -> Unit
     )
 
     override fun invoke(

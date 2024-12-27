@@ -12,7 +12,8 @@ data object NewWorkoutDestination : HomeNavDestination<Args>(
     class Args(
         val navigateToWorkout: (
             workout: Workout
-        ) -> Unit
+        ) -> Unit,
+        val navigateUp: () -> Unit
     )
 
     override operator fun invoke(

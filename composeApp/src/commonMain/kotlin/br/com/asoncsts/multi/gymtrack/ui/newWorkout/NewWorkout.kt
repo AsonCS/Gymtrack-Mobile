@@ -4,6 +4,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.extension.launch
+import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.NewWorkoutDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.newWorkout.components.NewWorkoutScreen
 import br.com.asoncsts.multi.gymtrack.ui.newWorkout.components.newWorkoutScreenProps
@@ -25,34 +26,39 @@ fun NewWorkoutScreen(
         .stateFields
         .collectAsState()
 
-    NewWorkoutScreen(
-        newWorkoutScreenProps(
-            labelDescription = stringResource(
-                Res.string.new_workout_label_description
-            ),
-            labelName = stringResource(
-                Res.string.new_workout_label_name
-            ),
-            navigateToWorkout = args.navigateToWorkout,
-            onSave = {
-                viewModel.launch {
-                    save()
-                }
-            },
-            labelNewWorkout = stringResource(
-                Res.string.new_workout_label_new_workout
-            ),
-            placeholderDescription = stringResource(
-                Res.string.new_workout_placeholder_description
-            ),
-            placeholderName = stringResource(
-                Res.string.new_workout_placeholder_name
-            )
-        ),
-        state,
-        stateFields,
+    BackHandlerContainer(
+        args.navigateUp,
         modifier
-    )
+    ) {
+        NewWorkoutScreen(
+            newWorkoutScreenProps(
+                labelDescription = stringResource(
+                    Res.string.new_workout_label_description
+                ),
+                labelName = stringResource(
+                    Res.string.new_workout_label_name
+                ),
+                navigateToWorkout = args.navigateToWorkout,
+                onSave = {
+                    viewModel.launch {
+                        save()
+                    }
+                },
+                labelNewWorkout = stringResource(
+                    Res.string.new_workout_label_new_workout
+                ),
+                placeholderDescription = stringResource(
+                    Res.string.new_workout_placeholder_description
+                ),
+                placeholderName = stringResource(
+                    Res.string.new_workout_placeholder_name
+                )
+            ),
+            state,
+            stateFields,
+            modifier
+        )
+    }
 
     LaunchedEffect(Unit) {
         viewModel.launch {

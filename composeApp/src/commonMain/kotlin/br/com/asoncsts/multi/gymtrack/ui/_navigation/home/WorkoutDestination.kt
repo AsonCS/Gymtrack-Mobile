@@ -15,6 +15,7 @@ data object WorkoutDestination : HomeNavDestination<Args>(
             id: String
         ) -> Unit,
         val navigateToNewExerciseExecution: () -> Unit,
+        val navigateUp: () -> Unit,
         val viewModel: WorkoutViewModel,
         val workout: () -> Workout?
     )

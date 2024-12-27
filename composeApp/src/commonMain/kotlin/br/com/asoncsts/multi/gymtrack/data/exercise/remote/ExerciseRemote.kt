@@ -14,11 +14,9 @@ interface ExerciseRemote {
         private val lang: () -> DeviceLanguage = ::deviceLanguage
     ) : ExerciseRemote {
 
-        @Suppress("UNREACHABLE_CODE")
         override suspend fun getExercise(
             idOrAlias: String
         ): Exercise.Detail {
-            TODO("Not yet implemented")
             val result = api.exercise(idOrAlias)
 
             return when {
@@ -31,9 +29,7 @@ interface ExerciseRemote {
             }
         }
 
-        @Suppress("UNREACHABLE_CODE")
         override suspend fun getExercises(): List<Exercise> {
-            TODO("Not yet implemented")
             val result = api.exercises()
 
             return when {

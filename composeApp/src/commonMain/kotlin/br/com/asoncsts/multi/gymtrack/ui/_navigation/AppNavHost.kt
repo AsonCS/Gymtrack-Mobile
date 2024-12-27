@@ -57,7 +57,8 @@ fun AppNavHost(
         )
         HomeNavDestination(
             HomeNavDestination.Args(
-                homeViewModel
+                homeViewModel,
+                navigateUp = navController::navigateUp
             ),
             this
         )

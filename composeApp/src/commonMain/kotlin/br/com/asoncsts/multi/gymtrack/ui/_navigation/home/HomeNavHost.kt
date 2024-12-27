@@ -36,6 +36,7 @@ fun HomeNavHost(
     ) {
         ExerciseExecutionDestination(
             ExerciseExecutionDestination.Args(
+                navigateUp = navController::navigateUp,
                 exerciseExecutionViewModel
             ),
             this
@@ -46,7 +47,8 @@ fun HomeNavHost(
                     args.homeViewModel
                         .navigationArgumentWorkout = it
                     navController.navigateToWorkout()
-                }
+                },
+                navigateUp = args.navigateUp
             ),
             this
         )
@@ -54,6 +56,7 @@ fun HomeNavHost(
             WorkoutDestination.Args(
                 navController::navigateToExerciseExecution,
                 navController::navigateToNewExerciseExecution,
+                navigateUp = navController::navigateUp,
                 workoutViewModel,
                 workout = {
                     args.homeViewModel
@@ -72,7 +75,7 @@ fun NavHostController.navigateToExerciseExecution(
 }
 
 fun NavHostController.navigateToNewExerciseExecution() {
-    //navigate(NewExerciseExecutionDestination.route(id))
+    // navigate(NewExerciseExecutionDestination.route(id))
 }
 
 fun NavHostController.navigateToWorkout() {

@@ -10,6 +10,7 @@ data object ExerciseExecutionDestination : HomeNavDestination<Args>(
     "exercise_execution/{id}"
 ) {
     class Args(
+        val navigateUp: () -> Unit,
         val viewModel: ExerciseExecutionViewModel
     )
 
