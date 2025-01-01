@@ -73,7 +73,9 @@ internal fun dataModule() = module {
         }
 
         TAG_DATA.log("ImageRequest: $url")
-        builder.build()
+        val request = builder.build()
+        get<ImageLoader>().enqueue(request)
+        request
     }
 
     single {

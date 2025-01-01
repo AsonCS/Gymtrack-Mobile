@@ -62,7 +62,7 @@ internal fun ExerciseDetailScreen(
             )
     ) {
         val width = 400
-        val height = width * .5625
+        val height = (width * .5625).toInt()
         val imageRequest = koinInject<ImageRequest> {
             parametersOf(
                 "${props.exercise.image}&height=$height&width=$width"
