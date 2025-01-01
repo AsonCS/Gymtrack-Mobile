@@ -1,7 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.data.user.remote.model
 
 import br.com.asoncsts.multi.gymtrack.data.exercise.remote.model.ExerciseSource
-import br.com.asoncsts.multi.gymtrack.extension.DeviceLanguage
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -20,10 +19,10 @@ data class ExerciseExecutionSource(
     val name: String? = null
 ) {
     fun toExerciseExecution(
-        lang: DeviceLanguage
+        hostImage: String
     ): ExerciseExecution {
         exercise ?: throw IllegalStateException("Exercise is null")
-        val exercise = exercise.toExercise(lang)
+        val exercise = exercise.toExercise(hostImage)
 
         return ExerciseExecution.Impl(
             exercise = exercise,
@@ -35,9 +34,9 @@ data class ExerciseExecutionSource(
     }
 
     fun toExerciseExecutionDetail(
-        lang: DeviceLanguage
+        hostImage: String
     ): ExerciseExecution.Detail {
-        val exercise = toExerciseExecution(lang)
+        val exercise = toExerciseExecution(hostImage)
 
         return ExerciseExecution.Detail(
             description = description,

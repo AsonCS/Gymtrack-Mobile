@@ -19,9 +19,12 @@ import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._theme.*
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
 import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.logo
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 internal data class ExerciseDetailScreenProps(
     val exercise: Exercise.Detail?,
@@ -58,11 +61,19 @@ internal fun ExerciseDetailScreen(
                 16.dp
             )
     ) {
+        val width = 400
+        val height = width * .5625
+        val imageRequest = koinInject<ImageRequest> {
+            parametersOf(
+                "${props.exercise.image}&height=$height&width=$width"
+            )
+        }
         AsyncImage(
-            props.exercise.image,
+            imageRequest,
             props.exercise.title,
             Modifier
-                .size(400.dp)
+                .height(height.dp)
+                .width(width.dp)
                 .clip(shapes().extraSmall),
             contentScale = ContentScale.Crop,
             error = props.placeholder,

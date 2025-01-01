@@ -32,7 +32,7 @@ class GenericTest {
     fun `Locale map test`() = runBlocking {
         val lang = deviceLanguage()
         Assert.assertEquals(
-            DeviceLanguage.PT_BR,
+            DeviceLanguage.Pt,
             lang
         )
     }

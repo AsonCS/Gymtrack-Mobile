@@ -14,9 +14,14 @@ import br.com.asoncsts.multi.gymtrack.data.user.remote.WorkoutRemote
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
 import br.com.asoncsts.multi.gymtrack.database.AppDatabase
-import br.com.asoncsts.multi.gymtrack.extension.error
 import br.com.asoncsts.multi.gymtrack.extension.log
 import br.com.asoncsts.multi.gymtrack.generated.BuildConfig
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.disk.DiskCache
+import coil3.memory.MemoryCache
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.plugins.cache.HttpCache
@@ -29,6 +34,7 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 interface Platform {
+    val coilContext: PlatformContext
     val databaseBuilder: RoomDatabase.Builder<AppDatabase>
     val engine: HttpClientEngineFactory<*>
 }
@@ -36,6 +42,40 @@ interface Platform {
 expect val platform: Platform
 
 internal fun dataModule() = module {
+    // Coil
+    single<ImageLoader> {
+        ImageLoader.Builder(platform.coilContext)
+            .memoryCache {
+                MemoryCache.Builder()
+                    .maxSizePercent(platform.coilContext, 0.20)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .maxSizeBytes(20 * 1024 * 1024)
+                    .build()
+            }
+            .build()
+    }
+    factory<ImageRequest> { (url: String?) ->
+        val builder = ImageRequest.Builder(platform.coilContext)
+            .coroutineContext(Dispatchers.IO)
+
+        if (url != null) {
+            builder
+                .data(url)
+                .memoryCacheKey(url)
+                .diskCacheKey(url)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .memoryCachePolicy(CachePolicy.ENABLED)
+        } else {
+            builder.data(null)
+        }
+
+        TAG_DATA.log("ImageRequest: $url")
+        builder.build()
+    }
+
     single {
         HttpClient(platform.engine) {
             install(Logging) {
@@ -61,18 +101,12 @@ internal fun dataModule() = module {
     }
 
     single<AppDatabase> {
-        runCatching {
-            platform.databaseBuilder
-                //.addMigrations(MIGRATIONS)
-                .fallbackToDestructiveMigrationOnDowngrade(true)
-                .setDriver(BundledSQLiteDriver())
-                .setQueryCoroutineContext(Dispatchers.IO)
-                .build().also {
-                    "fatal".log("AppDatabase.also")
-                }
-        }.onFailure {
-            "fatal".error("AppDatabase", it)
-        }.getOrThrow()
+        platform.databaseBuilder
+            //.addMigrations(MIGRATIONS)
+            .fallbackToDestructiveMigrationOnDowngrade(true)
+            .setDriver(BundledSQLiteDriver())
+            .setQueryCoroutineContext(Dispatchers.IO)
+            .build()
     }
 
     // Api
@@ -106,12 +140,14 @@ internal fun dataModule() = module {
     // Remote
     single<ExerciseRemote> {
         ExerciseRemote.Impl(
-            api = get()
+            api = get(),
+            hostImage = BuildConfig.HOST_IMAGE
         )
     }
     single<ExerciseExecutionRemote> {
         ExerciseExecutionRemote.Impl(
-            api = get()
+            api = get(),
+            hostImage = BuildConfig.HOST_IMAGE
         )
     }
     single<WorkoutRemote> {

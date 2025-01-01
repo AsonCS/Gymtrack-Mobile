@@ -17,9 +17,12 @@ import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
 import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.ui._theme.*
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
 import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.logo
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 interface ExerciseProps {
     @Composable
@@ -45,8 +48,13 @@ fun Exercise(
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val imageRequest = koinInject<ImageRequest> {
+                parametersOf(
+                    "${exercise.image}&height=100&width=100"
+                )
+            }
             AsyncImage(
-                exercise.image,
+                imageRequest,
                 exercise.title,
                 Modifier
                     .size(100.dp)

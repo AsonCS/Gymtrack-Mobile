@@ -3,15 +3,13 @@ package br.com.asoncsts.multi.gymtrack.data.exercise.remote
 import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
 import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
 import br.com.asoncsts.multi.gymtrack.data.exercise.api.ExerciseApi
-import br.com.asoncsts.multi.gymtrack.extension.DeviceLanguage
-import br.com.asoncsts.multi.gymtrack.extension.deviceLanguage
 import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 
 interface ExerciseRemote {
 
     class Impl(
         private val api: ExerciseApi,
-        private val lang: () -> DeviceLanguage = ::deviceLanguage
+        private val hostImage: String
     ) : ExerciseRemote {
 
         override suspend fun getExercise(
@@ -25,7 +23,7 @@ interface ExerciseRemote {
                 )
 
                 else -> result.data
-                    .toExerciseDetail(lang())
+                    .toExerciseDetail(hostImage)
             }
         }
 
@@ -40,7 +38,7 @@ interface ExerciseRemote {
                 result.data.isEmpty() -> throw EmptyException()
 
                 else -> result.data
-                    .map { it.toExercise(lang()) }
+                    .map { it.toExercise(hostImage) }
             }
         }
 

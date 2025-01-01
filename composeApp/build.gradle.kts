@@ -212,25 +212,17 @@ val buildConfigGenerator by tasks.registering(Sync::class) {
             |package $lApplicationId.generated
             |
             |object BuildConfig {
-            |   //const val APPLICATION_ID = "$lApplicationId"
-            |   //const val APPLICATION_VERSION = "$lApplicationVersion"
-            |   //const val APPLICATION_VERSION_CODE = "$lApplicationVersionCode"
+            |   const val APPLICATION_ID = "$lApplicationId"
+            |   const val APPLICATION_VERSION = "$lApplicationVersion"
+            |   const val APPLICATION_VERSION_CODE = "$lApplicationVersionCode"
             |
             |   const val DEBUG = true
             |
-            |   //const val FIREBASE_APP_ID = "${keystoreProperties["firebaseAppId"]}"
-            |   //const val FIREBASE_API_KEY = "${keystoreProperties["firebaseApiKey"]}"
-            |   //const val FIREBASE_AUTH_DOMAIN = "${keystoreProperties["firebaseAuthDomain"]}"
-            |   //const val FIREBASE_AUTH_API_HOST_IDENTIFY = "https://identitytoolkit.googleapis.com/v1"
-            |   //const val FIREBASE_AUTH_API_HOST_TOKEN = "https://securetoken.googleapis.com/v1"
             |   const val FIREBASE_DEFAULT_WEB_CLIENT_ID = "${keystoreProperties["firebaseDefaultWebClientId"]}"
-            |   //const val FIREBASE_MEASUREMENT_ID = "${keystoreProperties["firebaseMeasurementId"]}"
-            |   //const val FIREBASE_MESSAGING_SENDER_ID = "${keystoreProperties["firebaseMessagingSenderId"]}"
-            |   //const val FIREBASE_PROJECT_ID = "${keystoreProperties["firebaseProjectId"]}"
-            |   //const val FIREBASE_STORAGE_BUCKET = "${keystoreProperties["firebaseStorageBucket"]}"
-            |   //const val FIREBASE_WEB_API_KEY = "${keystoreProperties["firebaseWebApiKey"]}"
             |   
-            |   const val HOST = "http://$ip:3000/api"
+            |   const val HOST = "https://gymtrack-sigma.vercel.app/api"
+            |   //const val HOST = "http://$ip:3000/api"
+            |   const val HOST_IMAGE = "https://gymtrack-sigma.vercel.app/image"
             |
             |}
             |

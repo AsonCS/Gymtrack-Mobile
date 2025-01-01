@@ -3,15 +3,13 @@ package br.com.asoncsts.multi.gymtrack.data.user.remote
 import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
 import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
 import br.com.asoncsts.multi.gymtrack.data.user.api.ExerciseExecutionApi
-import br.com.asoncsts.multi.gymtrack.extension.DeviceLanguage
-import br.com.asoncsts.multi.gymtrack.extension.deviceLanguage
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 
 interface ExerciseExecutionRemote {
 
     class Impl(
         private val api: ExerciseExecutionApi,
-        private val lang: () -> DeviceLanguage = ::deviceLanguage
+        private val hostImage: String
     ) : ExerciseExecutionRemote {
 
         @Suppress("UNREACHABLE_CODE")
@@ -27,7 +25,7 @@ interface ExerciseExecutionRemote {
                 )
 
                 else -> result.data
-                    .toExerciseExecutionDetail(lang())
+                    .toExerciseExecutionDetail(hostImage)
             }
         }
 
@@ -46,7 +44,7 @@ interface ExerciseExecutionRemote {
                 result.data.isEmpty() -> throw EmptyException()
 
                 else -> result.data
-                    .map { it.toExerciseExecution(lang()) }
+                    .map { it.toExerciseExecution(hostImage) }
             }
         }
 
@@ -65,7 +63,7 @@ interface ExerciseExecutionRemote {
                 result.data.isEmpty() -> throw EmptyException()
 
                 else -> result.data
-                    .map { it.toExerciseExecution(lang()) }
+                    .map { it.toExerciseExecution(hostImage) }
             }
         }
 
