@@ -18,11 +18,9 @@ data class ExerciseExecutionSource(
     @SerialName("name")
     val name: String? = null
 ) {
-    fun toExerciseExecution(
-        hostImage: String
-    ): ExerciseExecution {
+    fun toExerciseExecution(): ExerciseExecution {
         exercise ?: throw IllegalStateException("Exercise is null")
-        val exercise = exercise.toExercise(hostImage)
+        val exercise = exercise.toExercise()
 
         return ExerciseExecution.Impl(
             exercise = exercise,
@@ -33,10 +31,8 @@ data class ExerciseExecutionSource(
         )
     }
 
-    fun toExerciseExecutionDetail(
-        hostImage: String
-    ): ExerciseExecution.Detail {
-        val exercise = toExerciseExecution(hostImage)
+    fun toExerciseExecutionDetail(): ExerciseExecution.Detail {
+        val exercise = toExerciseExecution()
 
         return ExerciseExecution.Detail(
             description = description,

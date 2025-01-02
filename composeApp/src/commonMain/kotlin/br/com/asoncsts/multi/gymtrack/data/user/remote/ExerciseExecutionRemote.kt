@@ -8,8 +8,7 @@ import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 interface ExerciseExecutionRemote {
 
     class Impl(
-        private val api: ExerciseExecutionApi,
-        private val hostImage: String
+        private val api: ExerciseExecutionApi
     ) : ExerciseExecutionRemote {
 
         @Suppress("UNREACHABLE_CODE")
@@ -25,7 +24,7 @@ interface ExerciseExecutionRemote {
                 )
 
                 else -> result.data
-                    .toExerciseExecutionDetail(hostImage)
+                    .toExerciseExecutionDetail()
             }
         }
 
@@ -44,7 +43,7 @@ interface ExerciseExecutionRemote {
                 result.data.isEmpty() -> throw EmptyException()
 
                 else -> result.data
-                    .map { it.toExerciseExecution(hostImage) }
+                    .map { it.toExerciseExecution() }
             }
         }
 
@@ -63,7 +62,7 @@ interface ExerciseExecutionRemote {
                 result.data.isEmpty() -> throw EmptyException()
 
                 else -> result.data
-                    .map { it.toExerciseExecution(hostImage) }
+                    .map { it.toExerciseExecution() }
             }
         }
 

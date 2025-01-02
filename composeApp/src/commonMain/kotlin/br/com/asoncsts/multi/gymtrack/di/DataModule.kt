@@ -20,8 +20,8 @@ import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.disk.DiskCache
 import coil3.memory.MemoryCache
-import coil3.request.CachePolicy
-import coil3.request.ImageRequest
+import coil3.request.*
+import coil3.util.DebugLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.plugins.cache.HttpCache
@@ -31,6 +31,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
+import okio.FileSystem
 import org.koin.dsl.module
 
 interface Platform {
@@ -45,37 +46,33 @@ internal fun dataModule() = module {
     // Coil
     single<ImageLoader> {
         ImageLoader.Builder(platform.coilContext)
+            .memoryCachePolicy(CachePolicy.ENABLED)
             .memoryCache {
                 MemoryCache.Builder()
-                    .maxSizePercent(platform.coilContext, 0.20)
+                    .maxSizePercent(platform.coilContext, 0.3)
+                    .strongReferencesEnabled(true)
                     .build()
             }
+            .networkCachePolicy(CachePolicy.ENABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
             .diskCache {
                 DiskCache.Builder()
-                    .maxSizeBytes(20 * 1024 * 1024)
+                    .directory(FileSystem.SYSTEM_TEMPORARY_DIRECTORY / "image_cache")
+                    .maxSizeBytes(512L * 1024 * 1024) // 512MB
                     .build()
             }
+            .crossfade(true)
+            .logger(DebugLogger()) // tag = ImageLoader
             .build()
     }
-    factory<ImageRequest> { (url: String?) ->
+    factory<ImageRequest.Builder> {
         val builder = ImageRequest.Builder(platform.coilContext)
             .coroutineContext(Dispatchers.IO)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .networkCachePolicy(CachePolicy.ENABLED)
 
-        if (url != null) {
-            builder
-                .data(url)
-                .memoryCacheKey(url)
-                .diskCacheKey(url)
-                .diskCachePolicy(CachePolicy.ENABLED)
-                .memoryCachePolicy(CachePolicy.ENABLED)
-        } else {
-            builder.data(null)
-        }
-
-        TAG_DATA.log("ImageRequest: $url")
-        val request = builder.build()
-        get<ImageLoader>().enqueue(request)
-        request
+        builder
     }
 
     single {
@@ -142,14 +139,12 @@ internal fun dataModule() = module {
     // Remote
     single<ExerciseRemote> {
         ExerciseRemote.Impl(
-            api = get(),
-            hostImage = BuildConfig.HOST_IMAGE
+            api = get()
         )
     }
     single<ExerciseExecutionRemote> {
         ExerciseExecutionRemote.Impl(
-            api = get(),
-            hostImage = BuildConfig.HOST_IMAGE
+            api = get()
         )
     }
     single<WorkoutRemote> {

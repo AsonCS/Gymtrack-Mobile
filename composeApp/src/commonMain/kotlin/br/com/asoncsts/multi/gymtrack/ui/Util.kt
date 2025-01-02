@@ -10,6 +10,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.input.key.Key.Companion.Escape
 import androidx.compose.ui.input.key.KeyEventType.Companion.KeyDown
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import br.com.asoncsts.multi.gymtrack.ui._theme.AppTheme
 
 @Composable
@@ -56,3 +58,13 @@ fun BackHandlerContainer(
         focusRequester.requestFocus()
     }
 }
+
+@Composable
+fun Dp.toPx(): Int {
+    return with(LocalDensity.current) {
+        toPx().toInt()
+    }
+}
+
+@Composable
+expect fun getWidthDp(fraction: Float = 1f): Dp

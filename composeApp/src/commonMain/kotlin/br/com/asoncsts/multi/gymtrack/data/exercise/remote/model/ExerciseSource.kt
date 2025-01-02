@@ -19,25 +19,18 @@ data class ExerciseSource(
     @SerialName("video")
     val video: String? = null
 ) {
-    fun toExercise(
-        hostImage: String
-    ): Exercise {
+    fun toExercise(): Exercise {
         return Exercise.Impl(
             alias = alias
                 ?: throw IllegalStateException("Alias is null"),
-            image = if (image != null)
-                "$hostImage/$image"
-            else
-                null,
+            image = image,
             title = title
                 ?: throw IllegalStateException("Title is null")
         )
     }
 
-    fun toExerciseDetail(
-        hostImage: String
-    ): Exercise.Detail {
-        val exercise = toExercise(hostImage)
+    fun toExerciseDetail(): Exercise.Detail {
+        val exercise = toExercise()
         return Exercise.Detail(
             alias = exercise.alias,
             description = description ?: "",

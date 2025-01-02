@@ -8,8 +8,7 @@ import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 interface ExerciseRemote {
 
     class Impl(
-        private val api: ExerciseApi,
-        private val hostImage: String
+        private val api: ExerciseApi
     ) : ExerciseRemote {
 
         override suspend fun getExercise(
@@ -23,7 +22,7 @@ interface ExerciseRemote {
                 )
 
                 else -> result.data
-                    .toExerciseDetail(hostImage)
+                    .toExerciseDetail()
             }
         }
 
@@ -38,7 +37,7 @@ interface ExerciseRemote {
                 result.data.isEmpty() -> throw EmptyException()
 
                 else -> result.data
-                    .map { it.toExercise(hostImage) }
+                    .map { it.toExercise() }
             }
         }
 
