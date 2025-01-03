@@ -10,9 +10,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      gradleTask: ${{ fromJSON(github.event.head_commit.message).gradleTask }}
+      pathApk: ${{ fromJSON(github.event.head_commit.message).pathApk }}
+      pathFilesBoxcontrol: ${{ fromJSON(github.event.head_commit.message).pathFilesBoxcontrol }}
+
     steps:
       - name: echo
-        env:
-          commitMessage: ${{ fromJSON(github.event.head_commit.message) }}
         run: |
-          echo "${{ env.commitMessage.gradleTask }}"
+          echo $gradleTask
+          echo $pathApk
+          echo $pathFilesBoxcontrol
