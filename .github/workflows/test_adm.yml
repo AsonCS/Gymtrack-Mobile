@@ -19,11 +19,11 @@ jobs:
           commitMessage: ${{ github.event.head_commit.message }}
         run: |
           echo $commitMessage
-          echo "${{ $params }}"
-          echo "${{ $params.gradleTask }}"
-          echo "${{ $params.pathApk }}"
-          echo "${{ $params.pathFilesBoxcontrol }}"
-          echo "${{ $params.test }}"
+          echo "${{ env.params }}"
+          echo "${{ env.params.gradleTask }}"
+          echo "${{ env.params.pathApk }}"
+          echo "${{ env.params.pathFilesBoxcontrol }}"
+          echo "${{ env.params.test }}"
 
       - name: stopJob
         if: ${{ env.params.gradleTask == '' || env.params.pathApk == '' || env.params.pathFilesBoxcontrol == '' || env.params.test == '' }}
