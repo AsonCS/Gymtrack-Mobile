@@ -4,24 +4,48 @@ on:
   push:
     branches: [ "test-adm" ]
 
-#{"gradleTask":"app:packageDevApi28DebugUniversalApk","pathApk":"./app/build/outputs/apk_from_bundle/devApi28Debug/app-dev-api28-debug-universal.apk","pathFilesBoxcontrol":"test-ci/devApi28Debug"}
+#{"gradleTask":"app:packageDevApi28DebugUniversalApk","nameApk":"DEV_DeviceControl_v.2.0.77.9_1295_debug","pathApk":"./app/build/outputs/apk_from_bundle/devApi28Debug/app-dev-api28-debug-universal.apk","pathFilesBoxcontrol":"test-ci/devApi28Debug"}
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
     env:
-      gradleTask: ${{ fromJSON(github.event.head_commit.message).gradleTask }}
-      pathApk: ${{ fromJSON(github.event.head_commit.message).pathApk }}
-      pathFilesBoxcontrol: ${{ fromJSON(github.event.head_commit.message).pathFilesBoxcontrol }}
-      test: ${{ fromJSON(github.event.head_commit.message).test }}
+      GRADLE_TASK: ${{ fromJSON(github.event.head_commit.message).gradleTask }}
+      NAME_APK: ${{ fromJSON(github.event.head_commit.message).nameApk }}
+      PATH_APK: ${{ fromJSON(github.event.head_commit.message).pathApk }}
+      PATH_FILES_BOXCONTROL: ${{ fromJSON(github.event.head_commit.message).pathFilesBoxcontrol }}
 
     steps:
       - name: "Check Parameters"
-        if: ${{ env.gradleTask == '' || env.pathApk == '' || env.pathFilesBoxcontrol == '' || env.test == '' }}
+        if: ${{ env.GRADLE_TASK == '' || env.NAME_APK == '' || env.PATH_APK == '' || env.PATH_FILES_BOXCONTROL == '' }}
         run: |
-          echo "gradleTask: $gradleTask"
-          echo "pathApk: $pathApk"
-          echo "pathFilesBoxcontrol: $pathFilesBoxcontrol"
-          echo "test: $test"
+          echo "gradleTask: ${GRADLE_TASK}"
+          echo "nameApk: ${NAME_APK}"
+          echo "pathApk: ${PATH_APK}"
+          echo "pathFilesBoxcontrol: ${PATH_FILES_BOXCONTROL}"
           exit 1
+
+      - uses: actions/checkout@v4
+      - name: "Set up JDK 17"
+        uses: actions/setup-java@v4.6.0
+        with:
+          java-version: "17"
+          distribution: "jetbrains"
+          cache: gradle
+
+      - name: "Grant execute permission for gradlew"
+        run:
+          chmod +x gradlew
+
+      - name: "Build with Gradle"
+        run:
+          ./gradlew ${GRADLE_TASK}
+
+      - name: "Publish on files.boxcontrol.io"
+        env:
+          USER_NAME: ${{ secrets.ADM_FILES_BOXCONTROL_USER_NAME }}
+          USER_NAME_URL: ${{ secrets.ADM_FILES_BOXCONTROL_USER_NAME_URL }}
+          USER_PASSWORD: ${{ secrets.ADM_FILES_BOXCONTROL_USER_PASSWORD }}
+        run:
+          curl -u "${USER_NAME}":"${USER_PASSWORD}" -T "${PATH_APK}" "https://files.boxcontrol.io/remote.php/dav/files/${USER_NAME_URL}/adm-team/${PATH_FILES_BOXCONTROL}/${NAME_APK}.apk"
