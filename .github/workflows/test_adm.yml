@@ -31,7 +31,7 @@ jobs:
           echo $gradleTask
 
       - name: stopJob
-        if: gradleTask == ''
+        if: $gradleTask == ''
         run: |
           exit 1
 
