@@ -17,10 +17,15 @@ jobs:
       - name: Check commit message
         env:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT_MESSAGE_IS_BUILD_1: ${{ contains('${{ COMMIT_MESSAGE }}', 'build') }}
+          COMMIT_MESSAGE_IS_BUILD_2: ${{ contains('${{ $COMMIT_MESSAGE }}', 'build') }}
         run: |
-          echo ${{ contains('$COMMIT_MESSAGE', 'build') }}
-          echo ${{ contains('build :composeApp:packageDebug adm-team/test-ci/', 'build') }}
+          echo ${{ contains('${{ COMMIT_MESSAGE }}', 'build') }}
+          echo ${{ contains('${{ $COMMIT_MESSAGE }}', 'build') }}
+          echo $COMMIT_MESSAGE_IS_BUILD_1
+          echo $COMMIT_MESSAGE_IS_BUILD_2
           echo $COMMIT_MESSAGE
+        if: COMMIT_MESSAGE_IS_BUILD_1 == 'false'
           exit 1
 
 #      - uses: actions/checkout@v4
