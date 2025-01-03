@@ -18,6 +18,8 @@ jobs:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           echo "${{ contains('build', '${COMMIT_MESSAGE}') }}"
+          echo "${{ contains('build', '${{ github.event.head_commit.message }}') }}"
+          echo "${{ github.event.head_commit.message }}"
           echo "${COMMIT_MESSAGE}"
         if: 'false'
 
