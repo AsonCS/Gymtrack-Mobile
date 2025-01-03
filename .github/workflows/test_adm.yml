@@ -1,42 +1,39 @@
 name: Test ADM CI
 
 on:
-  workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
-
-parameters:
-  - name: gradleTask
-    displayName: Gradle task
-    type: String
-    default:
-      - ':composeApp:packageDebug'
-  - name: boxcontrolPath
-    displayName: Path on boxcontrol after 'adm-team'
-    type: String
-    default:
-      - 'test-ci/'
+  push:
+    branches: [ "test-adm" ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Check commit message
-        env:
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          COMMIT_MESSAGE_IS_BUILD: ${{ contains(github.event.head_commit.message, 'build') }}
-        run: |
-          echo $COMMIT_MESSAGE_IS_BUILD
-          echo $COMMIT_MESSAGE
+    env:
+      gradleTask: ''
 
-      - name: Stop job
-        condition: failed('Check commit message')
+    steps:
+      - name: devApi28Debug
+        if: ${{ contains(github.event.head_commit.message, 'devApi28Debug') }}
         run: |
-          echo 'Test sequence'
+          echo "gradleTask=packageDevApi28DebugUniversalApk" >> $GITHUB_ENV
+
+      - name: devApi30Debug
+        if: ${{ contains(github.event.head_commit.message, 'devApi30Debug') }}
+        run: |
+          echo "gradleTask=packageDevApi30DebugUniversalApk" >> $GITHUB_ENV
+
+      - name: echo
+        env:
+          commitMessage: ${{ github.event.head_commit.message }}
+        run: |
+          echo $gradleTask
+          echo $gradleTask
+
+      - name: stopJob
+        if: ${{ $gradleTask == '' }}
+        run: |
+          exit 1
 
 #      - uses: actions/checkout@v4
 #      - name: set up JDK 17
