@@ -13,14 +13,14 @@ jobs:
       - name: echo
         env:
           commitMessage: ${{ github.event.head_commit.message }}
-          COMMIT_PARAMS: ${{ fromJSON(github.event.head_commit.message) }}
+#          COMMIT_PARAMS: ${{ fromJSON(github.event.head_commit.message) }}
         run: |
           echo $commitMessage
-          echo "${{ COMMIT_PARAMS }}"
-          echo "${{ COMMIT_PARAMS.gradleTask }}"
-          echo "${{ COMMIT_PARAMS.pathApk }}"
-          echo "${{ COMMIT_PARAMS.pathFilesBoxcontrol }}"
-          echo "${{ COMMIT_PARAMS.test }}"
+#          echo "${{ COMMIT_PARAMS }}"
+#          echo "${{ COMMIT_PARAMS.gradleTask }}"
+#          echo "${{ COMMIT_PARAMS.pathApk }}"
+#          echo "${{ COMMIT_PARAMS.pathFilesBoxcontrol }}"
+#          echo "${{ COMMIT_PARAMS.test }}"
 
 #      - name: stopJob
 #        if: ${{ env.commitParams.gradleTask == '' || env.commitParams.pathApk == '' || env.commitParams.pathFilesBoxcontrol == '' || env.commitParams.test == '' }}
