@@ -1,12 +1,23 @@
 name: Test ADM CI
 
 on:
-  push:
-    branches: [ "test-adm" ]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
+
+parameters:
+  - name: gradleTask
+    displayName: Gradle task
+    type: String
+    default:
+      - ':composeApp:packageDebug'
+  - name: boxcontrolPath
+    displayName: Path on boxcontrol after 'adm-team'
+    type: String
+    default:
+      - 'test-ci/'
 
 jobs:
   build:
@@ -21,6 +32,11 @@ jobs:
         run: |
           echo $COMMIT_MESSAGE_IS_BUILD
           echo $COMMIT_MESSAGE
+
+      - name: Stop job
+        condition: failed('Check commit message')
+        run: |
+          echo 'Test sequence'
 
 #      - uses: actions/checkout@v4
 #      - name: set up JDK 17
