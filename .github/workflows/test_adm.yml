@@ -10,28 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      gradleTask: ''
+      params: ${{ fromJSON(github.event.head_commit.message) }}
+    #{ "gradleTask": "app:packageDevApi28DebugUniversalApk", "pathApk": "./app/build/outputs/apk_from_bundle/devApi28Debug/app-dev-api28-debug-universal.apk", "pathFilesBoxcontrol": "test-ci/devApi28Debug" }
 
     steps:
-      - name: devApi28Debug
-        if: ${{ contains(github.event.head_commit.message, 'devApi28Debug') }}
-        run: |
-          echo "gradleTask=packageDevApi28DebugUniversalApk" >> $GITHUB_ENV
-
-      - name: devApi30Debug
-        if: ${{ contains(github.event.head_commit.message, 'devApi30Debug') }}
-        run: |
-          echo "gradleTask=packageDevApi30DebugUniversalApk" >> $GITHUB_ENV
-
       - name: echo
         env:
           commitMessage: ${{ github.event.head_commit.message }}
         run: |
-          echo $gradleTask
-          echo $gradleTask
+          echo $commitMessage
+          echo "${{ $params }}"
+          echo "${{ $params.gradleTask }}"
+          echo "${{ $params.pathApk }}"
+          echo "${{ $params.pathFilesBoxcontrol }}"
+          echo "${{ $params.test }}"
 
       - name: stopJob
-        if: ${{ env.gradleTask == '' }}
+        if: ${{ env.params.gradleTask == '' || env.params.pathApk == '' || env.params.pathFilesBoxcontrol == '' || env.params.test == '' }}
         run: |
           exit 1
 
