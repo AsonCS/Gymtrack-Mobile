@@ -9,8 +9,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      params: ${{ fromJSON(github.event.head_commit.message) }}
+    env:
+      commitParams: ${{ fromJSON(github.event.head_commit.message) }}
 
     steps:
       - name: echo
@@ -18,14 +18,14 @@ jobs:
           commitMessage: ${{ github.event.head_commit.message }}
         run: |
           echo $commitMessage
-          echo "${{ env.params }}"
-          echo "${{ env.params.gradleTask }}"
-          echo "${{ env.params.pathApk }}"
-          echo "${{ env.params.pathFilesBoxcontrol }}"
-          echo "${{ env.params.test }}"
+          echo "${{ env.commitParams }}"
+          echo "${{ env.commitParams.gradleTask }}"
+          echo "${{ env.commitParams.pathApk }}"
+          echo "${{ env.commitParams.pathFilesBoxcontrol }}"
+          echo "${{ env.commitParams.test }}"
 
       - name: stopJob
-        if: ${{ env.params.gradleTask == '' || env.params.pathApk == '' || env.params.pathFilesBoxcontrol == '' || env.params.test == '' }}
+        if: ${{ env.commitParams.gradleTask == '' || env.commitParams.pathApk == '' || env.commitParams.pathFilesBoxcontrol == '' || env.commitParams.test == '' }}
         run: |
           exit 1
 
