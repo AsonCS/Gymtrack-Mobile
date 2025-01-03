@@ -13,13 +13,10 @@ jobs:
     steps:
       - name: echo
         env:
-          commitMessage: ${{ github.event.head_commit.message }}
-#          COMMIT_PARAMS: ${{ fromJSON(github.event.head_commit.message) }}
-        strategy:
-          matrix: ${{ fromJSON(github.event.head_commit.message) }}
+          commitMessage: ${{ fromJSON(github.event.head_commit.message) }}
         run: |
-          echo $commitMessage
-          echo "${{ COMMIT_PARAMS.gradleTask }}"
+#          echo $commitMessage
+           echo "${{ $commitMessage.gradleTask }}"
 #          echo "${{ COMMIT_PARAMS.gradleTask }}"
 #          echo "${{ COMMIT_PARAMS.pathApk }}"
 #          echo "${{ COMMIT_PARAMS.pathFilesBoxcontrol }}"
