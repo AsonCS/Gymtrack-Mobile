@@ -11,7 +11,7 @@ jobs:
 
     env:
       params: ${{ fromJSON(github.event.head_commit.message) }}
-    #{ "gradleTask": "app:packageDevApi28DebugUniversalApk", "pathApk": "./app/build/outputs/apk_from_bundle/devApi28Debug/app-dev-api28-debug-universal.apk", "pathFilesBoxcontrol": "test-ci/devApi28Debug" }
+    #{\"gradleTask\":\"app:packageDevApi28DebugUniversalApk\",\"pathApk\":\"./app/build/outputs/apk_from_bundle/devApi28Debug/app-dev-api28-debug-universal.apk\",\"pathFilesBoxcontrol\":\"test-ci/devApi28Debug\"}
 
     steps:
       - name: echo
