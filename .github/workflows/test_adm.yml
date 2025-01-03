@@ -5,7 +5,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -21,20 +21,32 @@ jobs:
           distribution: 'jetbrains'
           cache: gradle
 
+      - name: Check commit message
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          echo "${{ contains('build', '${COMMIT_MESSAGE}') }}"
+          echo "${COMMIT_MESSAGE}"
+          exit 0
+
       - name: Grant execute permission for gradlew
         run:
           chmod +x gradlew
+
       - name: Create google-services.json file
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.ADM_GOOGLE_SERVICES_JSON }}
         run:
           echo $GOOGLE_SERVICES_JSON > ./composeApp/src/google-services.json
+
       - name: Generate BuildConfigGenerator
         run:
           ./gradlew buildConfigGenerator
+
       - name: Build with Gradle
         run:
           ./gradlew :composeApp:packageDebug
+
       - name: Publish on files.boxcontrol.io
         env:
           APK_NAME: composeApp-debug
