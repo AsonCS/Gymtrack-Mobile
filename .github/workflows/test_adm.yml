@@ -4,6 +4,7 @@ on:
   push:
     branches: [ "test-adm" ]
 
+#{"gradleTask":"app:packageDevApi28DebugUniversalApk","pathApk":"./app/build/outputs/apk_from_bundle/devApi28Debug/app-dev-api28-debug-universal.apk","pathFilesBoxcontrol":"test-ci/devApi28Debug"}
 jobs:
   build:
 
@@ -14,9 +15,11 @@ jobs:
         env:
           commitMessage: ${{ github.event.head_commit.message }}
 #          COMMIT_PARAMS: ${{ fromJSON(github.event.head_commit.message) }}
+        strategy:
+          matrix: ${{ fromJSON(github.event.head_commit.message) }}
         run: |
           echo $commitMessage
-#          echo "${{ COMMIT_PARAMS }}"
+          echo "${{ COMMIT_PARAMS.gradleTask }}"
 #          echo "${{ COMMIT_PARAMS.gradleTask }}"
 #          echo "${{ COMMIT_PARAMS.pathApk }}"
 #          echo "${{ COMMIT_PARAMS.pathFilesBoxcontrol }}"
