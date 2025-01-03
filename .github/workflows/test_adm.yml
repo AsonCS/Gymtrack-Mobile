@@ -14,10 +14,14 @@ jobs:
       gradleTask: ${{ fromJSON(github.event.head_commit.message).gradleTask }}
       pathApk: ${{ fromJSON(github.event.head_commit.message).pathApk }}
       pathFilesBoxcontrol: ${{ fromJSON(github.event.head_commit.message).pathFilesBoxcontrol }}
+      test: ${{ fromJSON(github.event.head_commit.message).test }}
 
     steps:
-      - name: echo
+      - name: "Check Parameters"
+        if: ${{ env.gradleTask == '' || env.pathApk == '' || env.pathFilesBoxcontrol == '' || env.test == '' }}
         run: |
-          echo $gradleTask
-          echo $pathApk
-          echo $pathFilesBoxcontrol
+          echo "gradleTask: $gradleTask"
+          echo "pathApk: $pathApk"
+          echo "pathFilesBoxcontrol: $pathFilesBoxcontrol"
+          echo "test: $test"
+          exit 1
