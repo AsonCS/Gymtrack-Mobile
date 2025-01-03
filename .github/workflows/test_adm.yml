@@ -19,7 +19,9 @@ jobs:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           echo ${{ contains('$COMMIT_MESSAGE', 'build') }}
+          echo ${{ contains('build :composeApp:packageDebug adm-team/test-ci/', 'build') }}
           echo $COMMIT_MESSAGE
+          exit 1
 
 #      - uses: actions/checkout@v4
 #      - name: set up JDK 17
