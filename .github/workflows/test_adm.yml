@@ -9,25 +9,23 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      commitParams: ${{ fromJSON(github.event.head_commit.message) }}
-
     steps:
       - name: echo
         env:
           commitMessage: ${{ github.event.head_commit.message }}
+          commitParams: ${{ fromJSON(github.event.head_commit.message) }}
         run: |
           echo $commitMessage
-          echo "${{ env.commitParams }}"
-          echo "${{ env.commitParams.gradleTask }}"
-          echo "${{ env.commitParams.pathApk }}"
-          echo "${{ env.commitParams.pathFilesBoxcontrol }}"
-          echo "${{ env.commitParams.test }}"
+          echo "${{ commitParams }}"
+          echo "${{ commitParams.gradleTask }}"
+          echo "${{ commitParams.pathApk }}"
+          echo "${{ commitParams.pathFilesBoxcontrol }}"
+          echo "${{ commitParams.test }}"
 
-      - name: stopJob
-        if: ${{ env.commitParams.gradleTask == '' || env.commitParams.pathApk == '' || env.commitParams.pathFilesBoxcontrol == '' || env.commitParams.test == '' }}
-        run: |
-          exit 1
+#      - name: stopJob
+#        if: ${{ env.commitParams.gradleTask == '' || env.commitParams.pathApk == '' || env.commitParams.pathFilesBoxcontrol == '' || env.commitParams.test == '' }}
+#        run: |
+#          exit 1
 
 #      - uses: actions/checkout@v4
 #      - name: set up JDK 17
