@@ -17,6 +17,8 @@ import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutState
 import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutStateFields
+import gymtrack.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 internal data class NewWorkoutScreenProps(
     val labelDescription: String,
@@ -25,30 +27,30 @@ internal data class NewWorkoutScreenProps(
     val navigateToWorkout: (
         workout: Workout
     ) -> Unit,
-    val onSave: () -> Unit,
-    val placeholderDescription: String,
-    val placeholderName: String
+    val onSave: () -> Unit
 )
 
 @Composable
 internal fun newWorkoutScreenProps(
-    labelDescription: String,
-    labelName: String,
-    labelNewWorkout: String,
     navigateToWorkout: (
         workout: Workout
     ) -> Unit,
     onSave: () -> Unit,
-    placeholderDescription: String,
-    placeholderName: String
+    labelDescription: String = stringResource(
+        Res.string.label_description
+    ),
+    labelName: String = stringResource(
+        Res.string.label_name
+    ),
+    labelNewWorkout: String = stringResource(
+        Res.string.new_workout_label_new
+    )
 ) = NewWorkoutScreenProps(
     labelDescription,
     labelName,
     labelNewWorkout,
     navigateToWorkout,
-    onSave,
-    placeholderDescription,
-    placeholderName
+    onSave
 )
 
 @Composable
@@ -83,8 +85,9 @@ internal fun NewWorkoutScreen(
             KeyboardType.Text,
             props.labelName,
             stateFields::updateName,
-            props.placeholderName,
-            stateFields.name,
+            props.labelName,
+            stateFields.name
+                ?: "",
             Modifier
                 .fillMaxWidth(),
             capitalization = KeyboardCapitalization.Words
@@ -94,8 +97,9 @@ internal fun NewWorkoutScreen(
             KeyboardType.Text,
             props.labelDescription,
             stateFields::updateDescription,
-            props.placeholderDescription,
-            stateFields.description,
+            props.labelDescription,
+            stateFields.description
+                ?: "",
             Modifier
                 .fillMaxWidth(),
             capitalization = KeyboardCapitalization.Sentences,

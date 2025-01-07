@@ -1,10 +1,13 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.newWorkout
+package br.com.asoncsts.multi.gymtrack.ui.home.newExerciseExecution
 
-data class NewWorkoutStateFields(
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
+
+data class NewExerciseExecutionStateFields(
     val description: String? = null,
+    val exercise: Exercise? = null,
     val name: String? = null,
     val update: (
-        NewWorkoutStateFields.() -> NewWorkoutStateFields
+        NewExerciseExecutionStateFields.() -> NewExerciseExecutionStateFields
     ) -> Unit
 ) {
 
@@ -15,6 +18,16 @@ data class NewWorkoutStateFields(
             copy(
                 description = description
                     .takeIf { it.isNotBlank() }
+            )
+        }
+    }
+
+    fun updateExercise(
+        exercise: Exercise
+    ) {
+        update {
+            copy(
+                exercise = exercise
             )
         }
     }

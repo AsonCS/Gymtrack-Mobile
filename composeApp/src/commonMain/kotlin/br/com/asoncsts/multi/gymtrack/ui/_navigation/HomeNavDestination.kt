@@ -1,35 +1,41 @@
 package br.com.asoncsts.multi.gymtrack.ui._navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
-import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesSource
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.*
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeViewModel
 
-data object HomeNavDestination : AppNavDestination<Args>(
-    false,
-    "home/{destination}"
+const val homeNavArgDestination = "destination"
+const val homeNavPathHome = "home/"
+const val homeNavRoute = "$homeNavPathHome{$homeNavArgDestination}"
+
+class HomeNavArgs(
+    val exercisesSource: ExercisesSource,
+    val navigateUp: () -> Unit,
+    val viewModel: HomeViewModel
+)
+
+fun NavGraphBuilder.homeNav(
+    args: HomeNavArgs
 ) {
-    class Args(
-        val getExercise: (alias: String) -> Exercise,
-        val navigateUp: () -> Unit,
-        val viewModel: HomeViewModel
-    )
-
-    override fun invoke(
-        args: Args,
-        builder: NavGraphBuilder
-    ) {
-        builder.composable(route) {
-            val destination = it.arguments
-                ?.getString("destination")
-                ?: throw IllegalStateException("Destination is required")
-            HomeNavHost(args, destination)
-        }
+    composable(homeNavRoute) {
+        val destination = it.arguments
+            ?.getString(homeNavArgDestination)
+            ?: throw IllegalStateException("Destination is required")
+        HomeNavHost(args, destination)
     }
+}
 
-    fun routeToNewWorkout() = "home/${NewWorkoutDestination.route}"
+fun NavHostController.navigateToNewWorkout() {
+    navigate(
+        "$homeNavPathHome$newWorkoutRoute"
+    )
+}
 
-    fun routeToWorkout() = "home/${WorkoutDestination.route}"
+fun NavHostController.navigateToWorkout() {
+    navigate(
+        "$homeNavPathHome$workoutRoute"
+    )
 }

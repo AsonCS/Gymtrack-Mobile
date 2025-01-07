@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.extension.launch
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
-import br.com.asoncsts.multi.gymtrack.ui._navigation.home.WorkoutDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui._navigation.home.WorkoutArgs
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.components.WorkoutScreen
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.components.workoutScreenProps
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun WorkoutScreen(
-    args: Args,
+    args: WorkoutArgs,
     modifier: Modifier = Modifier
 ) {
     val workout = args.workout()

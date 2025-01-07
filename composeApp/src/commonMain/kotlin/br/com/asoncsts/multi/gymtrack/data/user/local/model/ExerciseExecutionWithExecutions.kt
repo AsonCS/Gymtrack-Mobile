@@ -17,12 +17,10 @@ data class ExerciseExecutionWithExecutions(
     )
     val executions: List<ExecutionEntity>
 ) {
-    fun toExerciseExecution(
-        getExercise: (alias: String) -> Exercise
-    ): ExerciseExecution.Detail {
+    fun toExerciseExecution(): ExerciseExecution.Detail {
         return ExerciseExecution.Detail(
             description = exerciseExecution.description,
-            exercise = getExercise(
+            exercise = Exercise.Impl(
                 exerciseExecution.exerciseAlias
             ),
             id = exerciseExecution.exerciseExecutionId,

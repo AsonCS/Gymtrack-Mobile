@@ -29,7 +29,7 @@ class AppViewModelImpl(
         }
     }
 
-    override suspend fun getExercises() {
+    override suspend fun loadExercises() {
         if (_stateExercises.value is ExercisesState.Success) return
 
         when (val result = exerciseRepo.getExercises()) {

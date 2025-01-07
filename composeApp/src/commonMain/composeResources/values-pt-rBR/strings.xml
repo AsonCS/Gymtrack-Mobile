@@ -4,6 +4,9 @@
     <string name="home_label_new">+ Novo</string>
     <string name="home_label_title">Seus treinos.</string>
 
+    <string name="label_description">Descrição</string>
+    <string name="label_name">Nome</string>
+
     <string name="login_screen_google_login">Google</string>
     <string name="login_screen_login">Entrar</string>
     <string name="login_screen_username">Email</string>
@@ -12,11 +15,9 @@
     <string name="login_screen_password_placeholder">Mínimo de 8 characteres</string>
     <string name="login_screen_signup">Cadastrar</string>
 
-    <string name="new_workout_label_description">Descrição</string>
-    <string name="new_workout_label_name">Nome</string>
-    <string name="new_workout_label_new_workout">Novo treino</string>
-    <string name="new_workout_placeholder_description">Descrição do treino</string>
-    <string name="new_workout_placeholder_name">Nome do treino</string>
+    <string name="new_exercise_execution_label_new">Nova execução exercício</string>
+
+    <string name="new_workout_label_new">Novo treino</string>
 
     <string name="search_title">Todos os exercícios.</string>
 

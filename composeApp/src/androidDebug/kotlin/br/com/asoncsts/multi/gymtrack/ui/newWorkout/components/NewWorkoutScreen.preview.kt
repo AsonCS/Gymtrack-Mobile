@@ -22,22 +22,16 @@ private fun Preview(
         NewWorkoutScreen(
             newWorkoutScreenProps(
                 labelDescription = stringResource(
-                    R.string.new_workout_label_description
+                    R.string.label_description
                 ),
                 labelName = stringResource(
-                    R.string.new_workout_label_name
+                    R.string.label_name
                 ),
                 labelNewWorkout = stringResource(
-                    R.string.new_workout_label_new_workout
+                    R.string.new_workout_label_new
                 ),
                 navigateToWorkout = {},
-                onSave = {},
-                placeholderDescription = stringResource(
-                    R.string.new_workout_placeholder_description
-                ),
-                placeholderName = stringResource(
-                    R.string.new_workout_placeholder_name
-                )
+                onSave = {}
             ),
             state,
             NewWorkoutStateFields {}

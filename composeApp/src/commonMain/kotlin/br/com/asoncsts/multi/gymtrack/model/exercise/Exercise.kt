@@ -7,8 +7,8 @@ interface Exercise {
 
     data class Impl(
         override val alias: String,
-        override val image: String?,
-        override val title: String
+        override val image: String? = null,
+        override val title: String = ""
     ) : Exercise
 
     data class Detail(

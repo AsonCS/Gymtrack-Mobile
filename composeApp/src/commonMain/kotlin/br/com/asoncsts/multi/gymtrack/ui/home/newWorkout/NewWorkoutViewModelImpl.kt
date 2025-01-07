@@ -51,19 +51,10 @@ class NewWorkoutViewModelImpl(
         val description = stateFields
             .value
             .description
-            .also {
-                if (it.isBlank()) {
-                    return
-                }
-            }
         val name = stateFields
             .value
             .name
-            .also {
-                if (it.isBlank()) {
-                    return
-                }
-            }
+            ?: throw IllegalStateException("Name cannot be empty")
 
         val result = workoutRepo.putWorkout(
             Workout(

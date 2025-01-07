@@ -3,12 +3,14 @@ package br.com.asoncsts.multi.gymtrack.ui.home.workout
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
 import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
+import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
+import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesSource
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState.*
 import kotlinx.coroutines.flow.*
 
 class WorkoutViewModelImpl(
-    private val getExercise: (alias: String) -> Exercise,
+    private val exercisesSource: ExercisesSource,
     private val repo: ExerciseExecutionRepository
 ) : WorkoutViewModel() {
 
@@ -20,10 +22,10 @@ class WorkoutViewModelImpl(
     ) {
         if (_state.value is Success) return
 
-        when (val result = repo.getExerciseExecutions(
-            getExercise,
+        val result = repo.getExerciseExecutions(
             workout.exerciseExecutionIds
-        )) {
+        )
+        when (result) {
             is Wrapper.Error -> {
                 _state.update {
                     Error(
@@ -33,14 +35,42 @@ class WorkoutViewModelImpl(
             }
 
             is Wrapper.Success -> {
-                result.data.collect { exercisesExecutions ->
-                    _state.update {
-                        Success(
-                            exercisesExecutions
-                        )
-                    }
+                result.data.collect {
+                    collect(it)
                 }
             }
+        }
+    }
+
+    private fun collect(exercisesExecutions: List<ExerciseExecution>) {
+        val result = exercisesExecutions.map { exercisesExecution ->
+            val result = exercisesSource.getExercise(
+                exercisesExecution.exercise.alias
+            )
+            val exercise = when (result) {
+                is Wrapper.Error -> {
+                    Exercise.Impl(
+                        alias = exercisesExecution.exercise.alias,
+                        title = "Error"
+                    )
+                }
+
+                is Wrapper.Success -> {
+                    result.data
+                }
+            }
+
+            ExerciseExecution.Impl(
+                exercise = exercise,
+                id = exercisesExecution.id,
+                name = exercisesExecution.name
+            )
+        }
+
+        _state.update {
+            Success(
+                result
+            )
         }
     }
 }

@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavDestination.Args
+import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavArgs
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutViewModel
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -23,14 +23,14 @@ sealed class HomeNavDestination<Args>(
 
 @Composable
 fun HomeNavHost(
-    args: Args,
+    args: HomeNavArgs,
     destination: String,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     viewModelExerciseExecution: ExerciseExecutionViewModel = koinViewModel(),
     viewModelWorkout: WorkoutViewModel = koinViewModel {
         parametersOf(
-            args.getExercise
+            args.exercisesSource
         )
     },
 ) {
@@ -46,19 +46,24 @@ fun HomeNavHost(
             ),
             this
         )
-        NewWorkoutDestination(
-            NewWorkoutDestination.Args(
+        newExerciseExecution(
+            NewExerciseExecutionArgs(
+                exercisesSource = args.exercisesSource,
+                navigateUp = navController::navigateUp
+            )
+        )
+        newWorkout(
+            NewWorkoutArgs(
                 navigateToWorkout = {
                     args.viewModel
                         .navigationArgumentWorkout = it
                     navController.navigateToWorkout()
                 },
                 navigateUp = args.navigateUp
-            ),
-            this
+            )
         )
-        WorkoutDestination(
-            WorkoutDestination.Args(
+        workout(
+            WorkoutArgs(
                 navController::navigateToExerciseExecution,
                 navController::navigateToNewExerciseExecution,
                 navigateUp = navController::navigateUp,
@@ -67,8 +72,7 @@ fun HomeNavHost(
                     args.viewModel
                         .navigationArgumentWorkout
                 }
-            ),
-            this
+            )
         )
     }
 }
@@ -77,16 +81,4 @@ fun NavHostController.navigateToExerciseExecution(
     id: String
 ) {
     navigate(ExerciseExecutionDestination.route(id))
-}
-
-fun NavHostController.navigateToNewExerciseExecution() {
-    // navigate(NewExerciseExecutionDestination.route(id))
-}
-
-fun NavHostController.navigateToWorkout() {
-    navigate(WorkoutDestination.route) {
-        popUpTo(NewWorkoutDestination.route) {
-            inclusive = true
-        }
-    }
 }

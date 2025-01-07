@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
+import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.auth.AuthRepository
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState
 import br.com.asoncsts.multi.gymtrack.di.koinApplication
@@ -42,7 +43,7 @@ fun App(
             LaunchedEffect(Unit) {
                 delay(1_000)
                 appViewModel.launch {
-                    getExercises()
+                    loadExercises()
                 }
                 auth.onAuthInit(appViewModel::stateAuthUpdate)
             }
@@ -50,22 +51,54 @@ fun App(
     }
 }
 
-abstract class AppViewModel : ViewModel() {
+abstract class AppViewModel : ViewModel(), ExercisesSource {
     abstract val stateAuth: StateFlow<AuthState>
     abstract val stateExercises: StateFlow<ExercisesState>
 
-    abstract suspend fun getExercises()
-
-    fun getExercise(
-        alias: String
-    ): Exercise {
-        return (stateExercises.value as? ExercisesState.Success)
-            ?.exercises
-            ?.find { it.alias == alias }
-            ?: throw IllegalStateException("Exercise not found")
-    }
+    abstract suspend fun loadExercises()
 
     abstract fun stateAuthUpdate(
         state: AuthState
     )
+
+    override fun getExercise(
+        alias: String
+    ): Wrapper<Exercise> {
+        val result = getExercises()
+        return when (result) {
+            is Wrapper.Error -> Wrapper.Error(
+                result.error
+            )
+
+            is Wrapper.Success -> {
+                val exercise = result.data
+                    .find { it.alias == alias }
+
+                if (exercise != null)
+                    Wrapper.Success(exercise)
+                else
+                    Wrapper.Error(
+                        IllegalStateException("Exercise not found")
+                    )
+            }
+        }
+    }
+
+    override fun getExercises(): Wrapper<List<Exercise>> {
+        val exercises = (stateExercises.value as? ExercisesState.Success)
+            ?.exercises
+
+        return if (exercises != null)
+            Wrapper.Success(exercises)
+        else
+            Wrapper.Error(IllegalStateException("Exercises not found"))
+    }
+}
+
+interface ExercisesSource {
+    fun getExercise(
+        alias: String
+    ): Wrapper<Exercise>
+
+    fun getExercises(): Wrapper<List<Exercise>>
 }

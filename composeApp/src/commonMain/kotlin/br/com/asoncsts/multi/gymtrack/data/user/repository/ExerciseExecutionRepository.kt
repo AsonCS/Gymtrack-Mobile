@@ -4,7 +4,6 @@ import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.local.ExerciseExecutionLocal
 import br.com.asoncsts.multi.gymtrack.extension.error
-import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import kotlinx.coroutines.flow.Flow
 
@@ -26,12 +25,11 @@ interface ExerciseExecutionRepository {
         }
 
         override suspend fun getExerciseExecutions(
-            getExercise: (alias: String) -> Exercise,
             ids: List<String>
         ): Wrapper<Flow<List<ExerciseExecution>>> {
             return try {
                 Wrapper.Success(
-                    local.getExerciseExecutions(getExercise, ids)
+                    local.getExerciseExecutions(ids)
                 )
             } catch (t: Throwable) {
                 TAG_DATA.error("UserExerciseRepository", t)
@@ -44,7 +42,6 @@ interface ExerciseExecutionRepository {
     suspend fun getExerciseExecutions(): Wrapper<List<ExerciseExecution.SimpleView>>
 
     suspend fun getExerciseExecutions(
-        getExercise: (alias: String) -> Exercise,
         ids: List<String>
     ): Wrapper<Flow<List<ExerciseExecution>>>
 

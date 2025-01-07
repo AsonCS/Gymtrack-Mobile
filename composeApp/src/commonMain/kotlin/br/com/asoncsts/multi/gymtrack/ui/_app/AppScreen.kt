@@ -17,7 +17,7 @@ fun AppScreen(
     modifier: Modifier
 ) {
     val navController = rememberNavController()
-    val destination by navController.appNavDestinationState()
+    val hasBottomBar by navController.appNavHasBottomBarState()
     val userState by appViewModel
         .stateAuth
         .collectAsState(null)
@@ -27,7 +27,7 @@ fun AppScreen(
     Scaffold(
         modifier,
         bottomBar = {
-            if (destination.hasBottomBar) {
+            if (hasBottomBar) {
                 AppBottomBar(
                     appBottomBarProps(
                         navigateToHome = navController::navigateToHome,

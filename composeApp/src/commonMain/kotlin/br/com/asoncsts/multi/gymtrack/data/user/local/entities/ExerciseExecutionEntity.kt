@@ -25,11 +25,9 @@ data class ExerciseExecutionEntity(
         name = exerciseExecution.name
     )
 
-    fun toExerciseExecution(
-        getExercise: (alias: String) -> Exercise
-    ): ExerciseExecution {
+    fun toExerciseExecution(): ExerciseExecution {
         return ExerciseExecution.Impl(
-            exercise = getExercise(
+            exercise = Exercise.Impl(
                 exerciseAlias
             ),
             id = exerciseExecutionId,

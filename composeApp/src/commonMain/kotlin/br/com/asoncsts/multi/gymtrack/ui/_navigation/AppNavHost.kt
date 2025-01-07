@@ -55,13 +55,12 @@ fun AppNavHost(
             ),
             this
         )
-        HomeNavDestination(
-            HomeNavDestination.Args(
-                getExercise = appViewModel::getExercise,
+        homeNav(
+            HomeNavArgs(
+                exercisesSource = appViewModel,
                 navigateUp = navController::navigateUp,
                 viewModel = homeViewModel
-            ),
-            this
+            )
         )
         LoginDestination(
             LoginDestination.Args(
@@ -91,21 +90,16 @@ fun AppNavHost(
 }
 
 @Composable
-fun NavHostController.appNavDestinationState(): State<AppNavDestination<*>> {
+fun NavHostController.appNavHasBottomBarState(): State<Boolean> {
     return currentBackStackEntryFlow
         .map {
             when (it.destination.route) {
-                ExerciseDetailDestination.route -> ExerciseDetailDestination
-                HomeDestination.route -> HomeDestination
-                HomeNavDestination.route -> HomeNavDestination
-                LoginDestination.route -> LoginDestination
-                SearchDestination.route -> SearchDestination
-                SignupDestination.route -> SignupDestination
-                else -> throw IllegalStateException(
-                    "NavHostController.appNavDestinationState: Unknown route"
-                )
+                HomeDestination.route,
+                SearchDestination.route -> true
+
+                else -> false
             }
-        }.collectAsState(SearchDestination)
+        }.collectAsState(false)
 }
 
 fun NavHostController.navigateToExerciseDetail(
@@ -126,12 +120,6 @@ fun NavHostController.navigateToLogin() {
     }
 }
 
-fun NavHostController.navigateToNewWorkout() {
-    navigate(
-        HomeNavDestination.routeToNewWorkout()
-    )
-}
-
 fun NavHostController.navigateToSearch() {
     navigate(SearchDestination.route) {
         launchSingleTop = true
@@ -140,10 +128,4 @@ fun NavHostController.navigateToSearch() {
 
 fun NavHostController.navigateToUser() {
     //navigate(UserDestination.route)
-}
-
-fun NavHostController.navigateToWorkout() {
-    navigate(
-        HomeNavDestination.routeToWorkout()
-    )
 }
