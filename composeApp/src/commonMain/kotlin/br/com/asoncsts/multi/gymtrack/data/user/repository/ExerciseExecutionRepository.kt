@@ -1,63 +1,51 @@
 package br.com.asoncsts.multi.gymtrack.data.user.repository
 
+import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
-import br.com.asoncsts.multi.gymtrack.data.user.remote.ExerciseExecutionRemote
+import br.com.asoncsts.multi.gymtrack.data.user.local.ExerciseExecutionLocal
+import br.com.asoncsts.multi.gymtrack.extension.error
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
+import kotlinx.coroutines.flow.Flow
 
 interface ExerciseExecutionRepository {
 
     class Impl(
-        private val remote: ExerciseExecutionRemote
+        private val local: ExerciseExecutionLocal
     ) : ExerciseExecutionRepository {
-
-        override suspend fun getExerciseExecution(
-            id: String
-        ): Wrapper<ExerciseExecution.Detail> {
-            return try {
-                Wrapper.Success(
-                    remote.getExerciseExecution(id)
-                )
-            } catch (t: Throwable) {
-                //TAG_DATA.error("UserExerciseRepository", t)
-                Wrapper.Error(t)
-            }
-        }
 
         override suspend fun getExerciseExecutions(): Wrapper<List<ExerciseExecution.SimpleView>> {
             return try {
                 Wrapper.Success(
-                    remote.getExerciseExecutions()
+                    local.getExerciseExecutions()
                 )
             } catch (t: Throwable) {
-                //TAG_DATA.error("UserExerciseRepository.getExerciseExecutions", t)
-                //Wrapper.Error(t)
-                Wrapper.Success(listOf())
+                TAG_DATA.error("UserExerciseRepository", t)
+                Wrapper.Error(t)
             }
         }
 
         override suspend fun getExerciseExecutions(
+            getExercise: (alias: String) -> Exercise,
             ids: List<String>
-        ): Wrapper<List<ExerciseExecution>> {
+        ): Wrapper<Flow<List<ExerciseExecution>>> {
             return try {
                 Wrapper.Success(
-                    remote.getExerciseExecutionsPost(ids)
+                    local.getExerciseExecutions(getExercise, ids)
                 )
             } catch (t: Throwable) {
-                //TAG_DATA.error("UserExerciseRepository", t)
+                TAG_DATA.error("UserExerciseRepository", t)
                 Wrapper.Error(t)
             }
         }
 
     }
 
-    suspend fun getExerciseExecution(
-        id: String
-    ): Wrapper<ExerciseExecution.Detail>
-
     suspend fun getExerciseExecutions(): Wrapper<List<ExerciseExecution.SimpleView>>
 
     suspend fun getExerciseExecutions(
+        getExercise: (alias: String) -> Exercise,
         ids: List<String>
-    ): Wrapper<List<ExerciseExecution>>
+    ): Wrapper<Flow<List<ExerciseExecution>>>
 
 }

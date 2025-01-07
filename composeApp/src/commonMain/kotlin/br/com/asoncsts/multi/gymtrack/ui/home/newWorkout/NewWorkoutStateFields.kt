@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.newWorkout
+package br.com.asoncsts.multi.gymtrack.ui.home.newWorkout
 
 data class NewWorkoutStateFields(
     val description: String = "",

@@ -12,10 +12,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExerciseMock
+import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesState
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
-import br.com.asoncsts.multi.gymtrack.ui.search.SearchState
 import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.search_title
 import org.jetbrains.compose.resources.stringResource
@@ -41,7 +41,7 @@ internal fun searchScreenProps(
 internal fun SearchScreen(
     modifier: Modifier,
     props: SearchScreenProps,
-    state: SearchState
+    state: ExercisesState
 ) {
     Column(
         modifier
@@ -65,7 +65,7 @@ internal fun SearchScreen(
         )
 
         when (state) {
-            is SearchState.Error -> {
+            is ExercisesState.Error -> {
                 Text(
                     state.throwable.message
                         ?: "Error",
@@ -76,7 +76,7 @@ internal fun SearchScreen(
                 )
             }
 
-            SearchState.Loading -> {
+            ExercisesState.Loading -> {
                 Box(
                     Modifier
                         .weight(1f),
@@ -86,7 +86,7 @@ internal fun SearchScreen(
                 }
             }
 
-            is SearchState.Success -> {
+            is ExercisesState.Success -> {
                 LazyColumn(
                     Modifier
                         .weight(1f),
@@ -117,11 +117,11 @@ internal fun SearchScreen(
 }
 
 internal val searchStateValuesProvider = sequenceOf(
-    SearchState.Loading,
-    SearchState.Error(
+    ExercisesState.Loading,
+    ExercisesState.Error(
         Throwable("Test error")
     ),
-    SearchState.Success(
+    ExercisesState.Success(
         ExerciseMock.exercises
     )
 )

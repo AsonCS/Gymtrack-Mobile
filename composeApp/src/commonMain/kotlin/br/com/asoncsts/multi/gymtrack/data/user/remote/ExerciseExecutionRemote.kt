@@ -1,5 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.data.user.remote
 
+/*
 import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
 import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
 import br.com.asoncsts.multi.gymtrack.data.user.api.ExerciseExecutionApi
@@ -99,3 +100,4 @@ interface ExerciseExecutionRemote {
     suspend fun getExerciseExecutions(): List<ExerciseExecution.SimpleView>
 
 }
+*/

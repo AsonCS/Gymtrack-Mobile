@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import br.com.asoncsts.multi.gymtrack.ui._app.AppViewModel
 import br.com.asoncsts.multi.gymtrack.ui.auth.AuthViewModel
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeViewModel
-import br.com.asoncsts.multi.gymtrack.ui.search.SearchViewModel
 import kotlinx.coroutines.flow.map
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -23,12 +23,12 @@ sealed class AppNavDestination<Args>(
 
 @Composable
 fun AppNavHost(
+    appViewModel: AppViewModel,
     isLoggedIn: Boolean,
     navController: NavHostController,
     modifier: Modifier,
     authViewModel: AuthViewModel = koinViewModel(),
-    homeViewModel: HomeViewModel = koinViewModel(),
-    searchViewModel: SearchViewModel = koinViewModel()
+    homeViewModel: HomeViewModel = koinViewModel()
 ) {
     NavHost(
         navController = navController,
@@ -57,8 +57,9 @@ fun AppNavHost(
         )
         HomeNavDestination(
             HomeNavDestination.Args(
-                homeViewModel,
-                navigateUp = navController::navigateUp
+                getExercise = appViewModel::getExercise,
+                navigateUp = navController::navigateUp,
+                viewModel = homeViewModel
             ),
             this
         )
@@ -75,7 +76,7 @@ fun AppNavHost(
         SearchDestination(
             SearchDestination.Args(
                 navigateToExerciseDetail = navController::navigateToExerciseDetail,
-                searchViewModel
+                appViewModel
             ),
             this
         )

@@ -1,10 +1,10 @@
-package br.com.asoncsts.multi.gymtrack.ui.newWorkout
+package br.com.asoncsts.multi.gymtrack.ui.home.newWorkout
 
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
-import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutState.*
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutState.*
 import kotlinx.coroutines.flow.*
 
 class NewWorkoutViewModelImpl(

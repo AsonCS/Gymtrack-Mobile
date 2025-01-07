@@ -2,6 +2,7 @@ package br.com.asoncsts.multi.gymtrack.ui._navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.*
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeViewModel
@@ -11,8 +12,9 @@ data object HomeNavDestination : AppNavDestination<Args>(
     "home/{destination}"
 ) {
     class Args(
-        val homeViewModel: HomeViewModel,
-        val navigateUp: () -> Unit
+        val getExercise: (alias: String) -> Exercise,
+        val navigateUp: () -> Unit,
+        val viewModel: HomeViewModel
     )
 
     override fun invoke(

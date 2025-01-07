@@ -1,7 +1,6 @@
-@file:OptIn(ExperimentalUuidApi::class)
-
 package br.com.asoncsts.multi.gymtrack.data.user.remote
 
+/*
 import br.com.asoncsts.multi.gymtrack.data._exceptions.EmptyException
 import br.com.asoncsts.multi.gymtrack.data._exceptions.UnknownException
 import br.com.asoncsts.multi.gymtrack.data.user.api.WorkoutApi
@@ -58,3 +57,4 @@ interface WorkoutRemote {
     ): Workout
 
 }
+*/

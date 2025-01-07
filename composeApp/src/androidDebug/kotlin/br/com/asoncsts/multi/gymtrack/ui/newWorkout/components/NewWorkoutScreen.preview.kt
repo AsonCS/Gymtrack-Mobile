@@ -7,8 +7,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import br.com.asoncsts.multi.gymtrack.R
 import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 import br.com.asoncsts.multi.gymtrack.ui.PreviewMedPhone
-import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutState
-import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutStateFields
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutState
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutStateFields
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.components.*
 
 @PreviewMedPhone
 @Composable

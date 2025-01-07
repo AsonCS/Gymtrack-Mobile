@@ -10,6 +10,7 @@ import br.com.asoncsts.multi.gymtrack.ui._navigation.HomeNavDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutViewModel
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 sealed class HomeNavDestination<Args>(
     val route: String
@@ -25,9 +26,13 @@ fun HomeNavHost(
     args: Args,
     destination: String,
     modifier: Modifier = Modifier,
-    exerciseExecutionViewModel: ExerciseExecutionViewModel = koinViewModel(),
     navController: NavHostController = rememberNavController(),
-    workoutViewModel: WorkoutViewModel = koinViewModel(),
+    viewModelExerciseExecution: ExerciseExecutionViewModel = koinViewModel(),
+    viewModelWorkout: WorkoutViewModel = koinViewModel {
+        parametersOf(
+            args.getExercise
+        )
+    },
 ) {
     NavHost(
         navController = navController,
@@ -37,14 +42,14 @@ fun HomeNavHost(
         ExerciseExecutionDestination(
             ExerciseExecutionDestination.Args(
                 navigateUp = navController::navigateUp,
-                exerciseExecutionViewModel
+                viewModelExerciseExecution
             ),
             this
         )
         NewWorkoutDestination(
             NewWorkoutDestination.Args(
                 navigateToWorkout = {
-                    args.homeViewModel
+                    args.viewModel
                         .navigationArgumentWorkout = it
                     navController.navigateToWorkout()
                 },
@@ -57,9 +62,9 @@ fun HomeNavHost(
                 navController::navigateToExerciseExecution,
                 navController::navigateToNewExerciseExecution,
                 navigateUp = navController::navigateUp,
-                workoutViewModel,
+                viewModelWorkout,
                 workout = {
-                    args.homeViewModel
+                    args.viewModel
                         .navigationArgumentWorkout
                 }
             ),

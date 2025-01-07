@@ -42,9 +42,10 @@ fun AppScreen(
     ) {
         if (userState !is Unknown) {
             AppNavHost(
+                appViewModel = appViewModel,
                 isLoggedIn = user != null,
-                navController,
-                Modifier
+                navController = navController,
+                modifier = Modifier
                     .padding(it)
                     .fillMaxSize()
             )

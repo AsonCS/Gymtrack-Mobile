@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.NewWorkoutDestination.Args
-import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutScreen
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutScreen
 
 data object NewWorkoutDestination : HomeNavDestination<Args>(
     "new_workout"

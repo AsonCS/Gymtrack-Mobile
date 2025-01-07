@@ -6,11 +6,8 @@ import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data.exercise.api.ExerciseApi
 import br.com.asoncsts.multi.gymtrack.data.exercise.remote.ExerciseRemote
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
-import br.com.asoncsts.multi.gymtrack.data.user.api.ExerciseExecutionApi
-import br.com.asoncsts.multi.gymtrack.data.user.api.WorkoutApi
+import br.com.asoncsts.multi.gymtrack.data.user.local.ExerciseExecutionLocal
 import br.com.asoncsts.multi.gymtrack.data.user.local.WorkoutLocal
-import br.com.asoncsts.multi.gymtrack.data.user.remote.ExerciseExecutionRemote
-import br.com.asoncsts.multi.gymtrack.data.user.remote.WorkoutRemote
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
 import br.com.asoncsts.multi.gymtrack.database.AppDatabase
@@ -43,7 +40,7 @@ interface Platform {
 expect val platform: Platform
 
 internal fun dataModule() = module {
-    // Coil
+    // region Coil
     single<ImageLoader> {
         ImageLoader.Builder(platform.coilContext)
             .memoryCachePolicy(CachePolicy.ENABLED)
@@ -74,7 +71,9 @@ internal fun dataModule() = module {
 
         builder
     }
+    // endregion
 
+    // region Ktor
     single {
         HttpClient(platform.engine) {
             install(Logging) {
@@ -98,7 +97,9 @@ internal fun dataModule() = module {
             install(HttpCache)
         }
     }
+    // endregion
 
+    // region Database
     single<AppDatabase> {
         platform.databaseBuilder
             //.addMigrations(MIGRATIONS)
@@ -107,53 +108,41 @@ internal fun dataModule() = module {
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
     }
+    // endregion
 
-    // Api
+    // region Api
     single<ExerciseApi> {
         ExerciseApi.Impl(
             client = get(),
             host = BuildConfig.HOST
         )
     }
-    single<ExerciseExecutionApi> {
-        ExerciseExecutionApi.Impl(
-            client = get(),
-            host = BuildConfig.HOST
-        )
-    }
-    single<WorkoutApi> {
-        WorkoutApi.Impl(
-            client = get(),
-            host = BuildConfig.HOST
-        )
-    }
+    // endregion
 
-    // Local
+    // region Local
+    single<ExerciseExecutionLocal> {
+        ExerciseExecutionLocal.Impl(
+            dao = get<AppDatabase>()
+                .exerciseExecutionDao()
+        )
+    }
     single<WorkoutLocal> {
         WorkoutLocal.Impl(
-            workoutDao = get<AppDatabase>()
+            dao = get<AppDatabase>()
                 .workoutDao()
         )
     }
+    // endregion
 
-    // Remote
+    // region Remote
     single<ExerciseRemote> {
         ExerciseRemote.Impl(
             api = get()
         )
     }
-    single<ExerciseExecutionRemote> {
-        ExerciseExecutionRemote.Impl(
-            api = get()
-        )
-    }
-    single<WorkoutRemote> {
-        WorkoutRemote.Impl(
-            api = get()
-        )
-    }
+    // endregion
 
-    // Repository
+    // region Repository
     single<ExerciseRepository> {
         ExerciseRepository.Impl(
             remote = get()
@@ -161,13 +150,13 @@ internal fun dataModule() = module {
     }
     single<ExerciseExecutionRepository> {
         ExerciseExecutionRepository.Impl(
-            remote = get()
+            local = get()
         )
     }
     single<WorkoutRepository> {
         WorkoutRepository.Impl(
-            local = get(),
-            remote = get()
+            local = get()
         )
     }
+    // endregion
 }

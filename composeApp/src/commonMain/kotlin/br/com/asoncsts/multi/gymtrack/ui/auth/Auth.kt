@@ -1,9 +1,10 @@
 package br.com.asoncsts.multi.gymtrack.ui.auth
 
 import androidx.lifecycle.ViewModel
+import br.com.asoncsts.multi.gymtrack.ui._app.TAG_APP
 import kotlinx.coroutines.flow.StateFlow
 
-const val TAG_AUTH = "gymtrack:auth"
+const val TAG_AUTH = "${TAG_APP}auth"
 
 abstract class AuthViewModel : ViewModel() {
     internal abstract val state: StateFlow<LoginState>

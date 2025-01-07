@@ -1,8 +1,12 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package br.com.asoncsts.multi.gymtrack.extension
 
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import br.com.asoncsts.multi.gymtrack.isDebug
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 expect fun platformError(
     message: String,
@@ -38,3 +42,7 @@ fun String.capitalizedWords(
     .joinToString(" ") {
         it.capitalize(locale)
     }
+
+fun String?.orUuidHexString(): String = this
+    ?.takeIf { it.isNotBlank() }
+    ?: Uuid.random().toHexString()

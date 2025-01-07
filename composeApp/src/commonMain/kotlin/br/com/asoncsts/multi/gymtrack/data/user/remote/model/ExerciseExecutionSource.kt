@@ -1,5 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.data.user.remote.model
 
+/*
 import br.com.asoncsts.multi.gymtrack.data.exercise.remote.model.ExerciseSource
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import kotlinx.serialization.SerialName
@@ -54,3 +55,4 @@ data class ExerciseExecutionSource(
         )
     }
 }
+*/

@@ -14,25 +14,13 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionState
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionState.*
-
-/*
-internal data class ExerciseExecutionScreenProps(
-    val exerciseExecution: ExerciseExecution.Detail
-)
-
-@Composable
-internal fun exerciseExecutionScreenProps(
-    exerciseExecution: ExerciseExecution.Detail
-) = ExerciseExecutionScreenProps(
-    exerciseExecution
-)
-*/
 
 @Composable
 internal fun ExerciseExecutionScreen(
@@ -61,12 +49,17 @@ internal fun ExerciseExecutionScreen(
             }
         }
 
-        is Success -> Success(state.exerciseExecution, modifier)
+        is Success -> Success(
+            state.exercise,
+            state.exerciseExecution,
+            modifier
+        )
     }
 }
 
 @Composable
 private fun Success(
+    exercise: Exercise,
     exerciseExecution: ExerciseExecution.Detail,
     modifier: Modifier
 ) {
@@ -81,7 +74,7 @@ private fun Success(
             .spacedBy(16.dp)
     ) {
         Text(
-            exerciseExecution.exercise.title,
+            exercise.title,
             Modifier
                 .fillMaxWidth(),
             color = colors().onBackground,

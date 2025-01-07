@@ -15,7 +15,7 @@ class ExerciseExecutionViewModelImpl(
     override suspend fun getExerciseExecution(
         id: String
     ) {
-        when (val result = repo.getExerciseExecution(id)) {
+        /*when (val result = repo.getExerciseExecution(id)) {
             is Wrapper.Error -> {
                 _state.update {
                     Error(
@@ -31,7 +31,7 @@ class ExerciseExecutionViewModelImpl(
                     )
                 }
             }
-        }
+        }*/
     }
 
 }

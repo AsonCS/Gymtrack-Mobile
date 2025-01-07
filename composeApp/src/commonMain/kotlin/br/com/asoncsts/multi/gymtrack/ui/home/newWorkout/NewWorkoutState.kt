@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.newWorkout
+package br.com.asoncsts.multi.gymtrack.ui.home.newWorkout
 
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout

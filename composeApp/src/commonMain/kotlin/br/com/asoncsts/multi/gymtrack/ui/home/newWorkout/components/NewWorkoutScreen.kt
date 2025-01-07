@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.newWorkout.components
+package br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -15,8 +15,8 @@ import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._components.TextField
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
-import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutState
-import br.com.asoncsts.multi.gymtrack.ui.newWorkout.NewWorkoutStateFields
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutState
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutStateFields
 
 internal data class NewWorkoutScreenProps(
     val labelDescription: String,

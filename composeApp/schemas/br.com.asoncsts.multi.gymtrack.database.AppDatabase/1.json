@@ -2,11 +2,47 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "610304ac758f59c8a30eff5fdf8c4eea",
+    "identityHash": "151c0b3b3e7831a23516b523dcda5dc6",
     "entities": [
       {
+        "tableName": "execution",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`executionId` TEXT NOT NULL, `notes` TEXT NOT NULL, `reps` INTEGER NOT NULL, `weight` INTEGER NOT NULL, PRIMARY KEY(`executionId`))",
+        "fields": [
+          {
+            "fieldPath": "executionId",
+            "columnName": "executionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reps",
+            "columnName": "reps",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "executionId"
+          ]
+        }
+      },
+      {
         "tableName": "exercise_execution",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`description` TEXT, `exerciseExecutionId` TEXT NOT NULL, `exerciseId` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`exerciseExecutionId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`description` TEXT, `exerciseAlias` TEXT NOT NULL, `exerciseExecutionId` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`exerciseExecutionId`))",
         "fields": [
           {
             "fieldPath": "description",
@@ -14,14 +50,14 @@
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "exerciseExecutionId",
-            "columnName": "exerciseExecutionId",
+            "fieldPath": "exerciseAlias",
+            "columnName": "exerciseAlias",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "exerciseId",
-            "columnName": "exerciseId",
+            "fieldPath": "exerciseExecutionId",
+            "columnName": "exerciseExecutionId",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -40,18 +76,18 @@
         }
       },
       {
-        "tableName": "exercise_execution_workout_cross_ref",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`exerciseExecutionId` TEXT NOT NULL, `workoutId` TEXT NOT NULL, PRIMARY KEY(`exerciseExecutionId`, `workoutId`))",
+        "tableName": "exercise_execution_with_executions_cross_ref_entity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`executionId` TEXT NOT NULL, `exerciseExecutionId` TEXT NOT NULL, PRIMARY KEY(`executionId`, `exerciseExecutionId`))",
         "fields": [
           {
-            "fieldPath": "exerciseExecutionId",
-            "columnName": "exerciseExecutionId",
+            "fieldPath": "executionId",
+            "columnName": "executionId",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "workoutId",
-            "columnName": "workoutId",
+            "fieldPath": "exerciseExecutionId",
+            "columnName": "exerciseExecutionId",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -59,8 +95,8 @@
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "exerciseExecutionId",
-            "workoutId"
+            "executionId",
+            "exerciseExecutionId"
           ]
         }
       },
@@ -92,11 +128,36 @@
             "workoutId"
           ]
         }
+      },
+      {
+        "tableName": "workout_with_exercise_executions_cross_ref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`exerciseExecutionId` TEXT NOT NULL, `workoutId` TEXT NOT NULL, PRIMARY KEY(`exerciseExecutionId`, `workoutId`))",
+        "fields": [
+          {
+            "fieldPath": "exerciseExecutionId",
+            "columnName": "exerciseExecutionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "workoutId",
+            "columnName": "workoutId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "exerciseExecutionId",
+            "workoutId"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '610304ac758f59c8a30eff5fdf8c4eea')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '151c0b3b3e7831a23516b523dcda5dc6')"
     ]
   }
 }

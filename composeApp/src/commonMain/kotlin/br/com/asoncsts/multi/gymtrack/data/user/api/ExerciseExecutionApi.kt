@@ -1,5 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.data.user.api
 
+/*
 import br.com.asoncsts.multi.gymtrack.data._utils.Response
 import br.com.asoncsts.multi.gymtrack.data.user.remote.model.ExerciseExecutionSource
 import io.ktor.client.HttpClient
@@ -55,3 +56,4 @@ interface ExerciseExecutionApi {
     suspend fun getExerciseExecutions(): Response<List<ExerciseExecutionSource>>
 
 }
+*/

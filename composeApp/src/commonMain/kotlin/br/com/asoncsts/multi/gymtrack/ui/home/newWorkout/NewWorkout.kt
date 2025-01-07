@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.newWorkout
+package br.com.asoncsts.multi.gymtrack.ui.home.newWorkout
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.extension.launch
 import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.NewWorkoutDestination.Args
-import br.com.asoncsts.multi.gymtrack.ui.newWorkout.components.NewWorkoutScreen
-import br.com.asoncsts.multi.gymtrack.ui.newWorkout.components.newWorkoutScreenProps
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.components.NewWorkoutScreen
+import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.components.newWorkoutScreenProps
 import gymtrack.composeapp.generated.resources.*
 import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.compose.resources.stringResource
