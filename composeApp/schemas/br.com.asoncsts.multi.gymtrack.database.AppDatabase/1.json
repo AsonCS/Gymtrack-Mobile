@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "151c0b3b3e7831a23516b523dcda5dc6",
+    "identityHash": "f5b818637c14f6a0cf6ce1dfaaa45174",
     "entities": [
       {
         "tableName": "execution",
@@ -42,7 +42,7 @@
       },
       {
         "tableName": "exercise_execution",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`description` TEXT, `exerciseAlias` TEXT NOT NULL, `exerciseExecutionId` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`exerciseExecutionId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`description` TEXT, `exerciseAlias` TEXT, `exerciseExecutionId` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`exerciseExecutionId`))",
         "fields": [
           {
             "fieldPath": "description",
@@ -52,8 +52,7 @@
           {
             "fieldPath": "exerciseAlias",
             "columnName": "exerciseAlias",
-            "affinity": "TEXT",
-            "notNull": true
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "exerciseExecutionId",
@@ -157,7 +156,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '151c0b3b3e7831a23516b523dcda5dc6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f5b818637c14f6a0cf6ce1dfaaa45174')"
     ]
   }
 }

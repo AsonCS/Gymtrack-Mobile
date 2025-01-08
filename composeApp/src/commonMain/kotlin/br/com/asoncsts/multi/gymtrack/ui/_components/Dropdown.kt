@@ -1,51 +1,180 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package br.com.asoncsts.multi.gymtrack.ui._components
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
+import br.com.asoncsts.multi.gymtrack.ui._theme.shapes
 
 @Composable
-fun Dropdown(
+fun <Item> Dropdown(
+    item: Item?,
+    items: List<Item>,
+    itemFilter: (Item, String) -> Boolean,
+    itemKey: (Item) -> String,
+    itemText: (Item) -> String,
+    itemUpdate: (Item) -> Unit,
+    label: String,
+    placeholder: String,
+    modifier: Modifier = Modifier
+) {
+    var itemsFiltered by remember {
+        mutableStateOf(items)
+    }
+    var dialogOpen by remember {
+        mutableStateOf(false)
+    }
+    var filterText by remember {
+        mutableStateOf("")
+    }
+
+    Field(
+        item
+            ?.let(itemText)
+            ?: placeholder,
+        label,
+        modifier
+            .clickable {
+                dialogOpen = true
+            }
+    )
+
+    if (dialogOpen) {
+        Dialog(
+            filterText = filterText,
+            items = itemsFiltered,
+            itemKey = itemKey,
+            itemText = itemText,
+            label = label,
+            onDismissRequest = {
+                dialogOpen = false
+                filterText = ""
+            },
+            onFilterTextChange = { value ->
+                itemsFiltered = items.filter {
+                    itemFilter(it, value)
+                }
+                filterText = value
+            },
+            onItemClick = {
+                itemUpdate(it)
+                dialogOpen = false
+                filterText = ""
+            }
+        )
+    }
+}
+
+@Composable
+fun <Item> Dialog(
+    filterText: String,
+    items: List<Item>,
+    itemKey: (Item) -> String,
+    itemText: (Item) -> String,
+    label: String,
+    onDismissRequest: () -> Unit,
+    onFilterTextChange: (String) -> Unit,
+    onItemClick: (Item) -> Unit
+) {
+    Dialog(onDismissRequest) {
+        OutlinedCard(
+            Modifier
+                .fillMaxWidth(),
+            border = border(),
+            shape = shapes().medium
+        ) {
+            LazyColumn(
+                Modifier
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement
+                    .spacedBy(
+                        alignment = Alignment.CenterVertically,
+                        space = 16.dp
+                    )
+            ) {
+                stickyHeader {
+                    TextField(
+                        KeyboardType.Text,
+                        label,
+                        onFilterTextChange,
+                        label,
+                        filterText,
+                        Modifier
+                            .fillMaxWidth(),
+                        trailingIcon = {
+                            Icon(
+                                Icons.Filled.Search,
+                                "Search"
+                            )
+                        }
+                    )
+                }
+
+                items(
+                    items = items,
+                    key = { itemKey(it) }
+                ) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onItemClick(it)
+                            }
+                    ) {
+                        Text(
+                            itemText(it)
+                        )
+
+                        HorizontalDivider(
+                            Modifier
+                                .padding(
+                                    top = 4.dp
+                                ),
+                            color = colors().onBackground
+                                .copy(
+                                    alpha = .5f
+                                )
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun Field(
+    item: String,
     label: String,
     modifier: Modifier = Modifier
 ) {
-    val original = (0..10).map {
-        "Item $it"
-    }
-    var items by remember {
-        mutableStateOf(original)
-    }
-    var item by remember {
-        mutableStateOf(items[0])
-    }
-
-    here
     Box(
         modifier
             .padding(
                 vertical = 6.dp
             )
             .height(64.dp)
-            .clickable {}
     ) {
         Box(
             Modifier
                 .matchParentSize()
                 .border(
-                    BorderStroke(
-                        1.dp,
-                        colors().onBackground
-                    ),
+                    border(),
                     textFieldShape()
                 )
                 .padding(
@@ -84,69 +213,7 @@ fun Dropdown(
 }
 
 @Composable
-fun DropdownOld(
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier
-    ) {
-        val original = (0..10).map {
-            "Item $it"
-        }
-        var items by remember {
-            mutableStateOf(original)
-        }
-        var item by remember {
-            mutableStateOf("")
-        }
-        var expanded by remember {
-            mutableStateOf(false)
-        }
-
-        TextField(
-            keyboardType = KeyboardType.Text,
-            label = "Dropdown",
-            onValueChange = {
-                item = it
-                items = original.filter { it.contains(it) }
-                expanded = true
-            },
-            placeholder = "Dropdown",
-            value = item,
-            Modifier
-                .fillMaxWidth()
-                .align(Alignment.Center)
-        )
-        Icon(
-            Icons.Filled.ArrowDropDown,
-            "Dropdown",
-            Modifier
-                .background(Color.Red)
-                .padding(
-                    horizontal = 10.dp,
-                    vertical = 4.dp
-                )
-                .align(Alignment.CenterEnd)
-                .clickable { expanded = true }
-        )
-        DropdownMenu(
-            expanded,
-            onDismissRequest = {
-                expanded = false
-            },
-            Modifier
-                .fillMaxWidth()
-        ) {
-            items.forEachIndexed { idx, it ->
-                DropdownMenuItem(
-                    text = {
-                        Text(it)
-                    },
-                    onClick = {
-                        item = items[idx]
-                    }
-                )
-            }
-        }
-    }
-}
+private fun border() = BorderStroke(
+    1.dp,
+    colors().onBackground
+)

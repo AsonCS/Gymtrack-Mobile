@@ -9,7 +9,7 @@ import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 @Entity(tableName = "exercise_execution")
 data class ExerciseExecutionEntity(
     val description: String?,
-    val exerciseAlias: String,
+    val exerciseAlias: String?,
     @PrimaryKey
     val exerciseExecutionId: String,
     val name: String
@@ -19,7 +19,8 @@ data class ExerciseExecutionEntity(
         exerciseExecution: ExerciseExecution.Detail
     ) : this(
         description = exerciseExecution.description,
-        exerciseAlias = exerciseExecution.exercise.alias,
+        exerciseAlias = exerciseExecution.exercise
+            ?.alias,
         exerciseExecutionId = exerciseExecution.id
             .orUuidHexString(),
         name = exerciseExecution.name
@@ -27,9 +28,10 @@ data class ExerciseExecutionEntity(
 
     fun toExerciseExecution(): ExerciseExecution {
         return ExerciseExecution.Impl(
-            exercise = Exercise.Impl(
-                exerciseAlias
-            ),
+            exercise = exerciseAlias
+                ?.let {
+                    Exercise.Impl(it)
+                },
             id = exerciseExecutionId,
             name = name
         )

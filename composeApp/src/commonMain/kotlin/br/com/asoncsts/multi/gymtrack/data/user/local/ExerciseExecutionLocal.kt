@@ -37,12 +37,14 @@ interface ExerciseExecutionLocal {
 
         override suspend fun putExerciseExecution(
             exerciseExecution: ExerciseExecution.Detail
-        ): String {
+        ): ExerciseExecution.Detail {
             val entity = ExerciseExecutionEntity(
                 exerciseExecution
             )
             dao.insert(entity)
-            return entity.exerciseExecutionId
+            return exerciseExecution.copy(
+                id = entity.exerciseExecutionId
+            )
         }
     }
 
@@ -58,6 +60,6 @@ interface ExerciseExecutionLocal {
 
     suspend fun putExerciseExecution(
         exerciseExecution: ExerciseExecution.Detail
-    ): String
+    ): ExerciseExecution.Detail
 
 }

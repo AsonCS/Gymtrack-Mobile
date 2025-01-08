@@ -39,7 +39,8 @@ internal fun uiModule() = module {
     }
     viewModel<NewExerciseExecutionViewModel> { (exercisesSource: ExercisesSource) ->
         NewExerciseExecutionViewModelImpl(
-            exercisesSource = exercisesSource,
+            exerciseExecutionRepo = get(),
+            exercisesSource = exercisesSource
         )
     }
     viewModel<NewWorkoutViewModel> {

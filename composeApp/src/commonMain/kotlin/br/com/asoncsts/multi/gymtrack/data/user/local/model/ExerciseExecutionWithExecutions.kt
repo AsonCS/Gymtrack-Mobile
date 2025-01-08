@@ -20,9 +20,11 @@ data class ExerciseExecutionWithExecutions(
     fun toExerciseExecution(): ExerciseExecution.Detail {
         return ExerciseExecution.Detail(
             description = exerciseExecution.description,
-            exercise = Exercise.Impl(
-                exerciseExecution.exerciseAlias
-            ),
+            exercise = exerciseExecution
+                .exerciseAlias
+                ?.let {
+                    Exercise.Impl(it)
+                },
             id = exerciseExecution.exerciseExecutionId,
             name = exerciseExecution.name,
             executions = executions

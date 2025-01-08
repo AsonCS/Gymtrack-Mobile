@@ -21,7 +21,8 @@ fun TextField(
     modifier: Modifier = Modifier,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     onDone: (KeyboardActionScope.() -> Unit)? = null,
-    singleLine: Boolean = true
+    singleLine: Boolean = true,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     OutlinedTextField(
         value,
@@ -72,6 +73,7 @@ fun TextField(
         },
         shape = textFieldShape(),
         singleLine = singleLine,
+        trailingIcon = trailingIcon,
         visualTransformation = if (keyboardType == KeyboardType.Password)
             PasswordVisualTransformation()
         else

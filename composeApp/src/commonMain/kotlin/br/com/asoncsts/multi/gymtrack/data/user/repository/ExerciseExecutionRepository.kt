@@ -19,7 +19,7 @@ interface ExerciseExecutionRepository {
                     local.getExerciseExecutions()
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("UserExerciseRepository", t)
+                TAG_DATA.error("UserExerciseRepository.local.getExerciseExecutions", t)
                 Wrapper.Error(t)
             }
         }
@@ -32,7 +32,20 @@ interface ExerciseExecutionRepository {
                     local.getExerciseExecutions(ids)
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("UserExerciseRepository", t)
+                TAG_DATA.error("UserExerciseRepository.local.getExerciseExecutions(ids)", t)
+                Wrapper.Error(t)
+            }
+        }
+
+        override suspend fun putExerciseExecution(
+            exerciseExecution: ExerciseExecution.Detail
+        ): Wrapper<ExerciseExecution.Detail> {
+            return try {
+                Wrapper.Success(
+                    local.putExerciseExecution(exerciseExecution)
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error("UserExerciseRepository.local.putWorkout", t)
                 Wrapper.Error(t)
             }
         }
@@ -44,5 +57,9 @@ interface ExerciseExecutionRepository {
     suspend fun getExerciseExecutions(
         ids: List<String>
     ): Wrapper<Flow<List<ExerciseExecution>>>
+
+    suspend fun putExerciseExecution(
+        exerciseExecution: ExerciseExecution.Detail
+    ): Wrapper<ExerciseExecution.Detail>
 
 }

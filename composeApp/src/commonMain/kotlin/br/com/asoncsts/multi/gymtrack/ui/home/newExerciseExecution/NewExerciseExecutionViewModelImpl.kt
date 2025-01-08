@@ -1,11 +1,14 @@
 package br.com.asoncsts.multi.gymtrack.ui.home.newExerciseExecution
 
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
+import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
+import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 class NewExerciseExecutionViewModelImpl(
+    private val exerciseExecutionRepo: ExerciseExecutionRepository,
     private val exercisesSource: ExercisesSource,
 ) : NewExerciseExecutionViewModel() {
 
@@ -47,7 +50,42 @@ class NewExerciseExecutionViewModelImpl(
     }
 
     override suspend fun save() {
-        TODO("Not yet implemented")
+        val description = stateFields
+            .value
+            .description
+        val exercise = stateFields
+            .value
+            .exercise
+        val name = stateFields
+            .value
+            .name
+            ?: throw IllegalStateException("Name cannot be empty")
+
+        val result = exerciseExecutionRepo.putExerciseExecution(
+            ExerciseExecution.Detail(
+                description = description,
+                exercise = exercise,
+                name = name
+            )
+        )
+
+        when (result) {
+            is Wrapper.Error -> {
+                _state.update {
+                    NewExerciseExecutionState.Error(
+                        result.error
+                    )
+                }
+            }
+
+            is Wrapper.Success -> {
+                _state.update {
+                    NewExerciseExecutionState.SuccessNewExerciseExecution(
+                        result.data
+                    )
+                }
+            }
+        }
     }
 
 }

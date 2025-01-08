@@ -103,7 +103,7 @@ internal fun NewExerciseExecutionScreen(
             }
 
             is NewExerciseExecutionState.Success -> {
-                Success(props, stateFields)
+                Success(props, state, stateFields)
             }
 
             is NewExerciseExecutionState.SuccessNewExerciseExecution -> {
@@ -116,6 +116,7 @@ internal fun NewExerciseExecutionScreen(
 @Composable
 private fun Success(
     props: NewExerciseExecutionScreenProps,
+    state: NewExerciseExecutionState.Success,
     stateFields: NewExerciseExecutionStateFields
 ) {
     TextField(
@@ -146,7 +147,21 @@ private fun Success(
     )
 
     Dropdown(
-        props.labelExercise,
+        item = stateFields.exercise,
+        items = state.exercises,
+        itemFilter = { exercise, filter ->
+            exercise.alias.contains(filter)
+                    || exercise.title.contains(filter)
+        },
+        itemKey = {
+            it.alias
+        },
+        itemText = {
+            it.title
+        },
+        itemUpdate = stateFields::updateExercise,
+        label = props.labelExercise,
+        placeholder = props.labelExercise,
         Modifier
             .fillMaxWidth()
     )

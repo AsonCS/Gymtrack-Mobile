@@ -44,13 +44,14 @@ class WorkoutViewModelImpl(
 
     private fun collect(exercisesExecutions: List<ExerciseExecution>) {
         val result = exercisesExecutions.map { exercisesExecution ->
-            val result = exercisesSource.getExercise(
-                exercisesExecution.exercise.alias
-            )
+            val alias = exercisesExecution.exercise?.alias
+            val result = alias?.let {
+                exercisesSource.getExercise(it)
+            }
             val exercise = when (result) {
                 is Wrapper.Error -> {
                     Exercise.Impl(
-                        alias = exercisesExecution.exercise.alias,
+                        alias = alias,
                         title = "Error"
                     )
                 }
@@ -58,6 +59,8 @@ class WorkoutViewModelImpl(
                 is Wrapper.Success -> {
                     result.data
                 }
+
+                null -> null
             }
 
             ExerciseExecution.Impl(

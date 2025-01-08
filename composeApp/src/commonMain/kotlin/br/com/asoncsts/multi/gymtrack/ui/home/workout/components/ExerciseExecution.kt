@@ -54,11 +54,15 @@ internal fun ExerciseExecution(
                     .height(6.dp)
             )
 
-            Text(
-                props.exercise.exercise.title,
-                color = colors().onBackground,
-                style = typography().bodyLarge
-            )
+            props.exercise.exercise
+                ?.title
+                ?.let {
+                    Text(
+                        it,
+                        color = colors().onBackground,
+                        style = typography().bodyLarge
+                    )
+                }
         }
     }
 }
