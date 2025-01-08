@@ -16,6 +16,7 @@
     <string name="login_screen_signup">Cadastrar</string>
 
     <string name="new_exercise_execution_label_new">Nova execução exercício</string>
+    <string name="new_exercise_execution_label_exercise">Exercício</string>
 
     <string name="new_workout_label_new">Novo treino</string>
 

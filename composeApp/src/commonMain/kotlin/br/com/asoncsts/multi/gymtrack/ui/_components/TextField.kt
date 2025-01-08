@@ -9,6 +9,9 @@ import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.shapes
 
 @Composable
+fun textFieldShape() = shapes().medium
+
+@Composable
 fun TextField(
     keyboardType: KeyboardType,
     label: String,
@@ -67,7 +70,7 @@ fun TextField(
                     )
             )
         },
-        shape = shapes().medium,
+        shape = textFieldShape(),
         singleLine = singleLine,
         visualTransformation = if (keyboardType == KeyboardType.Password)
             PasswordVisualTransformation()

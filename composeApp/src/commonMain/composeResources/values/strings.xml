@@ -16,6 +16,7 @@
     <string name="login_screen_signup">Sign up</string>
 
     <string name="new_exercise_execution_label_new">New exercise execution</string>
+    <string name="new_exercise_execution_label_exercise">Exercise</string>
 
     <string name="new_workout_label_new">New workout</string>
 

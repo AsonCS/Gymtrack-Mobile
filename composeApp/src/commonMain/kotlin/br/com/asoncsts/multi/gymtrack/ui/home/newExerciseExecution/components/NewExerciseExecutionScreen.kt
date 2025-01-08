@@ -10,8 +10,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack.ui._components.Loading
-import br.com.asoncsts.multi.gymtrack.ui._components.TextField
+import br.com.asoncsts.multi.gymtrack.ui._components.*
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.newExerciseExecution.NewExerciseExecutionState
@@ -21,6 +20,7 @@ import org.jetbrains.compose.resources.stringResource
 
 internal data class NewExerciseExecutionScreenProps(
     val labelDescription: String,
+    val labelExercise: String,
     val labelName: String,
     val labelNewExerciseExecution: String,
     val navigateUp: () -> Unit,
@@ -34,6 +34,9 @@ internal fun newExerciseExecutionScreenProps(
     labelDescription: String = stringResource(
         Res.string.label_description
     ),
+    labelExercise: String = stringResource(
+        Res.string.new_exercise_execution_label_exercise
+    ),
     labelName: String = stringResource(
         Res.string.label_name
     ),
@@ -42,6 +45,7 @@ internal fun newExerciseExecutionScreenProps(
     )
 ) = NewExerciseExecutionScreenProps(
     labelDescription,
+    labelExercise,
     labelName,
     labelNewExerciseExecution,
     navigateUp,
@@ -140,4 +144,11 @@ private fun Success(
             props.onSave()
         }
     )
+
+    Dropdown(
+        props.labelExercise,
+        Modifier
+            .fillMaxWidth()
+    )
+
 }
