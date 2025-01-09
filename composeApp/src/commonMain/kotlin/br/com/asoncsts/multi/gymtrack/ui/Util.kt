@@ -15,23 +15,6 @@ import androidx.compose.ui.unit.Dp
 import br.com.asoncsts.multi.gymtrack.ui._theme.AppTheme
 
 @Composable
-fun PreviewContainer(
-    modifier: Modifier = Modifier,
-    alignment: Alignment = Alignment.Center,
-    content: @Composable () -> Unit
-) {
-    AppTheme {
-        Box(
-            modifier
-                .fillMaxSize(),
-            contentAlignment = alignment
-        ) {
-            content()
-        }
-    }
-}
-
-@Composable
 fun BackHandlerContainer(
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
@@ -60,11 +43,36 @@ fun BackHandlerContainer(
 }
 
 @Composable
+expect fun getWidthDp(
+    fraction: Float = 1f
+): Dp
+
+@Composable
+fun PreviewContainer(
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.Center,
+    content: @Composable () -> Unit
+) {
+    AppTheme {
+        Box(
+            modifier
+                .fillMaxSize(),
+            contentAlignment = alignment
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+expect fun Toast(
+    text: String,
+    isLong: Boolean = false
+)
+
+@Composable
 fun Dp.toPx(): Int {
     return with(LocalDensity.current) {
         toPx().toInt()
     }
 }
-
-@Composable
-expect fun getWidthDp(fraction: Float = 1f): Dp

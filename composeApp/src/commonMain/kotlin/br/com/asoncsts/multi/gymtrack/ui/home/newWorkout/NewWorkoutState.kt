@@ -11,7 +11,7 @@ sealed class NewWorkoutState {
     data object Loading : NewWorkoutState()
 
     data class Success(
-        val exerciseExecutions: List<ExerciseExecution.SimpleView>
+        val exerciseExecutions: List<ExerciseExecution>
     ) : NewWorkoutState()
 
     data class SuccessNewWorkout(

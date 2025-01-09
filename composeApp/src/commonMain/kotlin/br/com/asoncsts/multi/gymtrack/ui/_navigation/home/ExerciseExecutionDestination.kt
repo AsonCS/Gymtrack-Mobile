@@ -6,6 +6,7 @@ import br.com.asoncsts.multi.gymtrack.ui._navigation.home.ExerciseExecutionDesti
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionScreen
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionViewModel
 
+here
 data object ExerciseExecutionDestination : HomeNavDestination<Args>(
     "exercise_execution/{id}"
 ) {

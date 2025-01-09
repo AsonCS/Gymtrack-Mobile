@@ -1,8 +1,7 @@
 package br.com.asoncsts.multi.gymtrack.database
 
 import androidx.room.*
-import br.com.asoncsts.multi.gymtrack.data.user.local.dao.ExerciseExecutionDao
-import br.com.asoncsts.multi.gymtrack.data.user.local.dao.WorkoutDao
+import br.com.asoncsts.multi.gymtrack.data.user.local.dao.*
 import br.com.asoncsts.multi.gymtrack.data.user.local.entities.*
 
 // https://developer.android.com/kotlin/multiplatform/room#android
@@ -20,4 +19,5 @@ import br.com.asoncsts.multi.gymtrack.data.user.local.entities.*
 abstract class AppDatabase : RoomDatabase() {
     abstract fun exerciseExecutionDao(): ExerciseExecutionDao
     abstract fun workoutDao(): WorkoutDao
+    abstract fun workoutWithExerciseExecutionsDao(): WorkoutWithExerciseExecutionsDao
 }

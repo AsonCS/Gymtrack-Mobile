@@ -8,8 +8,32 @@ interface ExerciseExecution {
     data class Impl(
         override val exercise: Exercise?,
         override val id: String,
-        override val name: String
-    ) : ExerciseExecution
+        override val name: String,
+        val exerciseAlias: String?
+    ) : ExerciseExecution {
+        constructor(
+            exerciseAlias: String?,
+            id: String,
+            name: String
+        ) : this(
+            exercise = null,
+            exerciseAlias = exerciseAlias,
+            id = id,
+            name = name
+        )
+
+        constructor(
+            exercise: Exercise?,
+            id: String,
+            name: String
+        ) : this(
+            exercise = exercise,
+            exerciseAlias = exercise
+                ?.alias,
+            id = id,
+            name = name
+        )
+    }
 
     data class Detail(
         override val exercise: Exercise?,
@@ -30,9 +54,4 @@ interface ExerciseExecution {
             executions = emptyList()
         )
     }
-
-    data class SimpleView(
-        val id: String,
-        val name: String
-    )
 }

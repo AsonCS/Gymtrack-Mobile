@@ -146,12 +146,12 @@ private fun Success(
         }
     )
 
-    Dropdown(
+    DropdownField(
         item = stateFields.exercise,
         items = state.exercises,
-        itemFilter = { exercise, filter ->
-            exercise.alias.contains(filter)
-                    || exercise.title.contains(filter)
+        itemFilter = { item, filter ->
+            item.alias.contains(filter)
+                    || item.title.contains(filter)
         },
         itemKey = {
             it.alias

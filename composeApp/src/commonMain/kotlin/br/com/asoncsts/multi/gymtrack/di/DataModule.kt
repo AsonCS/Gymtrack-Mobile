@@ -6,10 +6,8 @@ import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data.exercise.api.ExerciseApi
 import br.com.asoncsts.multi.gymtrack.data.exercise.remote.ExerciseRemote
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
-import br.com.asoncsts.multi.gymtrack.data.user.local.ExerciseExecutionLocal
-import br.com.asoncsts.multi.gymtrack.data.user.local.WorkoutLocal
-import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
-import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
+import br.com.asoncsts.multi.gymtrack.data.user.local.*
+import br.com.asoncsts.multi.gymtrack.data.user.repository.*
 import br.com.asoncsts.multi.gymtrack.database.AppDatabase
 import br.com.asoncsts.multi.gymtrack.extension.log
 import br.com.asoncsts.multi.gymtrack.generated.BuildConfig
@@ -132,6 +130,12 @@ internal fun dataModule() = module {
                 .workoutDao()
         )
     }
+    single<WorkoutWithExerciseExecutionsLocal> {
+        WorkoutWithExerciseExecutionsLocal.Impl(
+            dao = get<AppDatabase>()
+                .workoutWithExerciseExecutionsDao()
+        )
+    }
     // endregion
 
     // region Remote
@@ -155,6 +159,11 @@ internal fun dataModule() = module {
     }
     single<WorkoutRepository> {
         WorkoutRepository.Impl(
+            local = get()
+        )
+    }
+    single<WorkoutWithExerciseExecutionsRepository> {
+        WorkoutWithExerciseExecutionsRepository.Impl(
             local = get()
         )
     }

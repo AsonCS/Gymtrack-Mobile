@@ -6,10 +6,7 @@ sealed class WorkoutState {
     data object Loading : WorkoutState()
 
     data class Success(
-        val exerciseExecutions: List<ExerciseExecution>
-    ) : WorkoutState()
-
-    data class Error(
-        val throwable: Throwable
+        val allExerciseExecutions: List<ExerciseExecution>,
+        val filteredExerciseExecutions: List<ExerciseExecution>,
     ) : WorkoutState()
 }

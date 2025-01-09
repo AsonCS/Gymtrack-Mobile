@@ -4,7 +4,6 @@ import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
-import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutState.*
 import kotlinx.coroutines.flow.*
 
 class NewWorkoutViewModelImpl(
@@ -12,7 +11,9 @@ class NewWorkoutViewModelImpl(
     private val workoutRepo: WorkoutRepository
 ) : NewWorkoutViewModel() {
 
-    private val _state = MutableStateFlow<NewWorkoutState>(Loading)
+    private val _state = MutableStateFlow<NewWorkoutState>(
+        NewWorkoutState.Loading
+    )
     override val state = _state.asStateFlow()
 
     private val _stateFields: MutableStateFlow<NewWorkoutStateFields> by lazy {
@@ -31,17 +32,19 @@ class NewWorkoutViewModelImpl(
         when (result) {
             is Wrapper.Error -> {
                 _state.update {
-                    Error(
+                    NewWorkoutState.Error(
                         result.error
                     )
                 }
             }
 
             is Wrapper.Success -> {
-                _state.update {
-                    Success(
-                        result.data
-                    )
+                result.data.collect { exerciseExecutions ->
+                    _state.update {
+                        NewWorkoutState.Success(
+                            exerciseExecutions
+                        )
+                    }
                 }
             }
         }
@@ -67,7 +70,7 @@ class NewWorkoutViewModelImpl(
         when (result) {
             is Wrapper.Error -> {
                 _state.update {
-                    Error(
+                    NewWorkoutState.Error(
                         result.error
                     )
                 }
@@ -75,7 +78,7 @@ class NewWorkoutViewModelImpl(
 
             is Wrapper.Success -> {
                 _state.update {
-                    SuccessNewWorkout(
+                    NewWorkoutState.SuccessNewWorkout(
                         result.data
                     )
                 }

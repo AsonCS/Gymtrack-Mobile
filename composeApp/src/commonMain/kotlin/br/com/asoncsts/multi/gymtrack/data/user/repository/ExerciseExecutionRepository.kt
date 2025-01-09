@@ -13,26 +13,13 @@ interface ExerciseExecutionRepository {
         private val local: ExerciseExecutionLocal
     ) : ExerciseExecutionRepository {
 
-        override suspend fun getExerciseExecutions(): Wrapper<List<ExerciseExecution.SimpleView>> {
+        override suspend fun getExerciseExecutions(): Wrapper<Flow<List<ExerciseExecution>>> {
             return try {
                 Wrapper.Success(
                     local.getExerciseExecutions()
                 )
             } catch (t: Throwable) {
                 TAG_DATA.error("UserExerciseRepository.local.getExerciseExecutions", t)
-                Wrapper.Error(t)
-            }
-        }
-
-        override suspend fun getExerciseExecutions(
-            ids: List<String>
-        ): Wrapper<Flow<List<ExerciseExecution>>> {
-            return try {
-                Wrapper.Success(
-                    local.getExerciseExecutions(ids)
-                )
-            } catch (t: Throwable) {
-                TAG_DATA.error("UserExerciseRepository.local.getExerciseExecutions(ids)", t)
                 Wrapper.Error(t)
             }
         }
@@ -52,11 +39,7 @@ interface ExerciseExecutionRepository {
 
     }
 
-    suspend fun getExerciseExecutions(): Wrapper<List<ExerciseExecution.SimpleView>>
-
-    suspend fun getExerciseExecutions(
-        ids: List<String>
-    ): Wrapper<Flow<List<ExerciseExecution>>>
+    suspend fun getExerciseExecutions(): Wrapper<Flow<List<ExerciseExecution>>>
 
     suspend fun putExerciseExecution(
         exerciseExecution: ExerciseExecution.Detail

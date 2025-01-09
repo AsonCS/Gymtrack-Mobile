@@ -12,15 +12,8 @@ interface ExerciseExecutionLocal {
         private val dao: ExerciseExecutionDao
     ) : ExerciseExecutionLocal {
 
-        override suspend fun getExerciseExecutions(): List<ExerciseExecution.SimpleView> {
+        override suspend fun getExerciseExecutions(): Flow<List<ExerciseExecution>> {
             return dao.getExerciseExecutions()
-                .map { it.toExerciseExecution() }
-        }
-
-        override suspend fun getExerciseExecutions(
-            ids: List<String>
-        ): Flow<List<ExerciseExecution>> {
-            return dao.getExerciseExecutionsByIds(ids)
                 .map { list ->
                     list.map { it.toExerciseExecution() }
                 }
@@ -48,11 +41,7 @@ interface ExerciseExecutionLocal {
         }
     }
 
-    suspend fun getExerciseExecutions(): List<ExerciseExecution.SimpleView>
-
-    suspend fun getExerciseExecutions(
-        ids: List<String>
-    ): Flow<List<ExerciseExecution>>
+    suspend fun getExerciseExecutions(): Flow<List<ExerciseExecution>>
 
     suspend fun getExerciseExecutionsWithExecutions(
         ids: List<String>

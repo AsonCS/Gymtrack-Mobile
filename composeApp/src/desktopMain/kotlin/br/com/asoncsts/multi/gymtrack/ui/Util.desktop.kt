@@ -9,6 +9,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-actual fun getWidthDp(fraction: Float): Dp {
+actual fun getWidthDp(
+    fraction: Float
+): Dp {
     return (LocalWindowInfo.current.containerSize.width * fraction).dp
+}
+
+@Composable
+actual fun Toast(
+    text: String,
+    isLong: Boolean
+) {
 }

@@ -22,6 +22,50 @@ import br.com.asoncsts.multi.gymtrack.ui._theme.shapes
 
 @Composable
 fun <Item> Dropdown(
+    dialogOpen: Boolean,
+    items: List<Item>,
+    itemFilter: (Item, String) -> Boolean,
+    itemKey: (Item) -> String,
+    itemText: (Item) -> String,
+    itemUpdate: (Item) -> Unit,
+    label: String,
+    onCloseDialog: () -> Unit,
+) {
+    var itemsFiltered by remember {
+        mutableStateOf(items)
+    }
+    var filterText by remember {
+        mutableStateOf("")
+    }
+
+    if (dialogOpen) {
+        Dialog(
+            filterText = filterText,
+            items = itemsFiltered,
+            itemKey = itemKey,
+            itemText = itemText,
+            label = label,
+            onDismissRequest = {
+                onCloseDialog()
+                filterText = ""
+            },
+            onFilterTextChange = { value ->
+                itemsFiltered = items.filter {
+                    itemFilter(it, value)
+                }
+                filterText = value
+            },
+            onItemClick = {
+                itemUpdate(it)
+                onCloseDialog()
+                filterText = ""
+            }
+        )
+    }
+}
+
+@Composable
+fun <Item> DropdownField(
     item: Item?,
     items: List<Item>,
     itemFilter: (Item, String) -> Boolean,
@@ -32,14 +76,8 @@ fun <Item> Dropdown(
     placeholder: String,
     modifier: Modifier = Modifier
 ) {
-    var itemsFiltered by remember {
-        mutableStateOf(items)
-    }
     var dialogOpen by remember {
         mutableStateOf(false)
-    }
-    var filterText by remember {
-        mutableStateOf("")
     }
 
     Field(
@@ -53,30 +91,18 @@ fun <Item> Dropdown(
             }
     )
 
-    if (dialogOpen) {
-        Dialog(
-            filterText = filterText,
-            items = itemsFiltered,
-            itemKey = itemKey,
-            itemText = itemText,
-            label = label,
-            onDismissRequest = {
-                dialogOpen = false
-                filterText = ""
-            },
-            onFilterTextChange = { value ->
-                itemsFiltered = items.filter {
-                    itemFilter(it, value)
-                }
-                filterText = value
-            },
-            onItemClick = {
-                itemUpdate(it)
-                dialogOpen = false
-                filterText = ""
-            }
-        )
-    }
+    Dropdown(
+        dialogOpen,
+        items,
+        itemFilter,
+        itemKey,
+        itemText,
+        itemUpdate,
+        label,
+        onCloseDialog = {
+            dialogOpen = false
+        }
+    )
 }
 
 @Composable

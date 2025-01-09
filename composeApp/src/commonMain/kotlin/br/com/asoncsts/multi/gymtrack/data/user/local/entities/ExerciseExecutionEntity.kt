@@ -3,7 +3,6 @@ package br.com.asoncsts.multi.gymtrack.data.user.local.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.asoncsts.multi.gymtrack.extension.orUuidHexString
-import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 
 @Entity(tableName = "exercise_execution")
@@ -26,14 +25,11 @@ data class ExerciseExecutionEntity(
         name = exerciseExecution.name
     )
 
-    fun toExerciseExecution(): ExerciseExecution {
+    fun toExerciseExecution(): ExerciseExecution.Impl {
         return ExerciseExecution.Impl(
-            exercise = exerciseAlias
-                ?.let {
-                    Exercise.Impl(it)
-                },
-            id = exerciseExecutionId,
-            name = name
+            exerciseAlias,
+            exerciseExecutionId,
+            name
         )
     }
 }

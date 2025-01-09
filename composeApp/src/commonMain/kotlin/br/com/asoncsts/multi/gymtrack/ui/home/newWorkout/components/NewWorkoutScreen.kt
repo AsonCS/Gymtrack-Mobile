@@ -11,8 +11,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
-import br.com.asoncsts.multi.gymtrack.ui._components.Loading
-import br.com.asoncsts.multi.gymtrack.ui._components.TextField
+import br.com.asoncsts.multi.gymtrack.ui._components.*
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutState
@@ -22,6 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 
 internal data class NewWorkoutScreenProps(
     val labelDescription: String,
+    val labelExerciseExecution: String,
     val labelName: String,
     val labelNewWorkout: String,
     val navigateToWorkout: (
@@ -39,6 +39,9 @@ internal fun newWorkoutScreenProps(
     labelDescription: String = stringResource(
         Res.string.label_description
     ),
+    labelExerciseExecution: String = stringResource(
+        Res.string.new_workout_label_exercise_execution
+    ),
     labelName: String = stringResource(
         Res.string.label_name
     ),
@@ -47,6 +50,7 @@ internal fun newWorkoutScreenProps(
     )
 ) = NewWorkoutScreenProps(
     labelDescription,
+    labelExerciseExecution,
     labelName,
     labelNewWorkout,
     navigateToWorkout,
@@ -114,7 +118,7 @@ internal fun NewWorkoutScreen(
                     state.throwable.message
                         ?: "Error",
                     Modifier
-                        .weight(1f),
+                        .fillMaxWidth(),
                     color = colors().error,
                     style = typography().titleSmall
                 )
@@ -123,7 +127,7 @@ internal fun NewWorkoutScreen(
             NewWorkoutState.Loading -> {
                 Box(
                     Modifier
-                        .weight(1f),
+                        .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
                     Loading()
@@ -131,15 +135,11 @@ internal fun NewWorkoutScreen(
             }
 
             is NewWorkoutState.Success -> {
-                state.exerciseExecutions.forEach {
-                    Text(
-                        "name: ${it.name} - id: ${it.id}",
-                        Modifier
-                            .fillMaxWidth(),
-                        color = colors().onBackground,
-                        style = typography().titleMedium
-                    )
-                }
+                Success(
+                    props,
+                    state,
+                    stateFields
+                )
             }
 
             is NewWorkoutState.SuccessNewWorkout -> {
@@ -147,6 +147,32 @@ internal fun NewWorkoutScreen(
             }
         }
     }
+}
+
+@Composable
+private fun Success(
+    props: NewWorkoutScreenProps,
+    state: NewWorkoutState.Success,
+    stateFields: NewWorkoutStateFields
+) {
+    DropdownField(
+        item = stateFields.exerciseExecution,
+        items = state.exerciseExecutions,
+        itemFilter = { item, filter ->
+            item.name.contains(filter)
+        },
+        itemKey = {
+            it.id
+        },
+        itemText = {
+            it.name
+        },
+        itemUpdate = stateFields::updateExerciseExecution,
+        label = props.labelExerciseExecution,
+        placeholder = props.labelExerciseExecution,
+        Modifier
+            .fillMaxWidth()
+    )
 }
 
 internal val newWorkoutStateValuesProvider = sequenceOf(
