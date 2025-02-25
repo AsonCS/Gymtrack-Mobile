@@ -3,9 +3,8 @@ package br.com.asoncsts.multi.gymtrack.ui.exerciseDetail
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
-import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
-import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
+import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.ui._navigation.ExerciseDetailDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.exerciseDetail.components.ExerciseDetailScreen
 import br.com.asoncsts.multi.gymtrack.ui.exerciseDetail.components.exerciseDetailScreenProps
@@ -24,16 +23,12 @@ fun ExerciseDetailScreen(
         )
     }
 
-    BackHandlerContainer(
-        args.navigateUp,
+    ExerciseDetailScreen(
+        exerciseDetailScreenProps(
+            exercise
+        ),
         modifier
-    ) {
-        ExerciseDetailScreen(
-            exerciseDetailScreenProps(
-                exercise
-            )
-        )
-    }
+    )
 
     LaunchedEffect(Unit) {
         when (val result = repository.getExercise(alias)) {

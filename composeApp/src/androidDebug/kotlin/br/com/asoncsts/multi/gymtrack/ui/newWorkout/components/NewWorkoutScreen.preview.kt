@@ -30,6 +30,7 @@ private fun Preview(
                 labelNewWorkout = stringResource(
                     R.string.new_workout_label_new
                 ),
+                navigateUp = {},
                 navigateToWorkout = {},
                 onSave = {}
             ),

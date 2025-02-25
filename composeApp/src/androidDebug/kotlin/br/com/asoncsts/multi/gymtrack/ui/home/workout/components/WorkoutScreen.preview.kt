@@ -38,6 +38,7 @@ private fun workoutScreenProps(
     labelNewExerciseExecution = stringResource(
         R.string.workout_label_new_exercise_execution
     ),
+    navigateUp = {},
     navigateToExerciseExecution = {},
     navigateToNewExerciseExecution = {},
     toastAddNewExerciseExecutionError = stringResource(

@@ -4,7 +4,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.extension.launch
-import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.NewWorkoutArgs
 import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.components.NewWorkoutScreen
 import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.components.newWorkoutScreenProps
@@ -24,24 +23,20 @@ fun NewWorkoutScreen(
         .stateFields
         .collectAsState()
 
-    BackHandlerContainer(
-        args.navigateUp,
-        modifier
-    ) {
-        NewWorkoutScreen(
-            newWorkoutScreenProps(
-                navigateToWorkout = args.navigateToWorkout,
-                onSave = {
-                    viewModel.launch {
-                        save()
-                    }
+    NewWorkoutScreen(
+        newWorkoutScreenProps(
+            args.navigateUp,
+            args.navigateToWorkout,
+            onSave = {
+                viewModel.launch {
+                    save()
                 }
-            ),
-            state,
-            stateFields,
-            modifier
-        )
-    }
+            }
+        ),
+        state,
+        stateFields,
+        modifier
+    )
 
     LaunchedEffect(Unit) {
         viewModel.launch {

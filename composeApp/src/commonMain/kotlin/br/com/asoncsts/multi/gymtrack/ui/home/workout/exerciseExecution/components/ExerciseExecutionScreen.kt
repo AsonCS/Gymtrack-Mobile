@@ -9,21 +9,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
+import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionState
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionState.*
 
+internal data class ExerciseExecutionScreenProps(
+    val navigateUp: () -> Unit
+)
+
+@Composable
+internal fun exerciseExecutionScreenProps(
+    navigateUp: () -> Unit
+) = ExerciseExecutionScreenProps(
+    navigateUp
+)
+
+here
 @Composable
 internal fun ExerciseExecutionScreen(
+    props: ExerciseExecutionScreenProps,
     state: ExerciseExecutionState,
     modifier: Modifier = Modifier
 ) {
@@ -50,8 +61,8 @@ internal fun ExerciseExecutionScreen(
         }
 
         is Success -> Success(
-            state.exercise,
             state.exerciseExecution,
+            props.navigateUp,
             modifier
         )
     }
@@ -59,8 +70,8 @@ internal fun ExerciseExecutionScreen(
 
 @Composable
 private fun Success(
-    exercise: Exercise,
     exerciseExecution: ExerciseExecution.Detail,
+    navigateUp: () -> Unit,
     modifier: Modifier
 ) {
     val locale = Locale.current
@@ -73,26 +84,24 @@ private fun Success(
         verticalArrangement = Arrangement
             .spacedBy(16.dp)
     ) {
-        Text(
-            exercise.title,
-            Modifier
-                .fillMaxWidth(),
-            color = colors().onBackground,
-            fontWeight = FontWeight.Bold,
-            style = typography().titleLarge,
-            textAlign = TextAlign.Start
-        )
+        val exerciseTitle = exerciseExecution.exercise
+            ?.title
 
-        HorizontalDivider()
+        if (exerciseTitle != null) {
+            ScreenTopBar(
+                navigateUp,
+                exerciseTitle
+            )
 
-        Text(
-            exerciseExecution.name,
-            Modifier
-                .fillMaxWidth(),
-            color = colors().onBackground,
-            fontWeight = FontWeight.Bold,
-            style = typography().headlineLarge,
-            textAlign = TextAlign.Start
+            HorizontalDivider()
+        }
+
+        ScreenTopBar(
+            if (exerciseTitle != null)
+                null
+            else
+                navigateUp,
+            exerciseExecution.name
         )
 
         val description = exerciseExecution.description

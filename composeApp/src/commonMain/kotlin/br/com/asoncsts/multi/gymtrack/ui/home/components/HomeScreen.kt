@@ -8,12 +8,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.user.workout.WorkoutMock
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
+import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeState
@@ -61,20 +60,10 @@ internal fun HomeScreen(
                 space = 16.dp
             )
     ) {
-        Row(
-            Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+        ScreenTopBar(
+            navigateUp = null,
+            title = props.labelTitle
         ) {
-            Text(
-                props.labelTitle,
-                Modifier
-                    .weight(1f),
-                color = colors().onBackground,
-                fontWeight = FontWeight.Bold,
-                style = typography().headlineLarge,
-                textAlign = TextAlign.Start
-            )
             Text(
                 props.labelNew,
                 Modifier

@@ -3,9 +3,9 @@ package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
-import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.ExerciseExecutionDestination.Args
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.components.ExerciseExecutionScreen
+import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.components.exerciseExecutionScreenProps
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
@@ -18,15 +18,13 @@ fun ExerciseExecutionScreen(
         .state
         .collectAsState()
 
-    BackHandlerContainer(
-        args.navigateUp,
+    ExerciseExecutionScreen(
+        exerciseExecutionScreenProps(
+            args.navigateUp
+        ),
+        state,
         modifier
-    ) {
-        ExerciseExecutionScreen(
-            state,
-            modifier
-        )
-    }
+    )
 
     LaunchedEffect(Unit) {
         args.viewModel.getExerciseExecution(exerciseExecutionId)

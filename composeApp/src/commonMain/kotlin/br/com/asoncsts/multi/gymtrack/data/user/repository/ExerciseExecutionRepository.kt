@@ -6,12 +6,30 @@ import br.com.asoncsts.multi.gymtrack.data.user.local.ExerciseExecutionLocal
 import br.com.asoncsts.multi.gymtrack.extension.error
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 interface ExerciseExecutionRepository {
 
     class Impl(
         private val local: ExerciseExecutionLocal
     ) : ExerciseExecutionRepository {
+
+        override suspend fun getExerciseExecution(
+            id: String
+        ): Wrapper<Flow<ExerciseExecution.Detail>> {
+            return try {
+                Wrapper.Success(
+                    local.getExerciseExecutionsWithExecutions(id)
+                        .map { it.first() }
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error(
+                    "UserExerciseRepository.local.getExerciseExecutionsWithExecutions",
+                    t
+                )
+                Wrapper.Error(t)
+            }
+        }
 
         override suspend fun getExerciseExecutions(): Wrapper<Flow<List<ExerciseExecution>>> {
             return try {
@@ -38,6 +56,10 @@ interface ExerciseExecutionRepository {
         }
 
     }
+
+    suspend fun getExerciseExecution(
+        id: String
+    ): Wrapper<Flow<ExerciseExecution.Detail>>
 
     suspend fun getExerciseExecutions(): Wrapper<Flow<List<ExerciseExecution>>>
 

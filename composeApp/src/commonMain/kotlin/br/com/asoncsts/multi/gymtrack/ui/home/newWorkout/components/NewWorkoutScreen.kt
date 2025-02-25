@@ -5,10 +5,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui._components.*
@@ -24,6 +22,7 @@ internal data class NewWorkoutScreenProps(
     val labelExerciseExecution: String,
     val labelName: String,
     val labelNewWorkout: String,
+    val navigateUp: () -> Unit,
     val navigateToWorkout: (
         workout: Workout
     ) -> Unit,
@@ -32,6 +31,7 @@ internal data class NewWorkoutScreenProps(
 
 @Composable
 internal fun newWorkoutScreenProps(
+    navigateUp: () -> Unit,
     navigateToWorkout: (
         workout: Workout
     ) -> Unit,
@@ -53,6 +53,7 @@ internal fun newWorkoutScreenProps(
     labelExerciseExecution,
     labelName,
     labelNewWorkout,
+    navigateUp,
     navigateToWorkout,
     onSave
 )
@@ -67,22 +68,16 @@ internal fun NewWorkoutScreen(
     Column(
         modifier
             .fillMaxSize()
-            .padding(32.dp),
+            .padding(
+                horizontal = 32.dp
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement
-            .spacedBy(
-                alignment = Alignment.CenterVertically,
-                space = 16.dp
-            )
+            .spacedBy(16.dp)
     ) {
-        Text(
-            props.labelNewWorkout,
-            Modifier
-                .fillMaxWidth(),
-            color = colors().onBackground,
-            fontWeight = FontWeight.Bold,
-            style = typography().headlineLarge,
-            textAlign = TextAlign.Center
+        ScreenTopBar(
+            props.navigateUp,
+            props.labelNewWorkout
         )
 
         TextField(

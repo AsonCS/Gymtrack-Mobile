@@ -4,7 +4,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.extension.launch
-import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.NewExerciseExecutionArgs
 import br.com.asoncsts.multi.gymtrack.ui.home.newExerciseExecution.components.NewExerciseExecutionScreen
 import br.com.asoncsts.multi.gymtrack.ui.home.newExerciseExecution.components.newExerciseExecutionScreenProps
@@ -29,24 +28,19 @@ fun NewExerciseExecutionScreen(
         .stateFields
         .collectAsState()
 
-    BackHandlerContainer(
-        args.navigateUp,
-        modifier
-    ) {
-        NewExerciseExecutionScreen(
-            newExerciseExecutionScreenProps(
-                navigateUp = args.navigateUp,
-                onSave = {
-                    viewModel.launch {
-                        save()
-                    }
+    NewExerciseExecutionScreen(
+        newExerciseExecutionScreenProps(
+            navigateUp = args.navigateUp,
+            onSave = {
+                viewModel.launch {
+                    save()
                 }
-            ),
-            state,
-            stateFields,
-            modifier
-        )
-    }
+            }
+        ),
+        state,
+        stateFields,
+        modifier
+    )
 
     LaunchedEffect(Unit) {
         viewModel.launch {

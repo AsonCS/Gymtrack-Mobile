@@ -116,7 +116,9 @@ fun <Item> Dialog(
     onFilterTextChange: (String) -> Unit,
     onItemClick: (Item) -> Unit
 ) {
-    Dialog(onDismissRequest) {
+    Dialog(
+        onDismissRequest = onDismissRequest
+    ) {
         OutlinedCard(
             Modifier
                 .fillMaxWidth(),

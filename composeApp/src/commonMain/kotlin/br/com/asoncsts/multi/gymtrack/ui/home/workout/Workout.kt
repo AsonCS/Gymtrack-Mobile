@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.extension.launch
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
-import br.com.asoncsts.multi.gymtrack.ui.BackHandlerContainer
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.WorkoutArgs
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.components.WorkoutScreen
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.components.workoutScreenProps
@@ -28,29 +27,25 @@ fun WorkoutScreen(
         .state
         .collectAsState()
 
-    BackHandlerContainer(
-        args.navigateUp,
+    WorkoutScreen(
+        workoutScreenProps(
+            {
+                args.viewModel.launch {
+                    addNewExerciseExecution(
+                        it,
+                        workout
+                    )
+                }
+            },
+            args.navigateUp,
+            args.navigateToExerciseExecution,
+            args.navigateToNewExerciseExecution,
+            workout
+        ),
+        shared,
+        state,
         modifier
-    ) {
-        WorkoutScreen(
-            workoutScreenProps(
-                {
-                    args.viewModel.launch {
-                        addNewExerciseExecution(
-                            it,
-                            workout
-                        )
-                    }
-                },
-                args.navigateToExerciseExecution,
-                args.navigateToNewExerciseExecution,
-                workout
-            ),
-            shared,
-            state,
-            modifier
-        )
-    }
+    )
 
     LaunchedEffect(Unit) {
         args.viewModel.launch {

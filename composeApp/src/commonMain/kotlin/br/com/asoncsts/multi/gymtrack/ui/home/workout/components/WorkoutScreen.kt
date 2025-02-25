@@ -3,20 +3,15 @@ package br.com.asoncsts.multi.gymtrack.ui.home.workout.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.user.exerciseExecution.ExerciseExecutionMock
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui.Toast
 import br.com.asoncsts.multi.gymtrack.ui._components.*
-import br.com.asoncsts.multi.gymtrack.ui._theme.colors
-import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutShared
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState
 import gymtrack.composeapp.generated.resources.*
@@ -28,6 +23,7 @@ internal data class WorkoutScreenProps(
     ) -> Unit,
     val labelAddExerciseExecution: String,
     val labelNewExerciseExecution: String,
+    val navigateUp: () -> Unit,
     val navigateToExerciseExecution: (
         id: String
     ) -> Unit,
@@ -42,6 +38,7 @@ internal fun workoutScreenProps(
     addNewExerciseExecution: (
         ExerciseExecution
     ) -> Unit,
+    navigateUp: () -> Unit,
     navigateToExerciseExecution: (
         id: String
     ) -> Unit,
@@ -63,6 +60,7 @@ internal fun workoutScreenProps(
     addNewExerciseExecution,
     labelAddExerciseExecution,
     labelNewExerciseExecution,
+    navigateUp,
     navigateToExerciseExecution,
     navigateToNewExerciseExecution,
     toastAddNewExerciseExecutionError,
@@ -85,14 +83,9 @@ internal fun WorkoutScreen(
         verticalArrangement = Arrangement
             .spacedBy(16.dp)
     ) {
-        Text(
-            props.workout.name,
-            Modifier
-                .fillMaxWidth(),
-            color = colors().onBackground,
-            fontWeight = FontWeight.Bold,
-            style = typography().headlineLarge,
-            textAlign = TextAlign.Start
+        ScreenTopBar(
+            props.navigateUp,
+            props.workout.name
         )
 
         when (shared) {

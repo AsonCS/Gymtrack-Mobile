@@ -27,7 +27,11 @@ fun HomeNavHost(
     destination: String,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    viewModelExerciseExecution: ExerciseExecutionViewModel = koinViewModel(),
+    viewModelExerciseExecution: ExerciseExecutionViewModel = koinViewModel {
+        parametersOf(
+            args.exercisesSource
+        )
+    },
     viewModelWorkout: WorkoutViewModel = koinViewModel {
         parametersOf(
             args.exercisesSource
@@ -66,7 +70,7 @@ fun HomeNavHost(
             WorkoutArgs(
                 navController::navigateToExerciseExecution,
                 navController::navigateToNewExerciseExecution,
-                navigateUp = navController::navigateUp,
+                args.navigateUp,
                 viewModelWorkout,
                 workout = {
                     args.viewModel

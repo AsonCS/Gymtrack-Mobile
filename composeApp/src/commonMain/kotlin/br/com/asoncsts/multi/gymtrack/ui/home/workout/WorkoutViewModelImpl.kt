@@ -4,10 +4,9 @@ import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutWithExerciseExecutionsRepository
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
+import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution.Companion.fillExercise
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesSource
-import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState.Loading
-import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState.Success
 import kotlinx.coroutines.flow.*
 
 class WorkoutViewModelImpl(
@@ -19,7 +18,9 @@ class WorkoutViewModelImpl(
     private val _shared = MutableSharedFlow<WorkoutShared>()
     override val shared = _shared.asSharedFlow()
 
-    private val _state = MutableStateFlow<WorkoutState>(Loading)
+    private val _state = MutableStateFlow<WorkoutState>(
+        WorkoutState.Loading
+    )
     override val state = _state.asStateFlow()
 
     override suspend fun addNewExerciseExecution(
@@ -52,7 +53,7 @@ class WorkoutViewModelImpl(
     override suspend fun getWorkout(
         workout: Workout
     ) {
-        if (_state.value is Success) return
+        if (_state.value is WorkoutState.Success) return
 
         val result = exerciseExecutionRepo.getExerciseExecutions()
         when (result) {
@@ -66,55 +67,25 @@ class WorkoutViewModelImpl(
             }
 
             is Wrapper.Success -> {
-                result.data.collect {
-                    collect(
-                        workout.exerciseExecutionIds,
-                        it
-                    )
+                result.data.collect { exerciseExecutions ->
+                    val filtered = mutableListOf<ExerciseExecution>()
+                    val filled = exerciseExecutions.fillExercise(
+                        exercisesSource::getExercise
+                    ) {
+                        if (workout.exerciseExecutionIds.contains(it.id)) {
+                            filtered.add(it)
+                        }
+                    }
+
+                    _state.update {
+                        WorkoutState.Success(
+                            filled,
+                            filtered
+                        )
+                    }
                 }
             }
         }
     }
 
-    private fun collect(
-        exerciseExecutionIds: List<String>,
-        exercisesExecutions: List<ExerciseExecution>
-    ) {
-        val all = mutableListOf<ExerciseExecution>()
-        val filtered = mutableListOf<ExerciseExecution>()
-
-        exercisesExecutions.forEach { exercisesExecution ->
-            val alias = exercisesExecution.exercise
-                ?.alias
-            val result = alias
-                ?.let {
-                    exercisesSource.getExercise(it)
-                }
-            val exercise = when (result) {
-                is Wrapper.Success -> {
-                    result.data
-                }
-
-                else -> null
-            }
-
-            val exerciseExecution = ExerciseExecution.Impl(
-                exercise,
-                exercisesExecution.id,
-                exercisesExecution.name
-            )
-
-            all.add(exerciseExecution)
-            if (exerciseExecutionIds.contains(exerciseExecution.id)) {
-                filtered.add(exerciseExecution)
-            }
-        }
-
-        _state.update {
-            Success(
-                all,
-                filtered
-            )
-        }
-    }
 }

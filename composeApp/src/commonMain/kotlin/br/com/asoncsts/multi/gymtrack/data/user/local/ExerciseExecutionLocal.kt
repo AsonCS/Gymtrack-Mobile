@@ -20,12 +20,13 @@ interface ExerciseExecutionLocal {
         }
 
         override suspend fun getExerciseExecutionsWithExecutions(
-            ids: List<String>
+            vararg ids: String
         ): Flow<List<ExerciseExecution.Detail>> {
-            return dao.getExerciseExecutionsWithExecutions(ids)
-                .map { list ->
-                    list.map { it.toExerciseExecution() }
-                }
+            return dao.getExerciseExecutionsWithExecutions(
+                ids.toList()
+            ).map { list ->
+                list.map { it.toExerciseExecution() }
+            }
         }
 
         override suspend fun putExerciseExecution(
@@ -44,7 +45,7 @@ interface ExerciseExecutionLocal {
     suspend fun getExerciseExecutions(): Flow<List<ExerciseExecution>>
 
     suspend fun getExerciseExecutionsWithExecutions(
-        ids: List<String>
+        vararg ids: String
     ): Flow<List<ExerciseExecution.Detail>>
 
     suspend fun putExerciseExecution(

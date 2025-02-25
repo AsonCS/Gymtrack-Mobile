@@ -27,8 +27,9 @@ internal fun uiModule() = module {
             auth = get()
         )
     }
-    viewModel<ExerciseExecutionViewModel> {
+    viewModel<ExerciseExecutionViewModel> { (exercisesSource: ExercisesSource) ->
         ExerciseExecutionViewModelImpl(
+            exercisesSource = exercisesSource,
             repo = get()
         )
     }
