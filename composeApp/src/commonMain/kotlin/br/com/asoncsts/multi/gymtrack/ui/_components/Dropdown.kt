@@ -239,9 +239,3 @@ fun Field(
         )
     }
 }
-
-@Composable
-private fun border() = BorderStroke(
-    1.dp,
-    colors().onBackground
-)

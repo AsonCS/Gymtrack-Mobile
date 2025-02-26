@@ -23,11 +23,11 @@ internal data class WorkoutScreenProps(
     ) -> Unit,
     val labelAddExerciseExecution: String,
     val labelNewExerciseExecution: String,
-    val navigateUp: () -> Unit,
     val navigateToExerciseExecution: (
         id: String
     ) -> Unit,
     val navigateToNewExerciseExecution: () -> Unit,
+    val navigateUp: () -> Unit,
     val toastAddNewExerciseExecutionError: String,
     val toastAddNewExerciseExecutionSuccess: String,
     val workout: Workout
@@ -38,11 +38,11 @@ internal fun workoutScreenProps(
     addNewExerciseExecution: (
         ExerciseExecution
     ) -> Unit,
-    navigateUp: () -> Unit,
     navigateToExerciseExecution: (
         id: String
     ) -> Unit,
     navigateToNewExerciseExecution: () -> Unit,
+    navigateUp: () -> Unit,
     workout: Workout,
     labelAddExerciseExecution: String = stringResource(
         Res.string.workout_label_add_exercise_execution
@@ -60,9 +60,9 @@ internal fun workoutScreenProps(
     addNewExerciseExecution,
     labelAddExerciseExecution,
     labelNewExerciseExecution,
-    navigateUp,
     navigateToExerciseExecution,
     navigateToNewExerciseExecution,
+    navigateUp,
     toastAddNewExerciseExecutionError,
     toastAddNewExerciseExecutionSuccess,
     workout
@@ -196,7 +196,7 @@ private fun Success(
             ) {
                 NewElementButton(
                     props.labelAddExerciseExecution,
-                    {
+                    onClick = {
                         dialogOpen = true
                     }
                 )

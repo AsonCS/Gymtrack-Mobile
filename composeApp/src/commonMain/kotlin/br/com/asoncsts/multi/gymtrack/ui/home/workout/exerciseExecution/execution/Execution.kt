@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.components
+package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -6,22 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 
-internal data class ExecutionProps(
-    val execution: Execution
-)
-
-@Composable
-internal fun executionProps(
-    execution: Execution
-) = ExecutionProps(
-    execution
-)
-
-here
 @Composable
 internal fun Execution(
     props: ExecutionProps,

@@ -37,9 +37,9 @@ fun WorkoutScreen(
                     )
                 }
             },
-            args.navigateUp,
             args.navigateToExerciseExecution,
             args.navigateToNewExerciseExecution,
+            args.navigateUp,
             workout
         ),
         shared,

@@ -12,7 +12,6 @@ import br.com.asoncsts.multi.gymtrack.ui.home.newWorkout.NewWorkoutViewModelImpl
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutViewModel
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutViewModelImpl
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionViewModel
-import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionViewModelImpl
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -28,7 +27,7 @@ internal fun uiModule() = module {
         )
     }
     viewModel<ExerciseExecutionViewModel> { (exercisesSource: ExercisesSource) ->
-        ExerciseExecutionViewModelImpl(
+        ExerciseExecutionViewModel.Impl(
             exercisesSource = exercisesSource,
             repo = get()
         )

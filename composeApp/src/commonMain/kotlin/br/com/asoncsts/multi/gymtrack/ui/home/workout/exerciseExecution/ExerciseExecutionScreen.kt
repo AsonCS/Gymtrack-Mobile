@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.components
+package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,34 +12,21 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
-import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionState
-import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.ExerciseExecutionState.*
+import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution.*
 
-internal data class ExerciseExecutionScreenProps(
-    val navigateUp: () -> Unit
-)
-
-@Composable
-internal fun exerciseExecutionScreenProps(
-    navigateUp: () -> Unit
-) = ExerciseExecutionScreenProps(
-    navigateUp
-)
-
-here
 @Composable
 internal fun ExerciseExecutionScreen(
-    props: ExerciseExecutionScreenProps,
+    props: Props,
     state: ExerciseExecutionState,
+    stateFields: StateFields,
     modifier: Modifier = Modifier
 ) {
     when (state) {
-        is Error -> {
+        is ExerciseExecutionState.Error -> {
             Text(
                 state.throwable.message
                     ?: "Error",
@@ -50,7 +37,7 @@ internal fun ExerciseExecutionScreen(
             )
         }
 
-        Loading -> {
+        ExerciseExecutionState.Loading -> {
             Box(
                 Modifier
                     .fillMaxSize(),
@@ -60,9 +47,10 @@ internal fun ExerciseExecutionScreen(
             }
         }
 
-        is Success -> Success(
-            state.exerciseExecution,
-            props.navigateUp,
+        is ExerciseExecutionState.Success -> Success(
+            props,
+            state,
+            stateFields,
             modifier
         )
     }
@@ -70,12 +58,12 @@ internal fun ExerciseExecutionScreen(
 
 @Composable
 private fun Success(
-    exerciseExecution: ExerciseExecution.Detail,
-    navigateUp: () -> Unit,
+    props: Props,
+    state: ExerciseExecutionState.Success,
+    stateFields: StateFields,
     modifier: Modifier
 ) {
     val locale = Locale.current
-
     Column(
         modifier
             .fillMaxSize()
@@ -84,12 +72,12 @@ private fun Success(
         verticalArrangement = Arrangement
             .spacedBy(16.dp)
     ) {
-        val exerciseTitle = exerciseExecution.exercise
+        val exerciseTitle = state.exerciseExecution.exercise
             ?.title
 
         if (exerciseTitle != null) {
             ScreenTopBar(
-                navigateUp,
+                props.navigateUp,
                 exerciseTitle
             )
 
@@ -100,11 +88,11 @@ private fun Success(
             if (exerciseTitle != null)
                 null
             else
-                navigateUp,
-            exerciseExecution.name
+                props.navigateUp,
+            state.exerciseExecution.name
         )
 
-        val description = exerciseExecution.description
+        val description = state.exerciseExecution.description
         if (!description.isNullOrEmpty()) {
             Text(
                 description.capitalize(locale),
@@ -123,13 +111,22 @@ private fun Success(
                 .spacedBy(8.dp)
         ) {
             items(
-                items = exerciseExecution.executions,
+                items = state.exerciseExecution.executions,
                 key = { it.id }
             ) { execution ->
                 Execution(
                     executionProps(
                         execution
                     )
+                )
+            }
+
+            item {
+                NewExecution(
+                    newExecutionProps(),
+                    stateFields,
+                    Modifier
+                        .fillMaxWidth()
                 )
             }
         }
