@@ -12,7 +12,7 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack.ui._components.Loading
+import br.com.asoncsts.multi.gymtrack.ui._components.LoadingBox
 import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
@@ -20,7 +20,8 @@ import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.executio
 
 @Composable
 internal fun ExerciseExecutionScreen(
-    props: Props,
+    onCreateExecution: () -> Unit,
+    onNavigateUp: () -> Unit,
     state: ExerciseExecutionState,
     stateFields: StateFields,
     modifier: Modifier = Modifier
@@ -38,17 +39,15 @@ internal fun ExerciseExecutionScreen(
         }
 
         ExerciseExecutionState.Loading -> {
-            Box(
+            LoadingBox(
                 Modifier
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Loading()
-            }
+                    .fillMaxSize()
+            )
         }
 
         is ExerciseExecutionState.Success -> Success(
-            props,
+            onCreateExecution,
+            onNavigateUp,
             state,
             stateFields,
             modifier
@@ -58,7 +57,8 @@ internal fun ExerciseExecutionScreen(
 
 @Composable
 private fun Success(
-    props: Props,
+    onCreateExecution: () -> Unit,
+    onNavigateUp: () -> Unit,
     state: ExerciseExecutionState.Success,
     stateFields: StateFields,
     modifier: Modifier
@@ -77,7 +77,7 @@ private fun Success(
 
         if (exerciseTitle != null) {
             ScreenTopBar(
-                props.navigateUp,
+                onNavigateUp,
                 exerciseTitle
             )
 
@@ -88,7 +88,7 @@ private fun Success(
             if (exerciseTitle != null)
                 null
             else
-                props.navigateUp,
+                onNavigateUp,
             state.exerciseExecution.name
         )
 
@@ -123,10 +123,9 @@ private fun Success(
 
             item {
                 NewExecution(
-                    newExecutionProps(),
+                    newExecutionProps(onCreateExecution),
                     stateFields,
                     Modifier
-                        .fillMaxWidth()
                 )
             }
         }

@@ -61,7 +61,7 @@ internal fun HomeScreen(
             )
     ) {
         ScreenTopBar(
-            navigateUp = null,
+            onNavigateUp = null,
             title = props.labelTitle
         ) {
             Text(

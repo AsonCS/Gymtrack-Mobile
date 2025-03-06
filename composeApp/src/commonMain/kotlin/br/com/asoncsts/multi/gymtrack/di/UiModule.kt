@@ -29,7 +29,7 @@ internal fun uiModule() = module {
     viewModel<ExerciseExecutionViewModel> { (exercisesSource: ExercisesSource) ->
         ExerciseExecutionViewModel.Impl(
             exercisesSource = exercisesSource,
-            repo = get()
+            exerciseExecutionRepo = get()
         )
     }
     viewModel<HomeViewModel> {

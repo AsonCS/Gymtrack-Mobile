@@ -12,10 +12,30 @@ import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 
 @Composable
+fun Button(
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ElevatedButton(
+        onClick,
+        modifier,
+        colors = ButtonDefaults.elevatedButtonColors(
+            contentColor = colors().onBackground
+        )
+    ) {
+        Text(
+            label,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
 fun NewElementButton(
     label: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     ElevatedButton(
         onClick,

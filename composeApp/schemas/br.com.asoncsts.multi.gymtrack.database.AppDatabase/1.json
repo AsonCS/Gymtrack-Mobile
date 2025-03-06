@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f5b818637c14f6a0cf6ce1dfaaa45174",
+    "identityHash": "02ec3d9bb91d2bd56674f4ab22446a66",
     "entities": [
       {
         "tableName": "execution",
@@ -97,7 +97,19 @@
             "executionId",
             "exerciseExecutionId"
           ]
-        }
+        },
+        "indices": [
+          {
+            "name": "index_exercise_execution_with_executions_cross_ref_entity_executionId_exerciseExecutionId",
+            "unique": false,
+            "columnNames": [
+              "executionId",
+              "exerciseExecutionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exercise_execution_with_executions_cross_ref_entity_executionId_exerciseExecutionId` ON `${TABLE_NAME}` (`executionId`, `exerciseExecutionId`)"
+          }
+        ]
       },
       {
         "tableName": "workout",
@@ -156,7 +168,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f5b818637c14f6a0cf6ce1dfaaa45174')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '02ec3d9bb91d2bd56674f4ab22446a66')"
     ]
   }
 }

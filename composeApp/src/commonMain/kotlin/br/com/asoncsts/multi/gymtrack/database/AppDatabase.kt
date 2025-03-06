@@ -18,6 +18,7 @@ import br.com.asoncsts.multi.gymtrack.data.user.local.entities.*
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun exerciseExecutionDao(): ExerciseExecutionDao
+    abstract fun exerciseExecutionWithExecutionsDao(): ExerciseExecutionWithExecutionsDao
     abstract fun workoutDao(): WorkoutDao
     abstract fun workoutWithExerciseExecutionsDao(): WorkoutWithExerciseExecutionsDao
 }

@@ -1,7 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.ui._components
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -17,19 +16,22 @@ import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 
 @Composable
 fun ScreenTopBar(
-    navigateUp: (() -> Unit)?,
+    onNavigateUp: (() -> Unit)?,
     title: String,
     modifier: Modifier = Modifier,
     useArrowBack: Boolean = true,
     content: (@Composable () -> Unit)? = null
 ) {
     Row(
-        modifier,
+        modifier
+            .offset(
+                x = (-10).dp
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        navigateUp?.let {
+        onNavigateUp?.let {
             IconButton(
-                navigateUp,
+                onNavigateUp,
                 Modifier
             ) {
                 Icon(

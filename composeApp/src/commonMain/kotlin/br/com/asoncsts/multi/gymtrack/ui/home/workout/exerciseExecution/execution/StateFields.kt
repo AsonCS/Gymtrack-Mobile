@@ -1,6 +1,7 @@
 package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution
 
 import br.com.asoncsts.multi.gymtrack.extension.*
+import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 
 internal data class StateFields(
     private val _notes: String? = null,
@@ -42,4 +43,10 @@ internal data class StateFields(
                 )
             }
         }
+
+    fun toExecution() = Execution(
+        notes = _notes,
+        reps = _reps,
+        weight = _weight
+    )
 }

@@ -1,6 +1,7 @@
 package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -10,10 +11,11 @@ import br.com.asoncsts.multi.gymtrack.ui._components.NewElementButton
 internal fun NewExecution(
     props: NewExecutionProps,
     stateFields: StateFields,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    initialDialogVisibility: Boolean = false
 ) {
     var dialogIsVisible by remember {
-        mutableStateOf(false)
+        mutableStateOf(initialDialogVisibility)
     }
 
     NewExecutionDialog(
@@ -26,7 +28,8 @@ internal fun NewExecution(
     )
 
     Box(
-        modifier,
+        modifier
+            .fillMaxWidth(),
         contentAlignment = Alignment.CenterEnd
     ) {
         NewElementButton(

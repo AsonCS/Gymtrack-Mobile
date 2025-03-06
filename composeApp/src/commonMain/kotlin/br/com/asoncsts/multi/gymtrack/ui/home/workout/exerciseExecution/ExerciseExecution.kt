@@ -2,6 +2,7 @@ package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import br.com.asoncsts.multi.gymtrack.extension.launch
 import br.com.asoncsts.multi.gymtrack.ui._navigation.home.ExerciseExecutionDestination.Args
 
 @Composable
@@ -18,9 +19,12 @@ fun ExerciseExecutionScreen(
         .collectAsState()
 
     ExerciseExecutionScreen(
-        props(
-            args.navigateUp
-        ),
+        onCreateExecution = {
+            args.viewModel.launch {
+                onCreateExecution()
+            }
+        },
+        args.navigateUp,
         state,
         stateFields,
         modifier

@@ -17,8 +17,7 @@ internal fun NewExecutionDialog(
     isVisible: Boolean,
     onDismissRequest: () -> Unit,
     props: NewExecutionProps,
-    stateFields: StateFields,
-    modifier: Modifier = Modifier
+    stateFields: StateFields
 ) {
     if (isVisible.not()) return
 
@@ -32,7 +31,7 @@ internal fun NewExecutionDialog(
             shape = shapes().medium
         ) {
             Column(
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -75,7 +74,21 @@ internal fun NewExecutionDialog(
                     Modifier
                         .fillMaxWidth()
                 )
+
+                Button(
+                    props.labelCreate,
+                    onClick = props.onCreate
+                )
             }
         }
     }
 }
+
+internal fun newExecutionDialogSequence() = sequenceOf(
+    StateFields {},
+    StateFields(
+        "notes",
+        12,
+        72.5
+    ) {},
+)

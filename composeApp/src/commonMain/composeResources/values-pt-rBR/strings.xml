@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="execution_label_new">Nova execução</string>
+    <string name="execution_label_notes">Notas</string>
+    <string name="execution_label_reps">Reps</string>
+    <string name="execution_label_weight">Peso</string>
+
     <string name="home_label_amount">Exercícios:</string>
     <string name="home_label_new">+ Novo</string>
     <string name="home_label_title">Seus treinos</string>
 
+    <string name="label_create">Criar</string>
     <string name="label_description">Descrição</string>
     <string name="label_name">Nome</string>
 
