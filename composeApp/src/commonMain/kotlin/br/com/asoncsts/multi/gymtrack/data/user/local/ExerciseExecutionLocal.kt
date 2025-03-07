@@ -1,6 +1,7 @@
 package br.com.asoncsts.multi.gymtrack.data.user.local
 
 import br.com.asoncsts.multi.gymtrack.data.user.local.dao.ExerciseExecutionDao
+import br.com.asoncsts.multi.gymtrack.data.user.local.dao.ExerciseExecutionWithExecutionsDao
 import br.com.asoncsts.multi.gymtrack.data.user.local.entities.ExerciseExecutionEntity
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +10,8 @@ import kotlinx.coroutines.flow.map
 interface ExerciseExecutionLocal {
 
     class Impl(
-        private val dao: ExerciseExecutionDao
+        private val dao: ExerciseExecutionDao,
+        private val withExecutionsDao: ExerciseExecutionWithExecutionsDao
     ) : ExerciseExecutionLocal {
 
         override suspend fun getExerciseExecutions(): Flow<List<ExerciseExecution>> {
@@ -22,7 +24,7 @@ interface ExerciseExecutionLocal {
         override suspend fun getExerciseExecutionsWithExecutions(
             vararg ids: String
         ): Flow<List<ExerciseExecution.Detail>> {
-            return dao.getExerciseExecutionsWithExecutions(
+            return withExecutionsDao.getExerciseExecutionWithExecutions(
                 ids.toList()
             ).map { list ->
                 list.map { it.toExerciseExecution() }

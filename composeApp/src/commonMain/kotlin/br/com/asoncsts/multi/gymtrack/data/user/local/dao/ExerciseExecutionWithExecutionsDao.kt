@@ -1,10 +1,10 @@
 package br.com.asoncsts.multi.gymtrack.data.user.local.dao
 
 import androidx.room.*
-import br.com.asoncsts.multi.gymtrack.data.user.local.entities.ExerciseExecutionWithExecutionsCrossRefEntity
 import br.com.asoncsts.multi.gymtrack.data.user.local.model.ExerciseExecutionWithExecutions
 import kotlinx.coroutines.flow.Flow
 
+// https://developer.android.com/training/data-storage/room/relationships/one-to-many
 @Dao
 interface ExerciseExecutionWithExecutionsDao {
 
@@ -14,10 +14,5 @@ interface ExerciseExecutionWithExecutionsDao {
     fun getExerciseExecutionWithExecutions(
         ids: List<String>
     ): Flow<List<ExerciseExecutionWithExecutions>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(
-        crossRef: ExerciseExecutionWithExecutionsCrossRefEntity
-    )
 
 }

@@ -1,7 +1,9 @@
 package br.com.asoncsts.multi.gymtrack.data.user.local.model
 
-import androidx.room.*
-import br.com.asoncsts.multi.gymtrack.data.user.local.entities.*
+import androidx.room.Embedded
+import androidx.room.Relation
+import br.com.asoncsts.multi.gymtrack.data.user.local.entities.ExecutionEntity
+import br.com.asoncsts.multi.gymtrack.data.user.local.entities.ExerciseExecutionEntity
 import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 
@@ -9,9 +11,6 @@ data class ExerciseExecutionWithExecutions(
     @Embedded
     val exerciseExecution: ExerciseExecutionEntity,
     @Relation(
-        associateBy = Junction(
-            ExerciseExecutionWithExecutionsCrossRefEntity::class
-        ),
         entityColumn = "executionId",
         parentColumn = "exerciseExecutionId"
     )

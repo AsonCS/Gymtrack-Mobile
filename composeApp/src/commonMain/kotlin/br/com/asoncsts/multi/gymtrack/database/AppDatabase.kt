@@ -10,13 +10,13 @@ import br.com.asoncsts.multi.gymtrack.data.user.local.entities.*
     entities = [
         ExecutionEntity::class,
         ExerciseExecutionEntity::class,
-        ExerciseExecutionWithExecutionsCrossRefEntity::class,
         WorkoutEntity::class,
         WorkoutWithExerciseExecutionsCrossRefEntity::class
     ],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun executionDao(): ExecutionDao
     abstract fun exerciseExecutionDao(): ExerciseExecutionDao
     abstract fun exerciseExecutionWithExecutionsDao(): ExerciseExecutionWithExecutionsDao
     abstract fun workoutDao(): WorkoutDao

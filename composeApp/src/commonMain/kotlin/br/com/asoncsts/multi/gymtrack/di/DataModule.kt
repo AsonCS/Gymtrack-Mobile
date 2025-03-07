@@ -121,7 +121,9 @@ internal fun dataModule() = module {
     single<ExerciseExecutionLocal> {
         ExerciseExecutionLocal.Impl(
             dao = get<AppDatabase>()
-                .exerciseExecutionDao()
+                .exerciseExecutionDao(),
+            withExecutionsDao = get<AppDatabase>()
+                .exerciseExecutionWithExecutionsDao()
         )
     }
     single<ExerciseExecutionWithExecutionsLocal> {

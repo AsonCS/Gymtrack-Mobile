@@ -4,6 +4,7 @@ import br.com.asoncsts.multi.gymtrack.data._utils.TAG_DATA
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.local.WorkoutLocal
 import br.com.asoncsts.multi.gymtrack.extension.error
+import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +13,26 @@ interface WorkoutRepository {
     class Impl(
         private val local: WorkoutLocal
     ) : WorkoutRepository {
+
+        override suspend fun addExerciseExecution(
+            exerciseExecution: ExerciseExecution,
+            workout: Workout
+        ): Wrapper<Unit> {
+            return try {
+                Wrapper.Success(
+                    local.addExerciseExecution(
+                        exerciseExecution,
+                        workout
+                    )
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error(
+                    "WorkoutRepository.local.addExerciseExecution",
+                    t
+                )
+                Wrapper.Error(t)
+            }
+        }
 
         override suspend fun getWorkouts(): Wrapper<Flow<List<Workout>>> {
             return try {
@@ -38,6 +59,11 @@ interface WorkoutRepository {
         }
 
     }
+
+    suspend fun addExerciseExecution(
+        exerciseExecution: ExerciseExecution,
+        workout: Workout
+    ): Wrapper<Unit>
 
     suspend fun getWorkouts(): Wrapper<Flow<List<Workout>>>
 
