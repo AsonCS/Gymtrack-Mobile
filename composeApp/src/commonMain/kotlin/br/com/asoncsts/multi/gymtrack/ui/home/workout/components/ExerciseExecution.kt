@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
@@ -31,8 +30,6 @@ internal fun ExerciseExecution(
     props: ExerciseExecutionProps,
     modifier: Modifier = Modifier
 ) {
-    val locale = Locale.current
-
     ElevatedCard(
         props.navigateToExerciseExecution,
         modifier,
@@ -43,7 +40,7 @@ internal fun ExerciseExecution(
                 .padding(6.dp)
         ) {
             Text(
-                props.exercise.name.capitalizedWords(locale),
+                props.exercise.name.capitalizedWords(),
                 color = colors().onBackground,
                 fontWeight = FontWeight.Bold,
                 style = typography().titleLarge

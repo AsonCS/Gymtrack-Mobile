@@ -118,6 +118,12 @@ internal fun dataModule() = module {
     // endregion
 
     // region Local
+    single<ExecutionLocal> {
+        ExecutionLocal.Impl(
+            dao = get<AppDatabase>()
+                .executionDao()
+        )
+    }
     single<ExerciseExecutionLocal> {
         ExerciseExecutionLocal.Impl(
             dao = get<AppDatabase>()
@@ -126,21 +132,11 @@ internal fun dataModule() = module {
                 .exerciseExecutionWithExecutionsDao()
         )
     }
-    single<ExerciseExecutionWithExecutionsLocal> {
-        ExerciseExecutionWithExecutionsLocal.Impl(
-            dao = get<AppDatabase>()
-                .exerciseExecutionWithExecutionsDao()
-        )
-    }
     single<WorkoutLocal> {
         WorkoutLocal.Impl(
             dao = get<AppDatabase>()
-                .workoutDao()
-        )
-    }
-    single<WorkoutWithExerciseExecutionsLocal> {
-        WorkoutWithExerciseExecutionsLocal.Impl(
-            dao = get<AppDatabase>()
+                .workoutDao(),
+            withExerciseExecutionsDao = get<AppDatabase>()
                 .workoutWithExerciseExecutionsDao()
         )
     }
@@ -155,6 +151,11 @@ internal fun dataModule() = module {
     // endregion
 
     // region Repository
+    single<ExecutionRepository> {
+        ExecutionRepository.Impl(
+            local = get()
+        )
+    }
     single<ExerciseRepository> {
         ExerciseRepository.Impl(
             remote = get()
@@ -165,18 +166,8 @@ internal fun dataModule() = module {
             local = get()
         )
     }
-    single<ExerciseExecutionWithExecutionsRepository> {
-        ExerciseExecutionWithExecutionsRepository.Impl(
-            local = get()
-        )
-    }
     single<WorkoutRepository> {
         WorkoutRepository.Impl(
-            local = get()
-        )
-    }
-    single<WorkoutWithExerciseExecutionsRepository> {
-        WorkoutWithExerciseExecutionsRepository.Impl(
             local = get()
         )
     }

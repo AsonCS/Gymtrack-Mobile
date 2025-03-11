@@ -1,11 +1,14 @@
 package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.*
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 
@@ -17,34 +20,69 @@ internal fun Execution(
     Column(
         modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement
-            .spacedBy(16.dp)
+            .padding(16.dp)
     ) {
         Text(
-            props.execution.notes,
-            Modifier
-                .fillMaxWidth(),
-            color = colors().onBackground
-                .copy(.7f),
-            style = typography().bodyMedium
-        )
+            buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
+                        fontWeight = FontWeight.Bold
+                    )
+                ) {
+                    append(props.execution.reps.toString())
+                }
 
-        Text(
-            props.execution.reps.toString(),
+                withStyle(
+                    SpanStyle(
+                        color = colors().onBackground
+                            .copy(.7f)
+                    )
+                ) {
+                    append(" x ")
+                }
+
+                withStyle(
+                    SpanStyle(
+                        fontWeight = FontWeight.Bold
+                    )
+                ) {
+                    append(props.execution.weight.toString())
+                }
+            },
             Modifier
                 .fillMaxWidth(),
             color = colors().onBackground,
             style = typography().headlineLarge
         )
 
-        Text(
-            props.execution.weight.toString(),
-            Modifier
-                .fillMaxWidth(),
-            color = colors().onBackground,
-            style = typography().headlineLarge
-        )
+        props.execution.notes?.let { notes ->
+            Text(
+                notes,
+                Modifier
+                    .fillMaxWidth(),
+                color = colors().onBackground
+                    .copy(.7f),
+                style = typography().bodyMedium
+            )
+        }
+
+        HorizontalDivider()
     }
 }
+
+internal fun executionSequence() = sequenceOf(
+    ExecutionProps(
+        Execution(
+            null,
+            3,
+            90.0
+        )
+    ),
+    ExecutionProps(
+        Execution(
+            "notes",
+            12,
+            72.5
+        )
+    )
+)

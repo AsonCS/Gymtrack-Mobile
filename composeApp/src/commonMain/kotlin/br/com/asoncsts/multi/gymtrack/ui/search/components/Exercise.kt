@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExerciseMock
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
@@ -49,13 +48,13 @@ fun Exercise(
                 placeholder = props.placeholder(),
                 width = 100.dp
             )
-            val locale = Locale.current
+
             Column(
                 Modifier
                     .weight(1f)
             ) {
                 Text(
-                    exercise.title.capitalizedWords(locale),
+                    exercise.title.capitalizedWords(),
                     color = colors().onBackground,
                     fontWeight = FontWeight.Bold,
                     style = typography().titleLarge

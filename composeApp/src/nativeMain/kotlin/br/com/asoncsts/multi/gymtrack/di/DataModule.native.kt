@@ -8,7 +8,7 @@ actual val platform = object : Platform {
 
     override val databaseBuilder: RoomDatabase.Builder<AppDatabase>
         get() {
-            val dbFilePath = "$documentDirectory/my_room.db"
+            val dbFilePath = "$documentDirectory/gymtrack_room.db"
             return Room.databaseBuilder<AppDatabase>(
                 name = dbFilePath,
             )

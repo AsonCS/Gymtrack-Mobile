@@ -15,8 +15,8 @@ actual val platform = object : Platform {
     override val databaseBuilder: RoomDatabase.Builder<AppDatabase>
         get() {
             val dbFile = File(
-                System.getProperty("java.io.tmpdir"),
-                "my_room.db"
+                "build/gymtrack_room",
+                "gymtrack_room.db"
             )
             return Room.databaseBuilder<AppDatabase>(
                 name = dbFile.absolutePath,

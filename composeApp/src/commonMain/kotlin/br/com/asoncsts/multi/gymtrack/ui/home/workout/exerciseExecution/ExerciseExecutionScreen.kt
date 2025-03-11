@@ -12,6 +12,7 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
 import br.com.asoncsts.multi.gymtrack.ui._components.LoadingBox
 import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
@@ -66,19 +67,24 @@ private fun Success(
     val locale = Locale.current
     Column(
         modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement
-            .spacedBy(16.dp)
+            .spacedBy(8.dp)
     ) {
-        val exerciseTitle = state.exerciseExecution.exercise
+        val exerciseTitle = state
+            .exerciseExecution
+            .exercise
             ?.title
 
         if (exerciseTitle != null) {
             ScreenTopBar(
                 onNavigateUp,
-                exerciseTitle
+                exerciseTitle.capitalizedWords(),
+                Modifier
+                    .padding(
+                        horizontal = 16.dp
+                    )
             )
 
             HorizontalDivider()
@@ -89,26 +95,40 @@ private fun Success(
                 null
             else
                 onNavigateUp,
-            state.exerciseExecution.name
+            state.exerciseExecution.name,
+            Modifier
+                .padding(
+                    horizontal = 16.dp
+                )
         )
 
         val description = state.exerciseExecution.description
         if (!description.isNullOrEmpty()) {
             Text(
                 description.capitalize(locale),
+                Modifier
+                    .padding(
+                        horizontal = 16.dp
+                    ),
                 color = colors().onBackground
                     .copy(.7f),
-                maxLines = 3,
+                maxLines = 5,
                 overflow = TextOverflow.Ellipsis,
                 style = typography().bodySmall
             )
         }
 
+        NewExecution(
+            newExecutionProps(onCreateExecution),
+            stateFields,
+            Modifier
+        )
+
+        HorizontalDivider()
+
         LazyColumn(
             Modifier
-                .weight(1f),
-            verticalArrangement = Arrangement
-                .spacedBy(8.dp)
+                .weight(1f)
         ) {
             items(
                 items = state.exerciseExecution.executions,
@@ -118,14 +138,6 @@ private fun Success(
                     executionProps(
                         execution
                     )
-                )
-            }
-
-            item {
-                NewExecution(
-                    newExecutionProps(onCreateExecution),
-                    stateFields,
-                    Modifier
                 )
             }
         }

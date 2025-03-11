@@ -2,9 +2,9 @@ package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution
 
 import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
+import br.com.asoncsts.multi.gymtrack.data.user.repository.ExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
-import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionWithExecutionsRepository
-import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
+import br.com.asoncsts.multi.gymtrack.extension.log
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution.Companion.fillExercise
 import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesSource
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution.StateFields
@@ -14,7 +14,7 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
     class Impl(
         private val exercisesSource: ExercisesSource,
         private val exerciseExecutionRepo: ExerciseExecutionRepository,
-        private val exerciseExecutionWithExecutionsRepo: ExerciseExecutionWithExecutionsRepository,
+        private val executionRepo: ExecutionRepository,
     ) : ExerciseExecutionViewModel() {
 
         private val _shared = MutableSharedFlow<ExerciseExecutionShared>()
@@ -51,6 +51,7 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
 
                 is Wrapper.Success -> {
                     result.data.collect { exerciseExecution ->
+                        "fatal".log("exerciseExecution: $exerciseExecution")
                         _state.update {
                             ExerciseExecutionState.Success(
                                 exerciseExecution.fillExercise(
@@ -75,17 +76,26 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
                     return
                 }
 
-            val notes = _stateFields.value.notes
-            val reps = _stateFields.value.reps
-            val weight = _stateFields.value.weight
-
-            exerciseExecutionWithExecutionsRepo.putExerciseExecutionWithExecutions(
-                Execution(
-                    notes = notes,
-                    reps = reps,
-                    weight = weight
-                )
+            val result = executionRepo.putExecution(
+                _stateFields.value.toExecution(),
+                exerciseExecution
             )
+            when (result) {
+                is Wrapper.Error -> {
+                    _shared.emit(
+                        ExerciseExecutionShared.ErrorOnCreateExecution(
+                            result.error.message
+                                ?: "Error on create execution"
+                        )
+                    )
+                }
+
+                is Wrapper.Success -> {
+                    _shared.emit(
+                        ExerciseExecutionShared.SuccessOnCreateExecution
+                    )
+                }
+            }
         }
 
     }

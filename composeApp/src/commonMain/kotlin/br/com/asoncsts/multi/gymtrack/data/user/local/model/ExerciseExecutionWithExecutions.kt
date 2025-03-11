@@ -11,7 +11,7 @@ data class ExerciseExecutionWithExecutions(
     @Embedded
     val exerciseExecution: ExerciseExecutionEntity,
     @Relation(
-        entityColumn = "executionId",
+        entityColumn = "exerciseExecutionId",
         parentColumn = "exerciseExecutionId"
     )
     val executions: List<ExecutionEntity>

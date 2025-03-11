@@ -18,7 +18,7 @@ data class ExecutionEntity(
 
     constructor(
         execution: Execution,
-        exerciseExecution: ExerciseExecution,
+        exerciseExecution: ExerciseExecution
     ) : this(
         executionId = execution.id
             .orUuidHexString(),

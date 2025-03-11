@@ -19,7 +19,7 @@ actual val platform: Platform = object : Platform, KoinComponent {
     override val databaseBuilder: RoomDatabase.Builder<AppDatabase>
         get() {
             val appContext = context.applicationContext
-            val dbFile = appContext.getDatabasePath("my_room.db")
+            val dbFile = appContext.getDatabasePath("gymtrack_room.db")
             return Room.databaseBuilder<AppDatabase>(
                 context = appContext,
                 name = dbFile.absolutePath

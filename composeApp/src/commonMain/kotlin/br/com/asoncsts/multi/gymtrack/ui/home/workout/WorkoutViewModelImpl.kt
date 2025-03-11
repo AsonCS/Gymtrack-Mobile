@@ -2,7 +2,7 @@ package br.com.asoncsts.multi.gymtrack.ui.home.workout
 
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
-import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutWithExerciseExecutionsRepository
+import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution.Companion.fillExercise
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.*
 class WorkoutViewModelImpl(
     private val exerciseExecutionRepo: ExerciseExecutionRepository,
     private val exercisesSource: ExercisesSource,
-    private val workoutWithExerciseExecutionsRepo: WorkoutWithExerciseExecutionsRepository
+    private val workoutRepo: WorkoutRepository
 ) : WorkoutViewModel() {
 
     private val _shared = MutableSharedFlow<WorkoutShared>()
@@ -27,7 +27,7 @@ class WorkoutViewModelImpl(
         exerciseExecution: ExerciseExecution,
         workout: Workout
     ) {
-        val result = workoutWithExerciseExecutionsRepo.putWorkoutWithExerciseExecutions(
+        val result = workoutRepo.addExerciseExecution(
             exerciseExecution,
             workout
         )

@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.extension.capitalized
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui._theme.*
@@ -41,8 +41,6 @@ internal fun Workout(
     props: WorkoutProps,
     modifier: Modifier = Modifier
 ) {
-    val locale = Locale.current
-
     ElevatedCard(
         props.navigateToWorkout,
         modifier
@@ -54,7 +52,7 @@ internal fun Workout(
                 .padding(6.dp)
         ) {
             Text(
-                props.workout.name.capitalizedWords(locale),
+                props.workout.name.capitalizedWords(),
                 color = colors().onBackground,
                 fontWeight = FontWeight.Bold,
                 style = typography().titleLarge
@@ -63,7 +61,7 @@ internal fun Workout(
             val description = props.workout.description
             if (!description.isNullOrEmpty()) {
                 Text(
-                    description.capitalize(locale),
+                    description.capitalized(),
                     color = colors().onBackground
                         .copy(.7f),
                     maxLines = 3,

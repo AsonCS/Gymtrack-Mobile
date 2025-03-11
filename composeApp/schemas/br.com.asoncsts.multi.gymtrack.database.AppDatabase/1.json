@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "02ec3d9bb91d2bd56674f4ab22446a66",
+    "identityHash": "c2cb22316438ad4d901c9464ef278448",
     "entities": [
       {
         "tableName": "execution",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`executionId` TEXT NOT NULL, `notes` TEXT NOT NULL, `reps` INTEGER NOT NULL, `weight` INTEGER NOT NULL, PRIMARY KEY(`executionId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`executionId` TEXT NOT NULL, `exerciseExecutionId` TEXT NOT NULL, `notes` TEXT, `reps` INTEGER NOT NULL, `weight` REAL NOT NULL, PRIMARY KEY(`executionId`))",
         "fields": [
           {
             "fieldPath": "executionId",
@@ -15,10 +15,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "notes",
-            "columnName": "notes",
+            "fieldPath": "exerciseExecutionId",
+            "columnName": "exerciseExecutionId",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "reps",
@@ -29,7 +34,7 @@
           {
             "fieldPath": "weight",
             "columnName": "weight",
-            "affinity": "INTEGER",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -73,43 +78,6 @@
             "exerciseExecutionId"
           ]
         }
-      },
-      {
-        "tableName": "exercise_execution_with_executions_cross_ref_entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`executionId` TEXT NOT NULL, `exerciseExecutionId` TEXT NOT NULL, PRIMARY KEY(`executionId`, `exerciseExecutionId`))",
-        "fields": [
-          {
-            "fieldPath": "executionId",
-            "columnName": "executionId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "exerciseExecutionId",
-            "columnName": "exerciseExecutionId",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "executionId",
-            "exerciseExecutionId"
-          ]
-        },
-        "indices": [
-          {
-            "name": "index_exercise_execution_with_executions_cross_ref_entity_executionId_exerciseExecutionId",
-            "unique": false,
-            "columnNames": [
-              "executionId",
-              "exerciseExecutionId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_exercise_execution_with_executions_cross_ref_entity_executionId_exerciseExecutionId` ON `${TABLE_NAME}` (`executionId`, `exerciseExecutionId`)"
-          }
-        ]
       },
       {
         "tableName": "workout",
@@ -163,12 +131,24 @@
             "exerciseExecutionId",
             "workoutId"
           ]
-        }
+        },
+        "indices": [
+          {
+            "name": "index_workout_with_exercise_executions_cross_ref_exerciseExecutionId_workoutId",
+            "unique": false,
+            "columnNames": [
+              "exerciseExecutionId",
+              "workoutId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_workout_with_exercise_executions_cross_ref_exerciseExecutionId_workoutId` ON `${TABLE_NAME}` (`exerciseExecutionId`, `workoutId`)"
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '02ec3d9bb91d2bd56674f4ab22446a66')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c2cb22316438ad4d901c9464ef278448')"
     ]
   }
 }

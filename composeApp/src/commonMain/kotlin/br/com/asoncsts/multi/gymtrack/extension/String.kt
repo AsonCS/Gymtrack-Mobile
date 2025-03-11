@@ -2,6 +2,7 @@
 
 package br.com.asoncsts.multi.gymtrack.extension
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import br.com.asoncsts.multi.gymtrack.isDebug
@@ -36,8 +37,14 @@ fun String.log(
     }
 }
 
+@Composable
+fun String.capitalized(
+    locale: Locale = Locale.current
+) = this.capitalize(locale)
+
+@Composable
 fun String.capitalizedWords(
-    locale: Locale
+    locale: Locale = Locale.current
 ) = this.split(" ")
     .joinToString(" ") {
         it.capitalize(locale)

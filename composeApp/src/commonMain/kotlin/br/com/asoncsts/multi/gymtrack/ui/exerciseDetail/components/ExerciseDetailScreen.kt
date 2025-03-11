@@ -8,10 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.extension.capitalized
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
 import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.ui._components.*
@@ -45,8 +44,6 @@ internal fun ExerciseDetailScreen(
         return
     }
 
-    val locale = Locale.current
-
     Column(
         modifier
             .verticalScroll(rememberScrollState())
@@ -66,14 +63,14 @@ internal fun ExerciseDetailScreen(
         )
 
         Text(
-            props.exercise.title.capitalizedWords(locale),
+            props.exercise.title.capitalizedWords(),
             color = colors().onBackground,
             fontWeight = FontWeight.Bold,
             style = typography().displayLarge
         )
 
         Text(
-            props.exercise.description.capitalize(locale),
+            props.exercise.description.capitalized(),
             color = colors().onBackground
                 .copy(.7f),
             style = typography().bodyLarge

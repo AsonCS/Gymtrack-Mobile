@@ -5,7 +5,6 @@ import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.local.ExerciseExecutionLocal
 import br.com.asoncsts.multi.gymtrack.extension.error
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
-import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -25,7 +24,7 @@ interface ExerciseExecutionRepository {
                 )
             } catch (t: Throwable) {
                 TAG_DATA.error(
-                    "UserExerciseRepository.local.getExerciseExecutionsWithExecutions",
+                    "ExerciseExecutionRepository.local.getExerciseExecution",
                     t
                 )
                 Wrapper.Error(t)
@@ -38,21 +37,22 @@ interface ExerciseExecutionRepository {
                     local.getExerciseExecutions()
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("UserExerciseRepository.local.getExerciseExecutions", t)
+                TAG_DATA.error("ExerciseExecutionRepository.local.getExerciseExecutions", t)
                 Wrapper.Error(t)
             }
         }
 
         override suspend fun putExerciseExecution(
-            exerciseExecution: ExerciseExecution.Detail,
-            workout: Workout?
+            exerciseExecution: ExerciseExecution.Detail
         ): Wrapper<ExerciseExecution.Detail> {
             return try {
                 Wrapper.Success(
-                    local.putExerciseExecution(exerciseExecution)
+                    local.putExerciseExecution(
+                        exerciseExecution
+                    )
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("UserExerciseRepository.local.putWorkout", t)
+                TAG_DATA.error("ExerciseExecutionRepository.local.putExerciseExecution", t)
                 Wrapper.Error(t)
             }
         }
@@ -66,8 +66,7 @@ interface ExerciseExecutionRepository {
     suspend fun getExerciseExecutions(): Wrapper<Flow<List<ExerciseExecution>>>
 
     suspend fun putExerciseExecution(
-        exerciseExecution: ExerciseExecution.Detail,
-        workout: Workout?
+        exerciseExecution: ExerciseExecution.Detail
     ): Wrapper<ExerciseExecution.Detail>
 
 }
