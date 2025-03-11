@@ -7,6 +7,8 @@ internal data class StateFields(
     private val _notes: String? = null,
     private val _reps: Int? = null,
     private val _weight: Double? = null,
+    val id: String? = null,
+    val isDialogVisible: Boolean = false,
     private val update: (
         StateFields.() -> StateFields
     ) -> Unit
@@ -45,6 +47,7 @@ internal data class StateFields(
         }
 
     fun toExecution() = Execution(
+        id = id,
         notes = _notes,
         reps = _reps,
         weight = _weight

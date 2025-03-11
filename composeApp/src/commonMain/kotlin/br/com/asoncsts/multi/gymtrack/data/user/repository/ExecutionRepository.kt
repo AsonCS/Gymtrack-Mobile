@@ -30,11 +30,30 @@ interface ExecutionRepository {
             }
         }
 
+        override suspend fun deleteExecution(
+            executionId: String
+        ): Wrapper<Unit> {
+            return try {
+                Wrapper.Success(
+                    local.deleteExecution(
+                        executionId
+                    )
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error("ExecutionRepository.local.removeExecution", t)
+                Wrapper.Error(t)
+            }
+        }
+
     }
 
     suspend fun putExecution(
         execution: Execution,
         exerciseExecution: ExerciseExecution
     ): Wrapper<Execution>
+
+    suspend fun deleteExecution(
+        executionId: String
+    ): Wrapper<Unit>
 
 }

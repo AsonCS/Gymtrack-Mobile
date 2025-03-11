@@ -11,4 +11,9 @@ interface ExecutionDao {
         execution: ExecutionEntity
     )
 
+    @Delete
+    suspend fun delete(
+        execution: ExecutionEntity
+    )
+
 }

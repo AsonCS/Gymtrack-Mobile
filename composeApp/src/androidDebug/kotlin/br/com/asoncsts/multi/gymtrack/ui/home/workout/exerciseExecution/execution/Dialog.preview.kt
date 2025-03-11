@@ -15,7 +15,7 @@ private fun NewExecutionDialogPreview(
         NewExecutionDialog(
             isVisible = true,
             onDismissRequest = {},
-            props = newExecutionProps({}),
+            props = newExecutionProps({}, {}, {}),
             stateFields = state
         )
     }

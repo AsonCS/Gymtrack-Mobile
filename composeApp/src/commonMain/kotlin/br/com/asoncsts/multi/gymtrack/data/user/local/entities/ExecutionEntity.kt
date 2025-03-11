@@ -28,6 +28,16 @@ data class ExecutionEntity(
         weight = execution.weight
     )
 
+    constructor(
+        executionId: String
+    ) : this(
+        executionId = executionId,
+        exerciseExecutionId = "",
+        notes = null,
+        reps = 0,
+        weight = 0.0
+    )
+
     fun toExecution(): Execution {
         return Execution(
             id = executionId,

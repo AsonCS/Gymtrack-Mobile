@@ -19,25 +19,8 @@ private fun NewExecutionPreview(
             .padding(16.dp)
     ) {
         NewExecution(
-            props = newExecutionProps({}),
+            props = newExecutionProps({}, {}, {}),
             stateFields = state
-        )
-    }
-}
-
-@PreviewMedPhone
-@Composable
-private fun NewExecutionWithDialogPreview(
-    @PreviewParameter(NewExecutionValuesProvider::class) state: StateFields,
-) {
-    PreviewContainer(
-        Modifier
-            .padding(16.dp)
-    ) {
-        NewExecution(
-            props = newExecutionProps({}),
-            stateFields = state,
-            initialDialogVisibility = true
         )
     }
 }

@@ -25,4 +25,6 @@ actual val platform = object : Platform {
 
     override val engine = Apache5
 
+    override val type = Platform.Type.Desktop
+
 }

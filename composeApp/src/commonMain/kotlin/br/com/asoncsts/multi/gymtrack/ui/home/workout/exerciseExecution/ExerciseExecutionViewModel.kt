@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
-import br.com.asoncsts.multi.gymtrack.extension.log
+import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution.Companion.fillExercise
 import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesSource
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution.StateFields
@@ -51,7 +51,6 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
 
                 is Wrapper.Success -> {
                     result.data.collect { exerciseExecution ->
-                        "fatal".log("exerciseExecution: $exerciseExecution")
                         _state.update {
                             ExerciseExecutionState.Success(
                                 exerciseExecution.fillExercise(
@@ -64,12 +63,30 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
             }
         }
 
-        override suspend fun onCreateExecution() {
+        override suspend fun onExecutionAddOrUpdate(
+            execution: Execution?
+        ) {
+            _stateFields.update {
+                it.copy(
+                    _notes = execution
+                        ?.notes,
+                    _reps = execution
+                        ?.reps,
+                    _weight = execution
+                        ?.weight,
+                    id = execution
+                        ?.id,
+                    isDialogVisible = it.isDialogVisible.not()
+                )
+            }
+        }
+
+        override suspend fun onExecutionConfirmChange() {
             val exerciseExecution = (_state.value as? ExerciseExecutionState.Success)
                 ?.exerciseExecution
                 ?: let {
                     _shared.emit(
-                        ExerciseExecutionShared.ErrorOnCreateExecution(
+                        ExerciseExecutionShared.ErrorOnEditExecution(
                             "ExerciseExecution is null"
                         )
                     )
@@ -83,7 +100,7 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
             when (result) {
                 is Wrapper.Error -> {
                     _shared.emit(
-                        ExerciseExecutionShared.ErrorOnCreateExecution(
+                        ExerciseExecutionShared.ErrorOnEditExecution(
                             result.error.message
                                 ?: "Error on create execution"
                         )
@@ -91,8 +108,40 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
                 }
 
                 is Wrapper.Success -> {
+                    _stateFields.update {
+                        it.copy(
+                            isDialogVisible = false
+                        )
+                    }
                     _shared.emit(
-                        ExerciseExecutionShared.SuccessOnCreateExecution
+                        ExerciseExecutionShared.SuccessOnEditExecution
+                    )
+                }
+            }
+        }
+
+        override suspend fun onExecutionRemove(
+            executionId: String
+        ) {
+            val result = executionRepo.deleteExecution(executionId)
+            when (result) {
+                is Wrapper.Error -> {
+                    _shared.emit(
+                        ExerciseExecutionShared.ErrorOnEditExecution(
+                            result.error.message
+                                ?: "Error on remove execution"
+                        )
+                    )
+                }
+
+                is Wrapper.Success -> {
+                    _stateFields.update {
+                        it.copy(
+                            isDialogVisible = false
+                        )
+                    }
+                    _shared.emit(
+                        ExerciseExecutionShared.SuccessOnEditExecution
                     )
                 }
             }
@@ -108,5 +157,13 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
         id: String
     )
 
-    internal abstract suspend fun onCreateExecution()
+    internal abstract suspend fun onExecutionAddOrUpdate(
+        execution: Execution?
+    )
+
+    internal abstract suspend fun onExecutionConfirmChange()
+
+    internal abstract suspend fun onExecutionRemove(
+        executionId: String
+    )
 }

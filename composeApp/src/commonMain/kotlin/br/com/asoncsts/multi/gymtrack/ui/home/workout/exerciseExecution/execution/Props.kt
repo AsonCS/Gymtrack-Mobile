@@ -20,14 +20,24 @@ internal data class NewExecutionProps(
     val labelCreate: String,
     val labelNewExecution: String,
     val labelNotes: String,
+    val labelRemove: String,
     val labelReps: String,
+    val labelUpdate: String,
     val labelWeight: String,
-    val onCreate: () -> Unit
+    val onCreate: () -> Unit,
+    val onRemove: (
+        executionId: String
+    ) -> Unit,
+    val onToggleDialog: () -> Unit
 )
 
 @Composable
 internal fun newExecutionProps(
     onCreate: () -> Unit,
+    onRemove: (
+        executionId: String
+    ) -> Unit,
+    onToggleDialog: () -> Unit,
     labelCreate: String = stringResource(
         Res.string.label_create
     ),
@@ -37,8 +47,14 @@ internal fun newExecutionProps(
     labelNotes: String = stringResource(
         Res.string.execution_label_notes
     ),
+    labelRemove: String = stringResource(
+        Res.string.label_remove
+    ),
     labelReps: String = stringResource(
         Res.string.execution_label_reps
+    ),
+    labelUpdate: String = stringResource(
+        Res.string.label_update
     ),
     labelWeight: String = stringResource(
         Res.string.execution_label_weight
@@ -47,7 +63,11 @@ internal fun newExecutionProps(
     labelCreate,
     labelNewExecution,
     labelNotes,
+    labelRemove,
     labelReps,
+    labelUpdate,
     labelWeight,
-    onCreate
+    onCreate,
+    onRemove,
+    onToggleDialog
 )

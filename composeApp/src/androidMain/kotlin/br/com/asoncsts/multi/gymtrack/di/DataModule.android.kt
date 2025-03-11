@@ -28,4 +28,6 @@ actual val platform: Platform = object : Platform, KoinComponent {
 
     override val engine = OkHttp
 
+    override val type = Platform.Type.Android
+
 }

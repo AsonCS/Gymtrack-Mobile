@@ -76,9 +76,22 @@ internal fun NewExecutionDialog(
                 )
 
                 Button(
-                    props.labelCreate,
+                    if (stateFields.id != null)
+                        props.labelUpdate
+                    else
+                        props.labelCreate,
                     onClick = props.onCreate
                 )
+                if (stateFields.id != null) {
+                    Button(
+                        props.labelRemove,
+                        onClick = {
+                            props.onRemove(
+                                stateFields.id
+                            )
+                        }
+                    )
+                }
             }
         }
     }
@@ -89,6 +102,8 @@ internal fun newExecutionDialogSequence() = sequenceOf(
     StateFields(
         "notes",
         12,
-        72.5
+        72.5,
+        null,
+        true
     ) {},
 )

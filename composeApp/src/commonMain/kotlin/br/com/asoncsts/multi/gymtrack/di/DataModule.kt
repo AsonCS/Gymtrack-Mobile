@@ -30,9 +30,19 @@ import okio.FileSystem
 import org.koin.dsl.module
 
 interface Platform {
+    sealed class Type {
+        data object Android : Type()
+        data object Desktop : Type()
+        data object IOS : Type()
+    }
+
     val coilContext: PlatformContext
     val databaseBuilder: RoomDatabase.Builder<AppDatabase>
     val engine: HttpClientEngineFactory<*>
+    val type: Type
+
+    val isDesktop
+        get() = type == Type.Desktop
 }
 
 expect val platform: Platform

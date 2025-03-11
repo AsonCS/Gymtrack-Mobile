@@ -7,11 +7,13 @@ data class Execution(
     val weight: Double
 ) {
     constructor(
+        id: String?,
         notes: String?,
         reps: Int?,
         weight: Double?
     ) : this(
-        id = "",
+        id = id
+            ?: "",
         notes = notes,
         reps = reps
             ?: 0,

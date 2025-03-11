@@ -22,14 +22,25 @@ fun ExerciseExecutionScreen(
         .stateFields
         .collectAsState()
 
-    (shared as? ExerciseExecutionShared.ErrorOnCreateExecution)?.let {
-        Toast(it.message)
-    }
+    (shared as? ExerciseExecutionShared.ErrorOnEditExecution)
+        ?.let {
+            Toast(it.message)
+        }
 
     ExerciseExecutionScreen(
-        onCreateExecution = {
+        onExecutionAddOrUpdate = { execution ->
             args.viewModel.launch {
-                onCreateExecution()
+                onExecutionAddOrUpdate(execution)
+            }
+        },
+        onExecutionConfirmChange = {
+            args.viewModel.launch {
+                onExecutionConfirmChange()
+            }
+        },
+        onExecutionRemove = { executionId ->
+            args.viewModel.launch {
+                onExecutionRemove(executionId)
             }
         },
         args.navigateUp,

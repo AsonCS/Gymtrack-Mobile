@@ -25,11 +25,25 @@ interface ExecutionLocal {
             )
         }
 
+        override suspend fun deleteExecution(
+            executionId: String
+        ) {
+            dao.delete(
+                ExecutionEntity(
+                    executionId
+                )
+            )
+        }
+
     }
 
     suspend fun putExecution(
         execution: Execution,
         exerciseExecution: ExerciseExecution
     ): Execution
+
+    suspend fun deleteExecution(
+        executionId: String
+    )
 
 }

@@ -1,5 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,6 +14,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
+import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import br.com.asoncsts.multi.gymtrack.ui._components.LoadingBox
 import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
@@ -21,7 +23,13 @@ import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.executio
 
 @Composable
 internal fun ExerciseExecutionScreen(
-    onCreateExecution: () -> Unit,
+    onExecutionAddOrUpdate: (
+        Execution?
+    ) -> Unit,
+    onExecutionConfirmChange: () -> Unit,
+    onExecutionRemove: (
+        executionId: String
+    ) -> Unit,
     onNavigateUp: () -> Unit,
     state: ExerciseExecutionState,
     stateFields: StateFields,
@@ -47,7 +55,9 @@ internal fun ExerciseExecutionScreen(
         }
 
         is ExerciseExecutionState.Success -> Success(
-            onCreateExecution,
+            onExecutionAddOrUpdate,
+            onExecutionConfirmChange,
+            onExecutionRemove,
             onNavigateUp,
             state,
             stateFields,
@@ -58,7 +68,13 @@ internal fun ExerciseExecutionScreen(
 
 @Composable
 private fun Success(
-    onCreateExecution: () -> Unit,
+    onExecutionAddOrUpdate: (
+        Execution?
+    ) -> Unit,
+    onExecutionConfirmChange: () -> Unit,
+    onExecutionRemove: (
+        executionId: String
+    ) -> Unit,
     onNavigateUp: () -> Unit,
     state: ExerciseExecutionState.Success,
     stateFields: StateFields,
@@ -119,7 +135,17 @@ private fun Success(
         }
 
         NewExecution(
-            newExecutionProps(onCreateExecution),
+            newExecutionProps(
+                onCreate = {
+                    onExecutionConfirmChange()
+                },
+                onRemove = { executionId ->
+                    onExecutionRemove(executionId)
+                },
+                onToggleDialog = {
+                    onExecutionAddOrUpdate(null)
+                }
+            ),
             stateFields,
             Modifier
         )
@@ -137,7 +163,11 @@ private fun Success(
                 Execution(
                     executionProps(
                         execution
-                    )
+                    ),
+                    Modifier
+                        .clickable {
+                            onExecutionAddOrUpdate(execution)
+                        }
                 )
             }
         }

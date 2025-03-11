@@ -9,6 +9,11 @@ fun Double?.orEmpty() = this
     ?.toString()
     ?: ""
 
+fun Double?.toStringReplacingDotZero() = this
+    ?.toString()
+    ?.replace(".0", "")
+    ?: ""
+
 fun String.toIntValidating(
     defaultValue: Int? = null
 ): Int? = takeIf { it.isNotBlank() }

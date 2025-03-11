@@ -3,8 +3,12 @@ package br.com.asoncsts.multi.gymtrack.di
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.com.asoncsts.multi.gymtrack.database.AppDatabase
+import coil3.PlatformContext
 
 actual val platform = object : Platform {
+
+    override val coilContext: PlatformContext
+        get() = TODO("Not yet implemented")
 
     override val databaseBuilder: RoomDatabase.Builder<AppDatabase>
         get() {
@@ -16,6 +20,8 @@ actual val platform = object : Platform {
 
     override val engine
         get() = TODO("Not yet implemented")
+
+    override val type = Platform.Type.IOS
 
 }
 

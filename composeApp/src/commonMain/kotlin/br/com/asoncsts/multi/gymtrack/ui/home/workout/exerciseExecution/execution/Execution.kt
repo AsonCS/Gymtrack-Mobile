@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.extension.toStringReplacingDotZero
 import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
@@ -46,7 +47,11 @@ internal fun Execution(
                         fontWeight = FontWeight.Bold
                     )
                 ) {
-                    append(props.execution.weight.toString())
+                    append(
+                        props.execution
+                            .weight
+                            .toStringReplacingDotZero()
+                    )
                 }
             },
             Modifier
@@ -74,12 +79,14 @@ internal fun executionSequence() = sequenceOf(
     ExecutionProps(
         Execution(
             null,
+            null,
             3,
             90.0
         )
     ),
     ExecutionProps(
         Execution(
+            null,
             "notes",
             12,
             72.5
