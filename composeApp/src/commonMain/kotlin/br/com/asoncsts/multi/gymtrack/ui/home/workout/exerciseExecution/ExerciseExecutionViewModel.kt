@@ -80,6 +80,7 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
                         ?.notes,
                     _order = execution
                         ?.order
+                        ?.let { it + 1 }
                         ?: exerciseExecution
                             .executions
                             .maxOfOrNull { it.order + 2 }
