@@ -13,6 +13,9 @@ import br.com.asoncsts.multi.gymtrack.data.user.local.entities.*
         WorkoutEntity::class,
         WorkoutWithExerciseExecutionsCrossRefEntity::class
     ],
+//    autoMigrations = [
+//        AutoMigration(from = 1, to = 2)
+//    ],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {

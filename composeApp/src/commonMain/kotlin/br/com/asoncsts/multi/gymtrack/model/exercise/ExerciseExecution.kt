@@ -13,6 +13,7 @@ interface ExerciseExecution {
         override val name: String,
         val exerciseAlias: String?
     ) : ExerciseExecution {
+
         constructor(
             exerciseAlias: String?,
             id: String,
@@ -35,6 +36,7 @@ interface ExerciseExecution {
             id = id,
             name = name
         )
+
     }
 
     data class Detail(
@@ -58,6 +60,7 @@ interface ExerciseExecution {
     }
 
     companion object {
+
         fun <E : ExerciseExecution> E.fillExercise(
             getExercise: (alias: String) -> Wrapper<Exercise>,
         ): E {
@@ -105,5 +108,6 @@ interface ExerciseExecution {
                 result
             }
         }
+
     }
 }

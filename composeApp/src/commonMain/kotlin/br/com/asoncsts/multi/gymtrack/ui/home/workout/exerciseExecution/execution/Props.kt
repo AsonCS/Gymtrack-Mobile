@@ -20,6 +20,7 @@ internal data class NewExecutionProps(
     val labelCreate: String,
     val labelNewExecution: String,
     val labelNotes: String,
+    val labelOrder: String,
     val labelRemove: String,
     val labelReps: String,
     val labelUpdate: String,
@@ -47,6 +48,9 @@ internal fun newExecutionProps(
     labelNotes: String = stringResource(
         Res.string.execution_label_notes
     ),
+    labelOrder: String = stringResource(
+        Res.string.execution_label_order
+    ),
     labelRemove: String = stringResource(
         Res.string.label_remove
     ),
@@ -63,6 +67,7 @@ internal fun newExecutionProps(
     labelCreate,
     labelNewExecution,
     labelNotes,
+    labelOrder,
     labelRemove,
     labelReps,
     labelUpdate,

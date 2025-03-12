@@ -3,7 +3,6 @@ package br.com.asoncsts.multi.gymtrack.ui._components
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +19,6 @@ fun ScreenTopBar(
     onNavigateUp: (() -> Unit)?,
     title: String,
     modifier: Modifier = Modifier,
-    useArrowBack: Boolean = true,
     content: (@Composable () -> Unit)? = null
 ) {
     Row(
@@ -36,10 +34,7 @@ fun ScreenTopBar(
                 Modifier
             ) {
                 Icon(
-                    if (useArrowBack)
-                        Icons.AutoMirrored.Filled.ArrowBack
-                    else
-                        Icons.Filled.Close,
+                    Icons.AutoMirrored.Filled.ArrowBack,
                     null,
                     Modifier
                         .size(48.dp)

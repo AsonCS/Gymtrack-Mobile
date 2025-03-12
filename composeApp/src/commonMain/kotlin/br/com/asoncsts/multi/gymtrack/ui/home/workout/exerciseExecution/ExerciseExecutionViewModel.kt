@@ -5,6 +5,7 @@ import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
 import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
+import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution.Companion.fillExercise
 import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesSource
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution.StateFields
@@ -36,6 +37,13 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
         }
         override val stateFields = _stateFields.asStateFlow()
 
+        private val exerciseExecution: ExerciseExecution.Detail
+            get() = (_state.value as? ExerciseExecutionState.Success)
+                ?.exerciseExecution
+                ?: let {
+                    throw Throwable("ExerciseExecution is null")
+                }
+
         override suspend fun getExerciseExecution(
             id: String
         ) {
@@ -66,33 +74,28 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
         override suspend fun onExecutionAddOrUpdate(
             execution: Execution?
         ) {
-            _stateFields.update {
-                it.copy(
+            _stateFields.update { state ->
+                state.copy(
                     _notes = execution
                         ?.notes,
+                    _order = execution
+                        ?.order
+                        ?: exerciseExecution
+                            .executions
+                            .maxOfOrNull { it.order + 2 }
+                        ?: 1,
                     _reps = execution
                         ?.reps,
                     _weight = execution
                         ?.weight,
                     id = execution
                         ?.id,
-                    isDialogVisible = it.isDialogVisible.not()
+                    isDialogVisible = state.isDialogVisible.not()
                 )
             }
         }
 
         override suspend fun onExecutionConfirmChange() {
-            val exerciseExecution = (_state.value as? ExerciseExecutionState.Success)
-                ?.exerciseExecution
-                ?: let {
-                    _shared.emit(
-                        ExerciseExecutionShared.ErrorOnEditExecution(
-                            "ExerciseExecution is null"
-                        )
-                    )
-                    return
-                }
-
             val result = executionRepo.putExecution(
                 _stateFields.value.toExecution(),
                 exerciseExecution

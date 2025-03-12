@@ -27,6 +27,15 @@ internal fun Execution(
             buildAnnotatedString {
                 withStyle(
                     SpanStyle(
+                        color = colors().onBackground
+                            .copy(.7f)
+                    )
+                ) {
+                    append("${props.execution.order + 1}º: ")
+                }
+
+                withStyle(
+                    SpanStyle(
                         fontWeight = FontWeight.Bold
                     )
                 ) {
@@ -80,15 +89,21 @@ internal fun executionSequence() = sequenceOf(
         Execution(
             null,
             null,
+            null,
+            0,
             3,
+            0,
             90.0
         )
     ),
     ExecutionProps(
         Execution(
             null,
+            null,
             "notes",
+            0,
             12,
+            0,
             72.5
         )
     )

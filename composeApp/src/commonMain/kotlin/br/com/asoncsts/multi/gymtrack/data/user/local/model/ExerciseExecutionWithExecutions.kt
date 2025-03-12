@@ -28,6 +28,7 @@ data class ExerciseExecutionWithExecutions(
             name = exerciseExecution.name,
             executions = executions
                 .map { it.toExecution() }
+                .sortedBy { it.order }
         )
     }
 }

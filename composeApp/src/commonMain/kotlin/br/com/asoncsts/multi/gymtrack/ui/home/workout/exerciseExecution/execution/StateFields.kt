@@ -5,9 +5,11 @@ import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 
 internal data class StateFields(
     private val _notes: String? = null,
+    private val _order: Int? = null,
     private val _reps: Int? = null,
     private val _weight: Double? = null,
     val id: String? = null,
+    val idParent: String? = null,
     val isDialogVisible: Boolean = false,
     private val update: (
         StateFields.() -> StateFields
@@ -20,6 +22,17 @@ internal data class StateFields(
                 copy(
                     _notes = value
                         .takeIf { it.isNotBlank() }
+                )
+            }
+        }
+
+    var order: String
+        get() = _order.orEmpty()
+        set(value) {
+            update {
+                copy(
+                    _order = value
+                        .toIntValidating(_reps)
                 )
             }
         }
@@ -48,7 +61,10 @@ internal data class StateFields(
 
     fun toExecution() = Execution(
         id = id,
+        idParent = idParent,
         notes = _notes,
+        order = _order
+            ?.let { it - 1 },
         reps = _reps,
         weight = _weight
     )

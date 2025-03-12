@@ -19,7 +19,16 @@ interface ExecutionLocal {
                 execution,
                 exerciseExecution
             )
-            dao.insert(entity)
+
+            insertOrderedEntities {
+                toMutableList().apply {
+                    add(
+                        entity.order,
+                        entity
+                    )
+                }
+            }
+
             return execution.copy(
                 id = entity.executionId
             )
@@ -32,6 +41,22 @@ interface ExecutionLocal {
                 ExecutionEntity(
                     executionId
                 )
+            )
+            insertOrderedEntities()
+        }
+
+        private suspend fun insertOrderedEntities(
+            applyBlock: List<ExecutionEntity>.() -> List<ExecutionEntity> = { this }
+        ) {
+            dao.insert(
+                *dao.getExecutions()
+                    .sortedBy { it.order }
+                    .applyBlock()
+                    .mapIndexed { index, executionEntity ->
+                        executionEntity.copy(
+                            order = index
+                        )
+                    }.toTypedArray()
             )
         }
 

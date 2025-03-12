@@ -38,10 +38,14 @@ internal fun NewExecutionDialog(
                 verticalArrangement = Arrangement
                     .spacedBy(16.dp)
             ) {
-                ScreenTopBar(
-                    onDismissRequest,
-                    props.labelNewExecution,
-                    useArrowBack = false
+                TextField(
+                    KeyboardType.Number,
+                    props.labelOrder,
+                    { stateFields.order = it },
+                    props.labelOrder,
+                    stateFields.order,
+                    Modifier
+                        .fillMaxWidth()
                 )
 
                 TextField(
@@ -72,25 +76,33 @@ internal fun NewExecutionDialog(
                     props.labelWeight,
                     stateFields.weight,
                     Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    onDone = {
+                        props.onCreate()
+                    }
                 )
 
-                Button(
-                    if (stateFields.id != null)
-                        props.labelUpdate
-                    else
-                        props.labelCreate,
-                    onClick = props.onCreate
-                )
-                if (stateFields.id != null) {
+                Row(
+                    horizontalArrangement = Arrangement
+                        .spacedBy(8.dp)
+                ) {
                     Button(
-                        props.labelRemove,
-                        onClick = {
-                            props.onRemove(
-                                stateFields.id
-                            )
-                        }
+                        if (stateFields.id != null)
+                            props.labelUpdate
+                        else
+                            props.labelCreate,
+                        onClick = props.onCreate
                     )
+                    if (stateFields.id != null) {
+                        Button(
+                            props.labelRemove,
+                            onClick = {
+                                props.onRemove(
+                                    stateFields.id
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -101,8 +113,10 @@ internal fun newExecutionDialogSequence() = sequenceOf(
     StateFields {},
     StateFields(
         "notes",
+        1,
         12,
         72.5,
+        null,
         null,
         true
     ) {},

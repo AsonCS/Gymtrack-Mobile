@@ -2,6 +2,7 @@
 <resources>
     <string name="execution_label_new">New execution</string>
     <string name="execution_label_notes">Notes</string>
+    <string name="execution_label_order">Order</string>
     <string name="execution_label_reps">Reps</string>
     <string name="execution_label_weight">Weight</string>
 
