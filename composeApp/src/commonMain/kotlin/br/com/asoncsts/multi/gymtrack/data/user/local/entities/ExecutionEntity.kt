@@ -47,8 +47,11 @@ data class ExecutionEntity(
         weight = 0.0
     )
 
-    fun toExecution(): Execution {
+    fun toExecution(
+        children: List<Execution>
+    ): Execution {
         return Execution(
+            children = children,
             id = executionId,
             idParent = executionIdParent,
             notes = notes,

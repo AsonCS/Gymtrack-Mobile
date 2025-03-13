@@ -8,7 +8,7 @@ import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 @Composable
 private fun Preview() {
     PreviewContainer {
-        NewElementButton(
+        ButtonAdd(
             "New",
             {}
         )

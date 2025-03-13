@@ -71,31 +71,6 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
             }
         }
 
-        override suspend fun onExecutionAddOrUpdate(
-            execution: Execution?
-        ) {
-            _stateFields.update { state ->
-                state.copy(
-                    _notes = execution
-                        ?.notes,
-                    _order = execution
-                        ?.order
-                        ?.let { it + 1 }
-                        ?: exerciseExecution
-                            .executions
-                            .maxOfOrNull { it.order + 2 }
-                        ?: 1,
-                    _reps = execution
-                        ?.reps,
-                    _weight = execution
-                        ?.weight,
-                    id = execution
-                        ?.id,
-                    isDialogVisible = state.isDialogVisible.not()
-                )
-            }
-        }
-
         override suspend fun onExecutionConfirm() {
             val result = executionRepo.putExecution(
                 _stateFields.value.toExecution(),
@@ -107,6 +82,39 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
                         ExerciseExecutionShared.ErrorOnEditExecution(
                             result.error.message
                                 ?: "Error on create execution"
+                        )
+                    )
+                }
+
+                is Wrapper.Success -> {
+                    _stateFields.update {
+                        it.copy(
+                            isDialogVisible = false
+                        )
+                    }
+                    _shared.emit(
+                        ExerciseExecutionShared.SuccessOnEditExecution
+                    )
+                }
+            }
+        }
+
+        override suspend fun onExecutionFinish(
+            execution: Execution
+        ) {
+            val result = executionRepo.putExecution(
+                execution.copy(
+                    id = "",
+                    idParent = execution.id
+                ),
+                exerciseExecution
+            )
+            when (result) {
+                is Wrapper.Error -> {
+                    _shared.emit(
+                        ExerciseExecutionShared.ErrorOnEditExecution(
+                            result.error.message
+                                ?: "Error on finishing execution"
                         )
                     )
                 }
@@ -151,6 +159,33 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
             }
         }
 
+        override suspend fun onExecutionToggleDialog(
+            execution: Execution?
+        ) {
+            _stateFields.update { state ->
+                state.copy(
+                    _notes = execution
+                        ?.notes,
+                    _order = execution
+                        ?.order
+                        ?.let { it + 1 }
+                        ?: exerciseExecution
+                            .executions
+                            .maxOfOrNull { it.order + 2 }
+                        ?: 1,
+                    _reps = execution
+                        ?.reps,
+                    _weight = execution
+                        ?.weight,
+                    id = execution
+                        ?.id,
+                    idParent = execution
+                        ?.idParent,
+                    isDialogVisible = state.isDialogVisible.not()
+                )
+            }
+        }
+
     }
 
     internal abstract val shared: SharedFlow<ExerciseExecutionShared>
@@ -161,13 +196,18 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
         id: String
     )
 
-    internal abstract suspend fun onExecutionAddOrUpdate(
-        execution: Execution?
-    )
-
     internal abstract suspend fun onExecutionConfirm()
+
+    internal abstract suspend fun onExecutionFinish(
+        execution: Execution
+    )
 
     internal abstract suspend fun onExecutionRemove(
         executionId: String
     )
+
+    internal abstract suspend fun onExecutionToggleDialog(
+        execution: Execution?
+    )
+
 }

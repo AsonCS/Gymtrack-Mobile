@@ -8,8 +8,8 @@ import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 
 @PreviewComponent
 @Composable
-private fun NewExecutionDialogPreview(
-    @PreviewParameter(NewExecutionDialogValuesProvider::class) state: EditStateFields
+private fun EditExecutionDialogPreview(
+    @PreviewParameter(EditExecutionDialogValuesProvider::class) state: EditStateFields
 ) {
     PreviewContainer {
         EditExecutionDialog(
@@ -21,6 +21,6 @@ private fun NewExecutionDialogPreview(
     }
 }
 
-private class NewExecutionDialogValuesProvider : PreviewParameterProvider<EditStateFields> {
-    override val values = newExecutionDialogSequence()
+private class EditExecutionDialogValuesProvider : PreviewParameterProvider<EditStateFields> {
+    override val values = editExecutionDialogSequence()
 }

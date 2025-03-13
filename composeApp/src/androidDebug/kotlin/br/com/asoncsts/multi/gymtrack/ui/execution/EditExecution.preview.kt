@@ -11,8 +11,8 @@ import br.com.asoncsts.multi.gymtrack.ui.PreviewMedPhone
 
 @PreviewMedPhone
 @Composable
-private fun NewExecutionPreview(
-    @PreviewParameter(NewExecutionValuesProvider::class) state: EditStateFields,
+private fun EditExecutionPreview(
+    @PreviewParameter(EditExecutionValuesProvider::class) state: EditStateFields,
 ) {
     PreviewContainer(
         Modifier
@@ -27,6 +27,6 @@ private fun NewExecutionPreview(
     }
 }
 
-private class NewExecutionValuesProvider : PreviewParameterProvider<EditStateFields> {
-    override val values = newExecutionDialogSequence()
+private class EditExecutionValuesProvider : PreviewParameterProvider<EditStateFields> {
+    override val values = editExecutionDialogSequence()
 }

@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
@@ -32,10 +34,42 @@ fun Button(
 }
 
 @Composable
-fun NewElementButton(
-    label: String,
+fun ButtonAdd(
+    label: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
+) {
+    ButtonIcon(
+        "Add icon",
+        Icons.Filled.Add,
+        label,
+        onClick,
+        modifier
+    )
+}
+
+@Composable
+fun ButtonCheck(
+    label: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ButtonIcon(
+        "Check icon",
+        Icons.Filled.Check,
+        label,
+        onClick,
+        modifier
+    )
+}
+
+@Composable
+private fun ButtonIcon(
+    contentDescription: String,
+    imageVector: ImageVector,
+    label: String?,
+    onClick: () -> Unit,
+    modifier: Modifier
 ) {
     ElevatedButton(
         onClick,
@@ -45,18 +79,20 @@ fun NewElementButton(
         )
     ) {
         Icon(
-            Icons.Filled.Add,
-            "Add icon"
+            imageVector,
+            contentDescription
         )
 
-        Spacer(
-            Modifier
-                .width(8.dp)
-        )
+        if (label != null) {
+            Spacer(
+                Modifier
+                    .width(8.dp)
+            )
 
-        Text(
-            label,
-            fontWeight = FontWeight.Bold
-        )
+            Text(
+                label,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }

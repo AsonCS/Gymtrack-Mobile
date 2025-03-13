@@ -24,6 +24,9 @@ import br.com.asoncsts.multi.gymtrack.model.exercise.Execution as ModelExecution
 @Composable
 internal fun ExerciseExecutionScreen(
     onExecutionConfirm: () -> Unit,
+    onExecutionFinish: (
+        ModelExecution
+    ) -> Unit,
     onExecutionRemove: (
         executionId: String
     ) -> Unit,
@@ -56,6 +59,7 @@ internal fun ExerciseExecutionScreen(
 
         is ExerciseExecutionState.Success -> Success(
             onExecutionConfirm = onExecutionConfirm,
+            onExecutionFinish = onExecutionFinish,
             onExecutionRemove = onExecutionRemove,
             onExecutionToggleDialog = onExecutionToggleDialog,
             onNavigateUp = onNavigateUp,
@@ -69,6 +73,9 @@ internal fun ExerciseExecutionScreen(
 @Composable
 private fun Success(
     onExecutionConfirm: () -> Unit,
+    onExecutionFinish: (
+        ModelExecution
+    ) -> Unit,
     onExecutionRemove: (
         executionId: String
     ) -> Unit,
@@ -160,6 +167,7 @@ private fun Success(
             ) { execution ->
                 Execution(
                     execution,
+                    onFinish = onExecutionToggleDialog,
                     Modifier
                         .clickable {
                             onExecutionToggleDialog(execution)

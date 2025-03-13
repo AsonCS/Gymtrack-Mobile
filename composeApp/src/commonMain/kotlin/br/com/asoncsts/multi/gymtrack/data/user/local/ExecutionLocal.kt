@@ -23,10 +23,16 @@ interface ExecutionLocal {
             insertOrderedEntities {
                 toMutableList().apply {
                     remove(entity)
-                    add(
-                        entity.order,
-                        entity
-                    )
+                    if (entity.executionIdParent != null) {
+                        add(
+                            entity
+                        )
+                    } else {
+                        add(
+                            entity.order,
+                            entity
+                        )
+                    }
                 }
             }
 
@@ -39,9 +45,9 @@ interface ExecutionLocal {
             executionId: String
         ) {
             dao.delete(
-                ExecutionEntity(
+                *dao.getExecutionsById(
                     executionId
-                )
+                ).toTypedArray()
             )
             insertOrderedEntities()
         }

@@ -42,32 +42,34 @@ internal fun EditExecutionDialog(
                 verticalArrangement = Arrangement
                     .spacedBy(16.dp)
             ) {
-                val labelOrder = stringResource(
-                    Res.string.execution_label_order
-                )
-                TextField(
-                    KeyboardType.Number,
-                    labelOrder,
-                    { stateFields.order = it },
-                    labelOrder,
-                    stateFields.order,
-                    Modifier
-                        .fillMaxWidth()
-                )
+                if (stateFields.idParent == null) {
+                    val labelOrder = stringResource(
+                        Res.string.execution_label_order
+                    )
+                    TextField(
+                        KeyboardType.Number,
+                        labelOrder,
+                        { stateFields.order = it },
+                        labelOrder,
+                        stateFields.order,
+                        Modifier
+                            .fillMaxWidth()
+                    )
 
-                val labelNotes = stringResource(
-                    Res.string.execution_label_notes
-                )
-                TextField(
-                    KeyboardType.Text,
-                    labelNotes,
-                    { stateFields.notes = it },
-                    labelNotes,
-                    stateFields.notes,
-                    Modifier
-                        .fillMaxWidth(),
-                    capitalization = KeyboardCapitalization.Sentences
-                )
+                    val labelNotes = stringResource(
+                        Res.string.execution_label_notes
+                    )
+                    TextField(
+                        KeyboardType.Text,
+                        labelNotes,
+                        { stateFields.notes = it },
+                        labelNotes,
+                        stateFields.notes,
+                        Modifier
+                            .fillMaxWidth(),
+                        capitalization = KeyboardCapitalization.Sentences
+                    )
+                }
 
                 val labelReps = stringResource(
                     Res.string.execution_label_reps
@@ -103,17 +105,21 @@ internal fun EditExecutionDialog(
                         .spacedBy(8.dp)
                 ) {
                     Button(
-                        if (stateFields.id != null)
-                            stringResource(
-                                Res.string.label_update
-                            )
-                        else
-                            stringResource(
-                                Res.string.label_create
-                            ),
+                        stringResource(
+                            when {
+                                stateFields.idParent != null ->
+                                    Res.string.label_finish
+
+                                stateFields.id != null ->
+                                    Res.string.label_update
+
+                                else ->
+                                    Res.string.label_create
+                            }
+                        ),
                         onClick = onConfirm
                     )
-                    if (stateFields.id != null) {
+                    if (stateFields.idParent == null && stateFields.id != null) {
                         Button(
                             stringResource(
                                 Res.string.label_remove
@@ -131,7 +137,7 @@ internal fun EditExecutionDialog(
     }
 }
 
-internal fun newExecutionDialogSequence() = sequenceOf(
+internal fun editExecutionDialogSequence() = sequenceOf(
     EditStateFields {},
     EditStateFields(
         "notes",

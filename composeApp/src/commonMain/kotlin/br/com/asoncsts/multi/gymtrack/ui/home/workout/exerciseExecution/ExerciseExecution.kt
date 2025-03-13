@@ -33,6 +33,11 @@ fun ExerciseExecutionScreen(
                 onExecutionConfirm()
             }
         },
+        onExecutionFinish = { execution ->
+            args.viewModel.launch {
+                onExecutionFinish(execution)
+            }
+        },
         onExecutionRemove = { executionId ->
             args.viewModel.launch {
                 onExecutionRemove(executionId)
@@ -40,7 +45,7 @@ fun ExerciseExecutionScreen(
         },
         onExecutionToggleDialog = { execution ->
             args.viewModel.launch {
-                onExecutionAddOrUpdate(execution)
+                onExecutionToggleDialog(execution)
             }
         },
         args.navigateUp,

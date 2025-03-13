@@ -13,7 +13,10 @@ private fun ExecutionPreview(
     @PreviewParameter(ExecutionValuesProvider::class) execution: ModelExecution
 ) {
     PreviewContainer {
-        Execution(execution)
+        Execution(
+            execution,
+            onFinish = {}
+        )
     }
 }
 

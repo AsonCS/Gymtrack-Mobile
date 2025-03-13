@@ -9,6 +9,11 @@ interface ExecutionDao {
     @Query("SELECT * FROM execution")
     suspend fun getExecutions(): List<ExecutionEntity>
 
+    @Query("SELECT * FROM execution WHERE executionId = :id OR executionIdParent = :id")
+    suspend fun getExecutionsById(
+        id: String
+    ): List<ExecutionEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(
         vararg execution: ExecutionEntity
@@ -16,7 +21,7 @@ interface ExecutionDao {
 
     @Delete
     suspend fun delete(
-        execution: ExecutionEntity
+        vararg execution: ExecutionEntity
     )
 
 }

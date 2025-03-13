@@ -194,7 +194,7 @@ private fun Success(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.CenterEnd
             ) {
-                NewElementButton(
+                ButtonAdd(
                     props.labelAddExerciseExecution,
                     onClick = {
                         dialogOpen = true
@@ -209,7 +209,7 @@ private fun Success(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.CenterEnd
             ) {
-                NewElementButton(
+                ButtonAdd(
                     props.labelNewExerciseExecution,
                     props.navigateToNewExerciseExecution
                 )

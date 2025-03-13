@@ -11,7 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.extension.toStringReplacingDotZero
 import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
-import br.com.asoncsts.multi.gymtrack.ui._components.NewElementButton
+import br.com.asoncsts.multi.gymtrack.ui._components.ButtonAdd
+import br.com.asoncsts.multi.gymtrack.ui._components.ButtonCheck
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import gymtrack.composeapp.generated.resources.Res
@@ -42,7 +43,7 @@ internal fun EditExecution(
             .fillMaxWidth(),
         contentAlignment = Alignment.CenterEnd
     ) {
-        NewElementButton(
+        ButtonAdd(
             stringResource(
                 Res.string.execution_label_new
             ),
@@ -56,6 +57,9 @@ internal fun EditExecution(
 @Composable
 internal fun Execution(
     execution: Execution,
+    onFinish: (
+        Execution
+    ) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -63,51 +67,44 @@ internal fun Execution(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Text(
-            buildAnnotatedString {
-                withStyle(
-                    SpanStyle(
+        Row {
+            execution.text(
+                Modifier
+                    .weight(1f)
+            )
+
+            execution.children
+                .take(3)
+                .joinToString(" | ") {
+                    "${it.reps} x ${it.weight.toStringReplacingDotZero()}"
+                }.takeIf { it.isNotEmpty() }
+                ?.let {
+                    Text(
+                        execution.children
+                            .take(3)
+                            .joinToString(" | ") {
+                                "${it.reps} x ${it.weight.toStringReplacingDotZero()}"
+                            },
+                        Modifier
+                            .weight(2f),
                         color = colors().onBackground
-                            .copy(.7f)
+                            .copy(.7f),
+                        style = typography().bodyMedium
                     )
-                ) {
-                    append("${execution.order + 1}º: ")
                 }
 
-                withStyle(
-                    SpanStyle(
-                        fontWeight = FontWeight.Bold
-                    )
-                ) {
-                    append(execution.reps.toString())
-                }
-
-                withStyle(
-                    SpanStyle(
-                        color = colors().onBackground
-                            .copy(.7f)
-                    )
-                ) {
-                    append(" x ")
-                }
-
-                withStyle(
-                    SpanStyle(
-                        fontWeight = FontWeight.Bold
-                    )
-                ) {
-                    append(
-                        execution
-                            .weight
-                            .toStringReplacingDotZero()
+            ButtonCheck(
+                null,
+                onClick = {
+                    onFinish(
+                        execution.copy(
+                            id = "",
+                            idParent = execution.id
+                        )
                     )
                 }
-            },
-            Modifier
-                .fillMaxWidth(),
-            color = colors().onBackground,
-            style = typography().headlineLarge
-        )
+            )
+        }
 
         execution.notes?.let { notes ->
             Text(
@@ -124,24 +121,66 @@ internal fun Execution(
     }
 }
 
+@Composable
+private fun Execution.text(
+    modifier: Modifier
+) {
+    Text(
+        buildAnnotatedString {
+            withStyle(
+                SpanStyle(
+                    color = colors().onBackground
+                        .copy(.7f)
+                )
+            ) {
+                append("${order + 1}º: ")
+            }
+
+            withStyle(
+                SpanStyle(
+                    fontWeight = FontWeight.Bold
+                )
+            ) {
+                append(reps.toString())
+            }
+
+            withStyle(
+                SpanStyle(
+                    color = colors().onBackground
+                        .copy(.7f)
+                )
+            ) {
+                append(" x ")
+            }
+
+            withStyle(
+                SpanStyle(
+                    fontWeight = FontWeight.Bold
+                )
+            ) {
+                append(
+                    weight
+                        .toStringReplacingDotZero()
+                )
+            }
+        },
+        modifier,
+        color = colors().onBackground,
+        style = typography().headlineLarge
+    )
+}
+
 internal fun executionSequence() = sequenceOf(
     Execution(
-        null,
-        null,
-        null,
-        0,
-        3,
-        0,
-        90.0
+        order = 1,
+        reps = 3,
+        weight = 90.0
     ),
     Execution(
-        null,
-        null,
-        "notes",
-        0,
-        12,
-        0,
-        72.5
+        notes = "notes",
+        order = 2,
+        reps = 12,
+        weight = 72.5
     )
 )
 

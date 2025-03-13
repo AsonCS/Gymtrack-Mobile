@@ -12,6 +12,7 @@
 
     <string name="label_create">Create</string>
     <string name="label_description">Description</string>
+    <string name="label_finish">Finish</string>
     <string name="label_name">Name</string>
     <string name="label_remove">Remove</string>
     <string name="label_update">Update</string>
