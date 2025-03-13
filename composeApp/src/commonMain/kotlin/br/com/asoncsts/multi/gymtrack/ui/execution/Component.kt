@@ -1,21 +1,61 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution
+package br.com.asoncsts.multi.gymtrack.ui.execution
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.extension.toStringReplacingDotZero
 import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
+import br.com.asoncsts.multi.gymtrack.ui._components.NewElementButton
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
+import gymtrack.composeapp.generated.resources.Res
+import gymtrack.composeapp.generated.resources.execution_label_new
+import org.jetbrains.compose.resources.stringResource
+
+@Composable
+internal fun EditExecution(
+    onConfirm: () -> Unit,
+    onRemove: (
+        executionId: String
+    ) -> Unit,
+    onToggleDialog: () -> Unit,
+    stateFields: EditStateFields,
+    modifier: Modifier = Modifier
+) {
+    EditExecutionDialog(
+        onConfirm = onConfirm,
+        onDismissRequest = {
+            onToggleDialog()
+        },
+        onRemove = onRemove,
+        stateFields
+    )
+
+    Box(
+        modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        NewElementButton(
+            stringResource(
+                Res.string.execution_label_new
+            ),
+            onClick = {
+                onToggleDialog()
+            }
+        )
+    }
+}
 
 @Composable
 internal fun Execution(
-    props: ExecutionProps,
+    execution: Execution,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -31,7 +71,7 @@ internal fun Execution(
                             .copy(.7f)
                     )
                 ) {
-                    append("${props.execution.order + 1}º: ")
+                    append("${execution.order + 1}º: ")
                 }
 
                 withStyle(
@@ -39,7 +79,7 @@ internal fun Execution(
                         fontWeight = FontWeight.Bold
                     )
                 ) {
-                    append(props.execution.reps.toString())
+                    append(execution.reps.toString())
                 }
 
                 withStyle(
@@ -57,7 +97,7 @@ internal fun Execution(
                     )
                 ) {
                     append(
-                        props.execution
+                        execution
                             .weight
                             .toStringReplacingDotZero()
                     )
@@ -69,7 +109,7 @@ internal fun Execution(
             style = typography().headlineLarge
         )
 
-        props.execution.notes?.let { notes ->
+        execution.notes?.let { notes ->
             Text(
                 notes,
                 Modifier
@@ -85,26 +125,23 @@ internal fun Execution(
 }
 
 internal fun executionSequence() = sequenceOf(
-    ExecutionProps(
-        Execution(
-            null,
-            null,
-            null,
-            0,
-            3,
-            0,
-            90.0
-        )
+    Execution(
+        null,
+        null,
+        null,
+        0,
+        3,
+        0,
+        90.0
     ),
-    ExecutionProps(
-        Execution(
-            null,
-            null,
-            "notes",
-            0,
-            12,
-            0,
-            72.5
-        )
+    Execution(
+        null,
+        null,
+        "notes",
+        0,
+        12,
+        0,
+        72.5
     )
 )
+

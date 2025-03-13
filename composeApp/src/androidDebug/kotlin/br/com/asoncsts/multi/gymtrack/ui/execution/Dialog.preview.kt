@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution
+package br.com.asoncsts.multi.gymtrack.ui.execution
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -9,18 +9,18 @@ import br.com.asoncsts.multi.gymtrack.ui.PreviewContainer
 @PreviewComponent
 @Composable
 private fun NewExecutionDialogPreview(
-    @PreviewParameter(NewExecutionDialogValuesProvider::class) state: StateFields
+    @PreviewParameter(NewExecutionDialogValuesProvider::class) state: EditStateFields
 ) {
     PreviewContainer {
-        NewExecutionDialog(
-            isVisible = true,
+        EditExecutionDialog(
+            onConfirm = {},
             onDismissRequest = {},
-            props = newExecutionProps({}, {}, {}),
+            onRemove = {},
             stateFields = state
         )
     }
 }
 
-private class NewExecutionDialogValuesProvider : PreviewParameterProvider<StateFields> {
+private class NewExecutionDialogValuesProvider : PreviewParameterProvider<EditStateFields> {
     override val values = newExecutionDialogSequence()
 }

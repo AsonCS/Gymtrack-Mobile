@@ -22,6 +22,7 @@ interface ExecutionLocal {
 
             insertOrderedEntities {
                 toMutableList().apply {
+                    remove(entity)
                     add(
                         entity.order,
                         entity

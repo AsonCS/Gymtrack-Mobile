@@ -19,9 +19,9 @@ private fun Preview(
     PreviewContainer {
         HomeScreen(
             homeScreenProps(
-                labelTitle = stringResource(
+                labelTitle = """stringResource(
                     R.string.home_label_title
-                ),
+                )""",
                 navigateToNewWorkout = {},
                 navigateToWorkout = {}
             ),

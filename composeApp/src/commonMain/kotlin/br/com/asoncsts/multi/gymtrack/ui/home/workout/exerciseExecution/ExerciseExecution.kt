@@ -28,19 +28,19 @@ fun ExerciseExecutionScreen(
         }
 
     ExerciseExecutionScreen(
-        onExecutionAddOrUpdate = { execution ->
+        onExecutionConfirm = {
             args.viewModel.launch {
-                onExecutionAddOrUpdate(execution)
-            }
-        },
-        onExecutionConfirmChange = {
-            args.viewModel.launch {
-                onExecutionConfirmChange()
+                onExecutionConfirm()
             }
         },
         onExecutionRemove = { executionId ->
             args.viewModel.launch {
                 onExecutionRemove(executionId)
+            }
+        },
+        onExecutionToggleDialog = { execution ->
+            args.viewModel.launch {
+                onExecutionAddOrUpdate(execution)
             }
         },
         args.navigateUp,

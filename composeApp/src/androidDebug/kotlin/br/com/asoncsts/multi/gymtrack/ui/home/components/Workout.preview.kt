@@ -19,12 +19,12 @@ private fun Preview() {
     ) {
         Workout(
             workoutProps(
-                labelAmount = stringResource(
+                labelAmount = """stringResource(
                     R.string.home_label_amount,
                     WorkoutMock
                         .workouts[0]
                         .amount
-                ),
+                )""",
                 navigateToWorkout = {},
                 workout = WorkoutMock
                     .workouts[0]

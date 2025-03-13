@@ -9,22 +9,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.ui._components.TextField
 import br.com.asoncsts.multi.gymtrack.ui.auth.LoginState.Filling
-
-internal interface Props {
-    val onFinish: () -> Unit
-    val onUpdatePassword: (String) -> Unit
-    val onUpdateUsername: (String) -> Unit
-    val password: String
-    val passwordPlaceholder: String
-    val userName: String
-    val userNamePlaceholder: String
-}
+import gymtrack.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun Fields(
-    modifier: Modifier,
-    props: Props,
-    state: Filling
+    onFinish: () -> Unit,
+    onUpdatePassword: (String) -> Unit,
+    onUpdateUsername: (String) -> Unit,
+    state: Filling,
+    modifier: Modifier
 ) {
     Column(
         modifier,
@@ -37,19 +31,27 @@ internal fun Fields(
     ) {
         TextField(
             keyboardType = KeyboardType.Email,
-            label = props.userName,
-            onValueChange = props.onUpdateUsername,
-            placeholder = props.userNamePlaceholder,
+            label = stringResource(
+                Res.string.login_screen_username
+            ),
+            onValueChange = onUpdateUsername,
+            placeholder = stringResource(
+                Res.string.login_screen_username_placeholder
+            ),
             value = state.username
         )
         TextField(
             keyboardType = KeyboardType.Password,
-            label = props.password,
+            label = stringResource(
+                Res.string.login_screen_password
+            ),
             onDone = {
-                props.onFinish()
+                onFinish()
             },
-            onValueChange = props.onUpdatePassword,
-            placeholder = props.passwordPlaceholder,
+            onValueChange = onUpdatePassword,
+            placeholder = stringResource(
+                Res.string.login_screen_password_placeholder
+            ),
             value = state.password
         )
     }

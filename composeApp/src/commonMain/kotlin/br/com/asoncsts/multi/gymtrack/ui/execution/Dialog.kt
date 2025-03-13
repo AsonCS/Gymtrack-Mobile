@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution
+package br.com.asoncsts.multi.gymtrack.ui.execution
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.OutlinedCard
@@ -11,15 +11,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import br.com.asoncsts.multi.gymtrack.ui._components.*
 import br.com.asoncsts.multi.gymtrack.ui._theme.shapes
+import gymtrack.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun NewExecutionDialog(
-    isVisible: Boolean,
+internal fun EditExecutionDialog(
+    onConfirm: () -> Unit,
     onDismissRequest: () -> Unit,
-    props: NewExecutionProps,
-    stateFields: StateFields
+    onRemove: (
+        executionId: String
+    ) -> Unit,
+    stateFields: EditStateFields
 ) {
-    if (isVisible.not()) return
+    if (stateFields.isDialogVisible.not()) return
 
     Dialog(
         onDismissRequest = onDismissRequest
@@ -38,47 +42,59 @@ internal fun NewExecutionDialog(
                 verticalArrangement = Arrangement
                     .spacedBy(16.dp)
             ) {
+                val labelOrder = stringResource(
+                    Res.string.execution_label_order
+                )
                 TextField(
                     KeyboardType.Number,
-                    props.labelOrder,
+                    labelOrder,
                     { stateFields.order = it },
-                    props.labelOrder,
+                    labelOrder,
                     stateFields.order,
                     Modifier
                         .fillMaxWidth()
                 )
 
+                val labelNotes = stringResource(
+                    Res.string.execution_label_notes
+                )
                 TextField(
                     KeyboardType.Text,
-                    props.labelNotes,
+                    labelNotes,
                     { stateFields.notes = it },
-                    props.labelNotes,
+                    labelNotes,
                     stateFields.notes,
                     Modifier
                         .fillMaxWidth(),
                     capitalization = KeyboardCapitalization.Sentences
                 )
 
+                val labelReps = stringResource(
+                    Res.string.execution_label_reps
+                )
                 TextField(
                     KeyboardType.Number,
-                    props.labelReps,
+                    labelReps,
                     { stateFields.reps = it },
-                    props.labelReps,
+                    labelReps,
                     stateFields.reps,
                     Modifier
                         .fillMaxWidth()
                 )
 
+                val labelWeight = stringResource(
+                    Res.string.execution_label_weight
+                )
                 TextField(
                     KeyboardType.Number,
-                    props.labelWeight,
+                    labelWeight,
                     { stateFields.weight = it },
-                    props.labelWeight,
+                    labelWeight,
                     stateFields.weight,
                     Modifier
                         .fillMaxWidth(),
                     onDone = {
-                        props.onCreate()
+                        onConfirm()
                     }
                 )
 
@@ -88,16 +104,22 @@ internal fun NewExecutionDialog(
                 ) {
                     Button(
                         if (stateFields.id != null)
-                            props.labelUpdate
+                            stringResource(
+                                Res.string.label_update
+                            )
                         else
-                            props.labelCreate,
-                        onClick = props.onCreate
+                            stringResource(
+                                Res.string.label_create
+                            ),
+                        onClick = onConfirm
                     )
                     if (stateFields.id != null) {
                         Button(
-                            props.labelRemove,
+                            stringResource(
+                                Res.string.label_remove
+                            ),
                             onClick = {
-                                props.onRemove(
+                                onRemove(
                                     stateFields.id
                                 )
                             }
@@ -110,8 +132,8 @@ internal fun NewExecutionDialog(
 }
 
 internal fun newExecutionDialogSequence() = sequenceOf(
-    StateFields {},
-    StateFields(
+    EditStateFields {},
+    EditStateFields(
         "notes",
         1,
         12,

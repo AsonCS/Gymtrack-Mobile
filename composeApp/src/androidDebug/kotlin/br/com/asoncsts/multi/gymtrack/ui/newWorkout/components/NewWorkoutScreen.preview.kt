@@ -21,15 +21,15 @@ private fun Preview(
     PreviewContainer {
         NewWorkoutScreen(
             newWorkoutScreenProps(
-                labelDescription = stringResource(
+                labelDescription = """stringResource(
                     R.string.label_description
-                ),
-                labelName = stringResource(
+                )""",
+                labelName = """stringResource(
                     R.string.label_name
-                ),
-                labelNewWorkout = stringResource(
+                )""",
+                labelNewWorkout = """stringResource(
                     R.string.new_workout_label_new
-                ),
+                )""",
                 navigateUp = {},
                 navigateToWorkout = {},
                 onSave = {}

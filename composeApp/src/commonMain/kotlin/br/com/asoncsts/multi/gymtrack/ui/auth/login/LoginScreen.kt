@@ -28,32 +28,27 @@ fun LoginScreen(
         .collectAsState()
 
     LoginScreen(
-        modifier = modifier,
-        props = LoginProps(
-            googleLogin = stringResource(Res.string.login_screen_google_login),
-            login = stringResource(Res.string.login_screen_login),
-            logo = painterResource(Res.drawable.logo),
-            onFinish = args.authViewModel::login,
-            onGoogleLogin = args.authViewModel::loginWithGoogle,
-            onSignup = args.navigateToSignup,
-            onSuccess = args.navigateUp,
-            onUpdatePassword = args.authViewModel::updatePassword,
-            onUpdateUsername = args.authViewModel::updateUsername,
-            password = stringResource(Res.string.login_screen_password),
-            passwordPlaceholder = stringResource(Res.string.login_screen_password_placeholder),
-            signup = stringResource(Res.string.login_screen_signup),
-            userName = stringResource(Res.string.login_screen_username),
-            userNamePlaceholder = stringResource(Res.string.login_screen_username_placeholder)
-        ),
-        state = state
+        onFinish = args.authViewModel::login,
+        onGoogleLogin = args.authViewModel::loginWithGoogle,
+        onSignup = args.navigateToSignup,
+        onSuccess = args.navigateUp,
+        onUpdatePassword = args.authViewModel::updatePassword,
+        onUpdateUsername = args.authViewModel::updateUsername,
+        state = state,
+        modifier = modifier
     )
 }
 
 @Composable
 internal fun LoginScreen(
-    modifier: Modifier,
-    props: LoginProps,
-    state: LoginState
+    onFinish: () -> Unit,
+    onGoogleLogin: () -> Unit,
+    onSignup: () -> Unit,
+    onSuccess: () -> Unit,
+    onUpdatePassword: (String) -> Unit,
+    onUpdateUsername: (String) -> Unit,
+    state: LoginState,
+    modifier: Modifier
 ) {
     Column(
         modifier
@@ -66,7 +61,9 @@ internal fun LoginScreen(
             )
     ) {
         Image(
-            props.logo,
+            painterResource(
+                Res.drawable.logo
+            ),
             null,
             Modifier
                 .size(100.dp)
@@ -83,33 +80,39 @@ internal fun LoginScreen(
                 }
 
                 Fields(
-                    Modifier,
-                    props,
-                    state
+                    onFinish = onFinish,
+                    onUpdatePassword = onUpdatePassword,
+                    onUpdateUsername = onUpdateUsername,
+                    state,
+                    Modifier
                 )
 
                 Button(
-                    props.onFinish,
+                    onFinish,
                     Modifier
                         .width(200.dp)
                 ) {
                     Text(
-                        props.login
+                        stringResource(
+                            Res.string.login_screen_login
+                        )
                     )
                 }
 
                 OutlinedButton(
-                    props.onSignup,
+                    onSignup,
                     Modifier
                         .width(200.dp)
                 ) {
                     Text(
-                        props.signup
+                        stringResource(
+                            Res.string.login_screen_signup
+                        )
                     )
                 }
 
                 Button(
-                    props.onGoogleLogin,
+                    onGoogleLogin,
                     Modifier
                         .width(200.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -117,14 +120,16 @@ internal fun LoginScreen(
                     )
                 ) {
                     Text(
-                        props.googleLogin
+                        stringResource(
+                            Res.string.login_screen_google_login
+                        )
                     )
                 }
             }
 
             is Loading -> Loading()
 
-            is Success -> props.onSuccess()
+            is Success -> onSuccess()
         }
     }
 }

@@ -27,7 +27,7 @@ private fun Preview(
 @Composable
 private fun searchScreenProps() = SearchScreenProps(
     onExerciseClick = {},
-    title = stringResource(R.string.search_title)
+    title = "stringResource(R.string.search_title)"
 )
 
 private class SearchStateValuesProvider : PreviewParameterProvider<ExercisesState> {

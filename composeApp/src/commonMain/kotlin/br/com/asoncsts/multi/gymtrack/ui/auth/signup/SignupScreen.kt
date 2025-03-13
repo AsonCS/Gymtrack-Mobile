@@ -29,28 +29,23 @@ fun SignupScreen(
         .collectAsState()
 
     SignupScreen(
-        modifier = modifier,
-        props = SignupProps(
-            logo = painterResource(Res.drawable.logo),
-            onFinish = args.authViewModel::signup,
-            onSuccess = args.navigateUp,
-            onUpdatePassword = args.authViewModel::updatePassword,
-            onUpdateUsername = args.authViewModel::updateUsername,
-            password = stringResource(Res.string.login_screen_password),
-            passwordPlaceholder = stringResource(Res.string.login_screen_password_placeholder),
-            signup = stringResource(Res.string.login_screen_signup),
-            userName = stringResource(Res.string.login_screen_username),
-            userNamePlaceholder = stringResource(Res.string.login_screen_username_placeholder)
-        ),
-        state = state
+        onFinish = args.authViewModel::signup,
+        onSuccess = args.navigateUp,
+        onUpdatePassword = args.authViewModel::updatePassword,
+        onUpdateUsername = args.authViewModel::updateUsername,
+        state,
+        modifier
     )
 }
 
 @Composable
 internal fun SignupScreen(
-    modifier: Modifier,
-    props: SignupProps,
-    state: LoginState
+    onFinish: () -> Unit,
+    onSuccess: () -> Unit,
+    onUpdatePassword: (String) -> Unit,
+    onUpdateUsername: (String) -> Unit,
+    state: LoginState,
+    modifier: Modifier
 ) {
     Column(
         modifier
@@ -64,7 +59,9 @@ internal fun SignupScreen(
             )
     ) {
         Image(
-            props.logo,
+            painterResource(
+                Res.drawable.logo
+            ),
             null,
             Modifier
                 .size(100.dp)
@@ -81,25 +78,29 @@ internal fun SignupScreen(
                 }
 
                 Fields(
-                    Modifier,
-                    props,
-                    state
+                    onFinish = onFinish,
+                    onUpdatePassword = onUpdatePassword,
+                    onUpdateUsername = onUpdateUsername,
+                    state,
+                    Modifier
                 )
 
                 Button(
-                    props.onFinish,
+                    onFinish,
                     Modifier
                         .width(200.dp)
                 ) {
                     Text(
-                        props.signup
+                        stringResource(
+                            Res.string.login_screen_signup
+                        )
                     )
                 }
             }
 
             is Loading -> Loading()
 
-            is Success -> props.onSuccess()
+            is Success -> onSuccess()
         }
     }
 }

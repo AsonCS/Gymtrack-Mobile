@@ -59,4 +59,11 @@ data class ExecutionEntity(
         )
     }
 
+    override fun hashCode() = executionId.hashCode()
+
+    override fun equals(
+        other: Any?
+    ) = (other as? ExecutionEntity)
+        ?.executionId == executionId
+
 }

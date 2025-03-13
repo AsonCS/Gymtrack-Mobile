@@ -14,25 +14,25 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
-import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import br.com.asoncsts.multi.gymtrack.ui._components.LoadingBox
 import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
-import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution.*
+import br.com.asoncsts.multi.gymtrack.ui.execution.*
+import br.com.asoncsts.multi.gymtrack.model.exercise.Execution as ModelExecution
 
 @Composable
 internal fun ExerciseExecutionScreen(
-    onExecutionAddOrUpdate: (
-        Execution?
-    ) -> Unit,
-    onExecutionConfirmChange: () -> Unit,
+    onExecutionConfirm: () -> Unit,
     onExecutionRemove: (
         executionId: String
     ) -> Unit,
+    onExecutionToggleDialog: (
+        ModelExecution?
+    ) -> Unit,
     onNavigateUp: () -> Unit,
     state: ExerciseExecutionState,
-    stateFields: StateFields,
+    stateFields: EditStateFields,
     modifier: Modifier = Modifier
 ) {
     when (state) {
@@ -55,10 +55,10 @@ internal fun ExerciseExecutionScreen(
         }
 
         is ExerciseExecutionState.Success -> Success(
-            onExecutionAddOrUpdate,
-            onExecutionConfirmChange,
-            onExecutionRemove,
-            onNavigateUp,
+            onExecutionConfirm = onExecutionConfirm,
+            onExecutionRemove = onExecutionRemove,
+            onExecutionToggleDialog = onExecutionToggleDialog,
+            onNavigateUp = onNavigateUp,
             state,
             stateFields,
             modifier
@@ -68,16 +68,16 @@ internal fun ExerciseExecutionScreen(
 
 @Composable
 private fun Success(
-    onExecutionAddOrUpdate: (
-        Execution?
-    ) -> Unit,
-    onExecutionConfirmChange: () -> Unit,
+    onExecutionConfirm: () -> Unit,
     onExecutionRemove: (
         executionId: String
     ) -> Unit,
+    onExecutionToggleDialog: (
+        ModelExecution?
+    ) -> Unit,
     onNavigateUp: () -> Unit,
     state: ExerciseExecutionState.Success,
-    stateFields: StateFields,
+    stateFields: EditStateFields,
     modifier: Modifier
 ) {
     val locale = Locale.current
@@ -134,18 +134,16 @@ private fun Success(
             )
         }
 
-        NewExecution(
-            newExecutionProps(
-                onCreate = {
-                    onExecutionConfirmChange()
-                },
-                onRemove = { executionId ->
-                    onExecutionRemove(executionId)
-                },
-                onToggleDialog = {
-                    onExecutionAddOrUpdate(null)
-                }
-            ),
+        EditExecution(
+            onConfirm = {
+                onExecutionConfirm()
+            },
+            onRemove = { executionId ->
+                onExecutionRemove(executionId)
+            },
+            onToggleDialog = {
+                onExecutionToggleDialog(null)
+            },
             stateFields,
             Modifier
         )
@@ -161,12 +159,10 @@ private fun Success(
                 key = { it.id }
             ) { execution ->
                 Execution(
-                    executionProps(
-                        execution
-                    ),
+                    execution,
                     Modifier
                         .clickable {
-                            onExecutionAddOrUpdate(execution)
+                            onExecutionToggleDialog(execution)
                         }
                 )
             }

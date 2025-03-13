@@ -8,7 +8,7 @@ import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution.Companion.fillExercise
 import br.com.asoncsts.multi.gymtrack.ui._app.ExercisesSource
-import br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution.StateFields
+import br.com.asoncsts.multi.gymtrack.ui.execution.EditStateFields
 import kotlinx.coroutines.flow.*
 
 abstract class ExerciseExecutionViewModel : ViewModel() {
@@ -26,9 +26,9 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
         )
         override val state = _state.asStateFlow()
 
-        private val _stateFields: MutableStateFlow<StateFields> by lazy {
+        private val _stateFields: MutableStateFlow<EditStateFields> by lazy {
             MutableStateFlow(
-                StateFields { update ->
+                EditStateFields { update ->
                     _stateFields.update { currentState ->
                         update(currentState)
                     }
@@ -96,7 +96,7 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
             }
         }
 
-        override suspend fun onExecutionConfirmChange() {
+        override suspend fun onExecutionConfirm() {
             val result = executionRepo.putExecution(
                 _stateFields.value.toExecution(),
                 exerciseExecution
@@ -155,7 +155,7 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
 
     internal abstract val shared: SharedFlow<ExerciseExecutionShared>
     internal abstract val state: StateFlow<ExerciseExecutionState>
-    internal abstract val stateFields: StateFlow<StateFields>
+    internal abstract val stateFields: StateFlow<EditStateFields>
 
     internal abstract suspend fun getExerciseExecution(
         id: String
@@ -165,7 +165,7 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
         execution: Execution?
     )
 
-    internal abstract suspend fun onExecutionConfirmChange()
+    internal abstract suspend fun onExecutionConfirm()
 
     internal abstract suspend fun onExecutionRemove(
         executionId: String

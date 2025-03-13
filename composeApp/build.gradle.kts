@@ -132,7 +132,7 @@ android {
 
     sourceSets["debug"].res.srcDirs(
         "src/androidDebug/res",
-        "src/commonMain/composeResources"
+        //"src/commonMain/composeResources"
     )
 
     defaultConfig {

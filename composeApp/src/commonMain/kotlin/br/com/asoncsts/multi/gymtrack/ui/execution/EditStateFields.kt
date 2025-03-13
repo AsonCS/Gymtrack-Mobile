@@ -1,9 +1,9 @@
-package br.com.asoncsts.multi.gymtrack.ui.home.workout.exerciseExecution.execution
+package br.com.asoncsts.multi.gymtrack.ui.execution
 
 import br.com.asoncsts.multi.gymtrack.extension.*
 import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 
-internal data class StateFields(
+internal data class EditStateFields(
     private val _notes: String? = null,
     private val _order: Int? = null,
     private val _reps: Int? = null,
@@ -12,7 +12,7 @@ internal data class StateFields(
     val idParent: String? = null,
     val isDialogVisible: Boolean = false,
     private val update: (
-        StateFields.() -> StateFields
+        EditStateFields.() -> EditStateFields
     ) -> Unit
 ) {
     var notes: String

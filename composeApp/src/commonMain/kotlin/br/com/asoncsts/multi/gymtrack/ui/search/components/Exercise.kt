@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.exercise.ExerciseMock
@@ -18,16 +17,10 @@ import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.logo
 import org.jetbrains.compose.resources.painterResource
 
-interface ExerciseProps {
-    @Composable
-    fun placeholder(): Painter = painterResource(Res.drawable.logo)
-}
-
 @Composable
 fun Exercise(
     exercise: Exercise,
-    modifier: Modifier = Modifier,
-    props: ExerciseProps = object : ExerciseProps {}
+    modifier: Modifier = Modifier
 ) {
     ElevatedCard(
         modifier,
@@ -45,7 +38,9 @@ fun Exercise(
             ImageWithCache(
                 contentDescription = exercise.title,
                 imageUrl = exercise.image,
-                placeholder = props.placeholder(),
+                placeholder = painterResource(
+                    Res.drawable.logo
+                ),
                 width = 100.dp
             )
 
