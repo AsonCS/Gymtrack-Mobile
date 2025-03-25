@@ -4,7 +4,6 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import br.com.asoncsts.multi.gymtrack.data.user.local.entities.ExecutionEntity
 import br.com.asoncsts.multi.gymtrack.data.user.local.entities.ExerciseExecutionEntity
-import br.com.asoncsts.multi.gymtrack.extension.log
 import br.com.asoncsts.multi.gymtrack.model.exercise.Exercise
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 
@@ -18,7 +17,6 @@ data class ExerciseExecutionWithExecutions(
     val executions: List<ExecutionEntity>
 ) {
     fun toExerciseExecution(): ExerciseExecution.Detail {
-        "fatal".log("executions: $executions")
         val executions = executions
             .filter { it.executionIdParent == null }
             .sortedBy { it.order }
@@ -30,7 +28,6 @@ data class ExerciseExecutionWithExecutions(
 
                 entity.toExecution(children)
             }
-        "fatal".log("executions: $executions")
 
         return ExerciseExecution.Detail(
             description = exerciseExecution.description,

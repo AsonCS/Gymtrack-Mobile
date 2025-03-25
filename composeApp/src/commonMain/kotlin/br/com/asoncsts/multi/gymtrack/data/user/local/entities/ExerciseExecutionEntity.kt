@@ -15,9 +15,10 @@ data class ExerciseExecutionEntity(
 ) {
 
     constructor(
-        exerciseExecution: ExerciseExecution.Detail
+        exerciseExecution: ExerciseExecution,
+        detail: ExerciseExecution.Detail? = exerciseExecution as? ExerciseExecution.Detail
     ) : this(
-        description = exerciseExecution.description,
+        description = detail?.description,
         exerciseAlias = exerciseExecution.exercise
             ?.alias,
         exerciseExecutionId = exerciseExecution.id

@@ -8,6 +8,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WorkoutWithExerciseExecutionsDao {
 
+    @Delete
+    suspend fun delete(
+        vararg crossRef: WorkoutWithExerciseExecutionsCrossRefEntity
+    )
+
     @Transaction
     @Query("SELECT * FROM workout")
     fun getWorkoutWithExerciseExecutions(): Flow<List<WorkoutWithExerciseExecutions>>

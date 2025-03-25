@@ -11,12 +11,12 @@ import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.user.workout.WorkoutMock
 import br.com.asoncsts.multi.gymtrack.extension.launch
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
-import br.com.asoncsts.multi.gymtrack.ui._components.Loading
-import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
+import br.com.asoncsts.multi.gymtrack.ui._components.*
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeState
-import br.com.asoncsts.multi.gymtrack.ui.workout.*
+import br.com.asoncsts.multi.gymtrack.ui.workout.EditWorkout
+import br.com.asoncsts.multi.gymtrack.ui.workout.WorkoutViewModel
 import gymtrack.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -109,12 +109,12 @@ private fun Success(
         mutableStateOf<Workout?>(null)
     }
 
-    CreateWorkout(
+    EditWorkout(
         navigateToWorkout,
         viewModel
     )
 
-    DeleteWorkoutDialog(
+    DeleteConfirmDialog(
         workoutToDelete != null,
         onDelete = {
             viewModel.launch {

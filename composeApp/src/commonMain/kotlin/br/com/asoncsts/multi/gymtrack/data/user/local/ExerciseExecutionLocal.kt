@@ -14,6 +14,16 @@ interface ExerciseExecutionLocal {
         private val withExecutionsDao: ExerciseExecutionWithExecutionsDao
     ) : ExerciseExecutionLocal {
 
+        override suspend fun deleteExerciseExecution(
+            exerciseExecution: ExerciseExecution
+        ) {
+            dao.delete(
+                ExerciseExecutionEntity(
+                    exerciseExecution
+                )
+            )
+        }
+
         override suspend fun getExerciseExecutions(): Flow<List<ExerciseExecution>> {
             return dao.getExerciseExecutions()
                 .map { list ->
@@ -43,6 +53,10 @@ interface ExerciseExecutionLocal {
             )
         }
     }
+
+    suspend fun deleteExerciseExecution(
+        exerciseExecution: ExerciseExecution
+    )
 
     suspend fun getExerciseExecutions(): Flow<List<ExerciseExecution>>
 

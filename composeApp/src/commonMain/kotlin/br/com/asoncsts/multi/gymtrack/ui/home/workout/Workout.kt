@@ -29,7 +29,7 @@ fun WorkoutScreen(
 
     WorkoutScreen(
         workoutScreenProps(
-            {
+            addNewExerciseExecution = {
                 args.viewModel.launch {
                     addNewExerciseExecution(
                         it,
@@ -37,8 +37,15 @@ fun WorkoutScreen(
                     )
                 }
             },
+            clearExerciseExecution = {
+                args.viewModel.launch {
+                    clearExerciseExecution(
+                        it,
+                        workout
+                    )
+                }
+            },
             args.navigateToExerciseExecution,
-            args.navigateToNewExerciseExecution,
             args.navigateUp,
             workout
         ),
@@ -59,6 +66,11 @@ abstract class WorkoutViewModel : ViewModel() {
     internal abstract val state: StateFlow<WorkoutState>
 
     internal abstract suspend fun addNewExerciseExecution(
+        exerciseExecution: ExerciseExecution,
+        workout: Workout
+    )
+
+    internal abstract suspend fun clearExerciseExecution(
         exerciseExecution: ExerciseExecution,
         workout: Workout
     )

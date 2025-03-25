@@ -57,6 +57,18 @@ interface WorkoutLocal {
             )
         }
 
+        override suspend fun removeExerciseExecution(
+            exerciseExecution: ExerciseExecution,
+            workout: Workout
+        ) {
+            withExerciseExecutionsDao.delete(
+                WorkoutWithExerciseExecutionsCrossRefEntity(
+                    exerciseExecution,
+                    workout
+                )
+            )
+        }
+
     }
 
     suspend fun addExerciseExecution(
@@ -73,5 +85,10 @@ interface WorkoutLocal {
     suspend fun putWorkout(
         workout: Workout
     ): Workout
+
+    suspend fun removeExerciseExecution(
+        exerciseExecution: ExerciseExecution,
+        workout: Workout
+    )
 
 }

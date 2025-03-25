@@ -13,7 +13,6 @@ class WorkoutArgs(
     val navigateToExerciseExecution: (
         id: String
     ) -> Unit,
-    val navigateToNewExerciseExecution: () -> Unit,
     val navigateUp: () -> Unit,
     val viewModel: WorkoutViewModel,
     val workout: () -> Workout?

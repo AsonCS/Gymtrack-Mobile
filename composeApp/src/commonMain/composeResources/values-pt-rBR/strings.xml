@@ -6,6 +6,8 @@
     <string name="execution_label_reps">Reps</string>
     <string name="execution_label_weight">Peso</string>
 
+    <string name="exercise_execution_label_new">Nova execução de exercício</string>
+
     <string name="home_label_amount">Exercícios:</string>
     <string name="home_label_new">+ Novo</string>
     <string name="home_label_title">Seus treinos</string>
@@ -27,7 +29,6 @@
     <string name="login_screen_password_placeholder">Mínimo de 8 characteres</string>
     <string name="login_screen_signup">Cadastrar</string>
 
-    <string name="new_exercise_execution_label_new">Nova execução de exercício</string>
     <string name="new_exercise_execution_label_exercise">Exercício</string>
 
     <string name="new_workout_label_new">Novo treino</string>
@@ -36,7 +37,6 @@
 
     <string name="signup_screen">Cadastrar</string>
 
-    <string name="workout_label_new_exercise_execution">Nova execução de exercício</string>
     <string name="workout_label_add_exercise_execution">Adicionar uma execução de exercício</string>
     <string name="workout_toast_add_exercise_execution_success">Execução de exercício adicionada</string>
 

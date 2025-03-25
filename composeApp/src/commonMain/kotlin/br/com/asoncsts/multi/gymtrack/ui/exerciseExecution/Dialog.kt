@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.workout
+package br.com.asoncsts.multi.gymtrack.ui.exerciseExecution
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import gymtrack.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun EditWorkoutDialog(
+internal fun EditExerciseExecutionDialog(
     onConfirm: () -> Unit,
     onDismissRequest: () -> Unit,
     stateFields: StateFields

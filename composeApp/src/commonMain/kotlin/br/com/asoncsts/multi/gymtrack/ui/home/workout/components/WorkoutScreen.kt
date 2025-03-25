@@ -12,21 +12,25 @@ import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui.Toast
 import br.com.asoncsts.multi.gymtrack.ui._components.*
+import br.com.asoncsts.multi.gymtrack.ui.exerciseExecution.EditExerciseExecution
+import br.com.asoncsts.multi.gymtrack.ui.exerciseExecution.ExerciseExecutionViewModel
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutShared
 import br.com.asoncsts.multi.gymtrack.ui.home.workout.WorkoutState
 import gymtrack.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 internal data class WorkoutScreenProps(
     val addNewExerciseExecution: (
         ExerciseExecution
     ) -> Unit,
+    val clearExerciseExecution: (
+        ExerciseExecution
+    ) -> Unit,
     val labelAddExerciseExecution: String,
-    val labelNewExerciseExecution: String,
     val navigateToExerciseExecution: (
         id: String
     ) -> Unit,
-    val navigateToNewExerciseExecution: () -> Unit,
     val navigateUp: () -> Unit,
     val toastAddNewExerciseExecutionError: String,
     val toastAddNewExerciseExecutionSuccess: String,
@@ -38,17 +42,16 @@ internal fun workoutScreenProps(
     addNewExerciseExecution: (
         ExerciseExecution
     ) -> Unit,
+    clearExerciseExecution: (
+        ExerciseExecution
+    ) -> Unit,
     navigateToExerciseExecution: (
         id: String
     ) -> Unit,
-    navigateToNewExerciseExecution: () -> Unit,
     navigateUp: () -> Unit,
     workout: Workout,
     labelAddExerciseExecution: String = stringResource(
         Res.string.workout_label_add_exercise_execution
-    ),
-    labelNewExerciseExecution: String = stringResource(
-        Res.string.workout_label_new_exercise_execution
     ),
     toastAddNewExerciseExecutionError: String = stringResource(
         Res.string.toast_insert_error
@@ -58,10 +61,9 @@ internal fun workoutScreenProps(
     )
 ) = WorkoutScreenProps(
     addNewExerciseExecution,
+    clearExerciseExecution,
     labelAddExerciseExecution,
-    labelNewExerciseExecution,
     navigateToExerciseExecution,
-    navigateToNewExerciseExecution,
     navigateUp,
     toastAddNewExerciseExecutionError,
     toastAddNewExerciseExecutionSuccess,
@@ -103,14 +105,17 @@ internal fun WorkoutScreen(
                 )
             }
 
-            is WorkoutShared.SuccessAddNewExerciseExecution -> {
+            is WorkoutShared.ErrorClearExerciseExecution -> {
                 Toast(
-                    props.toastAddNewExerciseExecutionSuccess,
+                    "Error: ${props.toastAddNewExerciseExecutionError}",
                     true
                 )
             }
 
-            null -> {}
+            is WorkoutShared.SuccessAddNewExerciseExecution,
+            is WorkoutShared.SuccessClearExerciseExecution,
+            null -> {
+            }
         }
 
         when (state) {
@@ -140,7 +145,8 @@ internal fun WorkoutScreen(
 private fun Success(
     props: WorkoutScreenProps,
     state: WorkoutState.Success,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ExerciseExecutionViewModel = koinViewModel()
 ) {
     var dialogOpen by remember {
         mutableStateOf(false)
@@ -165,29 +171,15 @@ private fun Success(
         }
     )
 
+    EditExerciseExecution(
+        viewModel
+    )
+
     LazyColumn(
         modifier,
         verticalArrangement = Arrangement
             .spacedBy(8.dp)
     ) {
-        items(
-            items = state.filteredExerciseExecutions,
-            key = { it.id }
-        ) { exerciseExecution ->
-            ExerciseExecution(
-                exerciseExecutionProps(
-                    exerciseExecution,
-                    navigateToExerciseExecution = {
-                        props.navigateToExerciseExecution(
-                            exerciseExecution.id
-                        )
-                    }
-                ),
-                Modifier
-                    .fillMaxWidth()
-            )
-        }
-
         item {
             Box(
                 Modifier
@@ -203,17 +195,25 @@ private fun Success(
             }
         }
 
-        item {
-            Box(
+        items(
+            items = state.filteredExerciseExecutions,
+            key = { it.id }
+        ) { exerciseExecution ->
+            ExerciseExecution(
+                exerciseExecution,
+                navigateToExerciseExecution = {
+                    props.navigateToExerciseExecution(
+                        exerciseExecution.id
+                    )
+                },
+                onClearExerciseExecution = {
+                    props.clearExerciseExecution(
+                        exerciseExecution
+                    )
+                },
                 Modifier
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.CenterEnd
-            ) {
-                ButtonAdd(
-                    props.labelNewExerciseExecution,
-                    props.navigateToNewExerciseExecution
-                )
-            }
+                    .fillMaxWidth()
+            )
         }
     }
 }

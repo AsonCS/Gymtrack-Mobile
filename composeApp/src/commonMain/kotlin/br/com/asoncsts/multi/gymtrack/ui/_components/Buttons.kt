@@ -63,6 +63,21 @@ fun ButtonCheck(
 }
 
 @Composable
+fun ButtonClear(
+    label: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ButtonIcon(
+        "Clear icon",
+        Icons.Filled.Clear,
+        label,
+        onClick,
+        modifier
+    )
+}
+
+@Composable
 fun ButtonDelete(
     label: String?,
     onClick: () -> Unit,

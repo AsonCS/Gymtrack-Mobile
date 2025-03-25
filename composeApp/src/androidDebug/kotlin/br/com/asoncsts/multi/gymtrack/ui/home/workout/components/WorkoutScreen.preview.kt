@@ -17,8 +17,8 @@ private fun Preview(
         WorkoutScreen(
             workoutScreenProps(
                 addNewExerciseExecution = {},
+                clearExerciseExecution = {},
                 navigateToExerciseExecution = {},
-                navigateToNewExerciseExecution = {},
                 navigateUp = {},
                 WorkoutMock.workouts.first()
             ),

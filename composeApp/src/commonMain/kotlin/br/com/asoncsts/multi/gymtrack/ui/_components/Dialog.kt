@@ -1,12 +1,14 @@
 package br.com.asoncsts.multi.gymtrack.ui._components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.ui._theme.shapes
+import gymtrack.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun EditDialog(
@@ -57,4 +59,40 @@ fun EditDialog(
             }
         }
     }
+}
+
+@Composable
+internal fun DeleteConfirmDialog(
+    isVisible: Boolean,
+    onDelete: () -> Unit,
+    onDismissRequest: () -> Unit
+) {
+    if (isVisible.not()) return
+
+    AlertDialog(
+        confirmButton = {
+            Button(
+                stringResource(
+                    Res.string.label_remove
+                ),
+                onClick = onDelete
+            )
+        },
+        dismissButton = {
+            Button(
+                stringResource(
+                    Res.string.label_cancel
+                ),
+                onClick = onDismissRequest
+            )
+        },
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text(
+                stringResource(
+                    Res.string.label_remove
+                )
+            )
+        }
+    )
 }

@@ -9,5 +9,11 @@ sealed class WorkoutShared {
         val message: String
     ) : WorkoutShared()
 
+    data class ErrorClearExerciseExecution(
+        val message: String
+    ) : WorkoutShared()
+
     data object SuccessAddNewExerciseExecution : WorkoutShared()
+
+    data object SuccessClearExerciseExecution : WorkoutShared()
 }

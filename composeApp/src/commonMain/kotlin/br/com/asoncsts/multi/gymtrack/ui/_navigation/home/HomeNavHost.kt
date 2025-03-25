@@ -50,16 +50,9 @@ fun HomeNavHost(
             ),
             this
         )
-        newExerciseExecution(
-            NewExerciseExecutionArgs(
-                exercisesSource = args.exercisesSource,
-                navigateUp = navController::navigateUp
-            )
-        )
         workout(
             WorkoutArgs(
                 navController::navigateToExerciseExecution,
-                navController::navigateToNewExerciseExecution,
                 args.navigateUp,
                 viewModelWorkout,
                 workout = {

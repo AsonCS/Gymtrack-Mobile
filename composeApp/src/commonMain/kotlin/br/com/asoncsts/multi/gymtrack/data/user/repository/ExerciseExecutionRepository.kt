@@ -14,6 +14,24 @@ interface ExerciseExecutionRepository {
         private val local: ExerciseExecutionLocal
     ) : ExerciseExecutionRepository {
 
+        override suspend fun deleteExerciseExecution(
+            exerciseExecution: ExerciseExecution
+        ): Wrapper<Unit> {
+            return try {
+                Wrapper.Success(
+                    local.deleteExerciseExecution(
+                        exerciseExecution
+                    )
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error(
+                    "ExerciseExecutionRepository.local.deleteExerciseExecution",
+                    t
+                )
+                Wrapper.Error(t)
+            }
+        }
+
         override suspend fun getExerciseExecution(
             id: String
         ): Wrapper<Flow<ExerciseExecution.Detail>> {
@@ -37,7 +55,10 @@ interface ExerciseExecutionRepository {
                     local.getExerciseExecutions()
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("ExerciseExecutionRepository.local.getExerciseExecutions", t)
+                TAG_DATA.error(
+                    "ExerciseExecutionRepository.local.getExerciseExecutions",
+                    t
+                )
                 Wrapper.Error(t)
             }
         }
@@ -52,12 +73,19 @@ interface ExerciseExecutionRepository {
                     )
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("ExerciseExecutionRepository.local.putExerciseExecution", t)
+                TAG_DATA.error(
+                    "ExerciseExecutionRepository.local.putExerciseExecution",
+                    t
+                )
                 Wrapper.Error(t)
             }
         }
 
     }
+
+    suspend fun deleteExerciseExecution(
+        exerciseExecution: ExerciseExecution
+    ): Wrapper<Unit>
 
     suspend fun getExerciseExecution(
         id: String

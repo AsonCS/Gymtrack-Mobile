@@ -44,7 +44,10 @@ interface WorkoutRepository {
                     )
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("WorkoutRepository.local.deleteWorkout", t)
+                TAG_DATA.error(
+                    "WorkoutRepository.local.deleteWorkout",
+                    t
+                )
                 Wrapper.Error(t)
             }
         }
@@ -55,7 +58,10 @@ interface WorkoutRepository {
                     local.getWorkouts()
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("WorkoutRepository.local.getWorkouts", t)
+                TAG_DATA.error(
+                    "WorkoutRepository.local.getWorkouts",
+                    t
+                )
                 Wrapper.Error(t)
             }
         }
@@ -68,7 +74,30 @@ interface WorkoutRepository {
                     local.putWorkout(workout)
                 )
             } catch (t: Throwable) {
-                TAG_DATA.error("WorkoutRepository.local.putWorkout", t)
+                TAG_DATA.error(
+                    "WorkoutRepository.local.putWorkout",
+                    t
+                )
+                Wrapper.Error(t)
+            }
+        }
+
+        override suspend fun removeExerciseExecution(
+            exerciseExecution: ExerciseExecution,
+            workout: Workout
+        ): Wrapper<Unit> {
+            return try {
+                Wrapper.Success(
+                    local.removeExerciseExecution(
+                        exerciseExecution,
+                        workout
+                    )
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error(
+                    "WorkoutRepository.local.removeExerciseExecution",
+                    t
+                )
                 Wrapper.Error(t)
             }
         }
@@ -89,5 +118,10 @@ interface WorkoutRepository {
     suspend fun putWorkout(
         workout: Workout
     ): Wrapper<Workout>
+
+    suspend fun removeExerciseExecution(
+        exerciseExecution: ExerciseExecution,
+        workout: Workout
+    ): Wrapper<Unit>
 
 }

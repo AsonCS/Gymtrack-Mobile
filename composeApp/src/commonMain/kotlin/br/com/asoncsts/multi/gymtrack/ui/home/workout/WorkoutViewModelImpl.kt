@@ -3,6 +3,7 @@ package br.com.asoncsts.multi.gymtrack.ui.home.workout
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
 import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
+import br.com.asoncsts.multi.gymtrack.extension.log
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution.Companion.fillExercise
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
@@ -43,8 +44,49 @@ class WorkoutViewModelImpl(
             }
 
             is Wrapper.Success -> {
+                _state.update {
+                    it as WorkoutState.Success
+                    it.copy(
+                        filteredExerciseExecutions = it
+                            .filteredExerciseExecutions + exerciseExecution
+                    )
+                }
                 _shared.emit(
                     WorkoutShared.SuccessAddNewExerciseExecution
+                )
+            }
+        }
+    }
+
+    override suspend fun clearExerciseExecution(
+        exerciseExecution: ExerciseExecution,
+        workout: Workout
+    ) {
+        val result = workoutRepo.removeExerciseExecution(
+            exerciseExecution,
+            workout
+        )
+
+        when (result) {
+            is Wrapper.Error -> {
+                _shared.emit(
+                    WorkoutShared.ErrorClearExerciseExecution(
+                        result.error.message
+                            ?: "Error"
+                    )
+                )
+            }
+
+            is Wrapper.Success -> {
+                _state.update {
+                    it as WorkoutState.Success
+                    it.copy(
+                        filteredExerciseExecutions = it
+                            .filteredExerciseExecutions - exerciseExecution
+                    )
+                }
+                _shared.emit(
+                    WorkoutShared.SuccessClearExerciseExecution
                 )
             }
         }
@@ -68,6 +110,7 @@ class WorkoutViewModelImpl(
 
             is Wrapper.Success -> {
                 result.data.collect { exerciseExecutions ->
+                    "fatal".log("WorkoutViewModelImpl.getWorkout.Success: $exerciseExecutions")
                     val filtered = mutableListOf<ExerciseExecution>()
                     val filled = exerciseExecutions.fillExercise(
                         exercisesSource::getExercise

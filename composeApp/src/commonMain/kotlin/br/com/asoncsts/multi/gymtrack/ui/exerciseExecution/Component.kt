@@ -1,4 +1,4 @@
-package br.com.asoncsts.multi.gymtrack.ui.workout
+package br.com.asoncsts.multi.gymtrack.ui.exerciseExecution
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -6,17 +6,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.com.asoncsts.multi.gymtrack.extension.launch
-import br.com.asoncsts.multi.gymtrack.model.workout.Workout
-import br.com.asoncsts.multi.gymtrack.ui.Toast
 import br.com.asoncsts.multi.gymtrack.ui._components.ButtonAdd
 import gymtrack.composeapp.generated.resources.Res
-import gymtrack.composeapp.generated.resources.new_workout_label_new
+import gymtrack.composeapp.generated.resources.exercise_execution_label_new
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-internal fun EditWorkout(
-    navigateToWorkout: (Workout) -> Unit,
-    viewModel: WorkoutViewModel,
+internal fun EditExerciseExecution(
+    viewModel: ExerciseExecutionViewModel,
     modifier: Modifier = Modifier
 ) {
     val sharedState by viewModel
@@ -26,7 +23,7 @@ internal fun EditWorkout(
         .stateFields
         .collectAsState()
 
-    EditWorkoutDialog(
+    EditExerciseExecutionDialog(
         onConfirm = {
             viewModel.launch {
                 onConfirm()
@@ -45,7 +42,7 @@ internal fun EditWorkout(
     ) {
         ButtonAdd(
             stringResource(
-                Res.string.new_workout_label_new
+                Res.string.exercise_execution_label_new
             ),
             onClick = {
                 stateFields.onCreate()
@@ -55,27 +52,7 @@ internal fun EditWorkout(
 
     sharedState.let { shared ->
         when (shared) {
-            is Shared.ErrorOnCreateOrEditWorkout -> {
-                Toast(
-                    shared.message
-                )
-            }
-
-            is Shared.ErrorOnDeleteWorkout -> {
-                Toast(
-                    shared.message
-                )
-            }
-
-            is Shared.NavigateToWorkout -> {
-                navigateToWorkout(
-                    shared.workout
-                )
-            }
-
-            Shared.SuccessOnDeleteWorkout,
-            Shared.SuccessOnEditWorkout,
-            null -> {
+            else -> {
             }
         }
     }

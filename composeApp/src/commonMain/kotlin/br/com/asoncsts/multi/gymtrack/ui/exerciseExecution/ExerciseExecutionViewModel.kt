@@ -1,16 +1,16 @@
-package br.com.asoncsts.multi.gymtrack.ui.workout
+package br.com.asoncsts.multi.gymtrack.ui.exerciseExecution
 
 import androidx.lifecycle.ViewModel
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
-import br.com.asoncsts.multi.gymtrack.data.user.repository.WorkoutRepository
-import br.com.asoncsts.multi.gymtrack.model.workout.Workout
+import br.com.asoncsts.multi.gymtrack.data.user.repository.ExerciseExecutionRepository
+import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
 import kotlinx.coroutines.flow.*
 
-abstract class WorkoutViewModel : ViewModel() {
+abstract class ExerciseExecutionViewModel : ViewModel() {
 
     class Impl(
-        private val workoutRepo: WorkoutRepository
-    ) : WorkoutViewModel() {
+        private val exerciseExecutionRepo: ExerciseExecutionRepository
+    ) : ExerciseExecutionViewModel() {
 
         private val _shared = MutableSharedFlow<Shared>()
         override val shared = _shared.asSharedFlow()
@@ -28,15 +28,15 @@ abstract class WorkoutViewModel : ViewModel() {
 
         override suspend fun onConfirm() {
             val isEdit = _stateFields.value.id != null
-            val result = workoutRepo.putWorkout(
-                _stateFields.value.toWorkout()
+            val result = exerciseExecutionRepo.putExerciseExecution(
+                _stateFields.value.toExerciseExecution()
             )
             when (result) {
                 is Wrapper.Error -> {
                     _shared.emit(
-                        Shared.ErrorOnCreateOrEditWorkout(
+                        Shared.ErrorOnCreateOrEditExerciseExecution(
                             result.error.message
-                                ?: "Error on create or edit workout"
+                                ?: "Error on create or edit exercise execution"
                         )
                     )
                 }
@@ -44,9 +44,9 @@ abstract class WorkoutViewModel : ViewModel() {
                 is Wrapper.Success -> {
                     _shared.emit(
                         if (isEdit)
-                            Shared.SuccessOnEditWorkout
+                            Shared.SuccessOnEditExerciseExecution
                         else
-                            Shared.NavigateToWorkout(
+                            Shared.NavigateToExerciseExecution(
                                 result.data
                             )
                     )
@@ -55,24 +55,24 @@ abstract class WorkoutViewModel : ViewModel() {
         }
 
         override suspend fun onDelete(
-            workout: Workout
+            exerciseExecution: ExerciseExecution
         ) {
-            val result = workoutRepo.deleteWorkout(
-                workout
+            val result = exerciseExecutionRepo.deleteExerciseExecution(
+                exerciseExecution
             )
             when (result) {
                 is Wrapper.Error -> {
                     _shared.emit(
-                        Shared.ErrorOnDeleteWorkout(
+                        Shared.ErrorOnDeleteExerciseExecution(
                             result.error.message
-                                ?: "Error on delete workout"
+                                ?: "Error on delete exercise execution"
                         )
                     )
                 }
 
                 is Wrapper.Success -> {
                     _shared.emit(
-                        Shared.SuccessOnDeleteWorkout
+                        Shared.SuccessOnDeleteExerciseExecution
                     )
                 }
             }
@@ -86,7 +86,7 @@ abstract class WorkoutViewModel : ViewModel() {
     internal abstract suspend fun onConfirm()
 
     internal abstract suspend fun onDelete(
-        workout: Workout
+        exerciseExecution: ExerciseExecution
     )
 
 }

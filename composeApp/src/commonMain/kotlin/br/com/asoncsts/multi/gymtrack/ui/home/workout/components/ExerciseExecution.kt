@@ -6,32 +6,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.extension.capitalized
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
 import br.com.asoncsts.multi.gymtrack.model.exercise.ExerciseExecution
+import br.com.asoncsts.multi.gymtrack.ui._components.ButtonClear
 import br.com.asoncsts.multi.gymtrack.ui._theme.*
-
-internal data class ExerciseExecutionProps(
-    val exercise: ExerciseExecution,
-    val navigateToExerciseExecution: () -> Unit
-)
-
-@Composable
-internal fun exerciseExecutionProps(
-    exercise: ExerciseExecution,
-    navigateToExerciseExecution: () -> Unit
-) = ExerciseExecutionProps(
-    exercise,
-    navigateToExerciseExecution
-)
 
 @Composable
 internal fun ExerciseExecution(
-    props: ExerciseExecutionProps,
+    exerciseExecution: ExerciseExecution,
+    navigateToExerciseExecution: () -> Unit,
+    onClearExerciseExecution: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
-        props.navigateToExerciseExecution,
+        navigateToExerciseExecution,
         modifier,
         shape = shapes().extraSmall
     ) {
@@ -39,19 +30,47 @@ internal fun ExerciseExecution(
             Modifier
                 .padding(6.dp)
         ) {
-            Text(
-                props.exercise.name.capitalizedWords(),
-                color = colors().onBackground,
-                fontWeight = FontWeight.Bold,
-                style = typography().titleLarge
-            )
+            Row(
+                Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    exerciseExecution.name.capitalizedWords(),
+                    color = colors().onBackground,
+                    fontWeight = FontWeight.Bold,
+                    style = typography().titleLarge
+                )
+
+                Spacer(
+                    Modifier
+                        .weight(1f)
+                )
+
+                ButtonClear(
+                    null,
+                    onClick = onClearExerciseExecution
+                )
+            }
+
+            val description = (exerciseExecution as? ExerciseExecution.Detail)
+                ?.description
+            if (!description.isNullOrEmpty()) {
+                Text(
+                    description.capitalized(),
+                    color = colors().onBackground
+                        .copy(.7f),
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    style = typography().bodySmall
+                )
+            }
 
             Spacer(
                 Modifier
                     .height(6.dp)
             )
 
-            props.exercise.exercise
+            exerciseExecution.exercise
                 ?.title
                 ?.let {
                     Text(

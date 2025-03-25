@@ -48,12 +48,14 @@ interface ExerciseExecution {
     ) : ExerciseExecution {
         constructor(
             description: String?,
-            exercise: Exercise?,
-            name: String
+            name: String,
+            exercise: Exercise? = null,
+            id: String? = null
         ) : this(
             description = description,
             exercise = exercise,
-            id = "",
+            id = id
+                ?: "",
             name = name,
             executions = emptyList()
         )
