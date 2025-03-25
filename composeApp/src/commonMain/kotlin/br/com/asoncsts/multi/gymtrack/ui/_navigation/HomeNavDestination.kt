@@ -28,12 +28,6 @@ fun NavGraphBuilder.homeNav(
     }
 }
 
-fun NavHostController.navigateToNewWorkout() {
-    navigate(
-        "$homeNavPathHome$newWorkoutRoute"
-    )
-}
-
 fun NavHostController.navigateToWorkout() {
     navigate(
         "$homeNavPathHome$workoutRoute"

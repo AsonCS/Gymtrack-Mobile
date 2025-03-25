@@ -46,7 +46,6 @@ fun AppNavHost(
         )
         HomeDestination(
             HomeDestination.Args(
-                navigateToNewWorkout = navController::navigateToNewWorkout,
                 navigateToWorkout = {
                     homeViewModel.navigationArgumentWorkout = it
                     navController.navigateToWorkout()

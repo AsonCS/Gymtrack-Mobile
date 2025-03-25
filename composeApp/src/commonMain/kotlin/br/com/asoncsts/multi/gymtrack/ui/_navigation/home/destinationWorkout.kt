@@ -28,7 +28,5 @@ fun NavGraphBuilder.workout(
 }
 
 fun NavHostController.navigateToWorkout() {
-    navigate(workoutRoute) {
-        popUpToNewWorkout()
-    }
+    navigate(workoutRoute)
 }

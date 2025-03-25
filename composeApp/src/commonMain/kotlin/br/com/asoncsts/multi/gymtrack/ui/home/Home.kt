@@ -21,7 +21,6 @@ fun HomeScreen(
 
     HomeScreen(
         homeScreenProps(
-            args.navigateToNewWorkout,
             args.navigateToWorkout
         ),
         state,

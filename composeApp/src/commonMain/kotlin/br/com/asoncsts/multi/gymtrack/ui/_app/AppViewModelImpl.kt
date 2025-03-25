@@ -1,5 +1,6 @@
 package br.com.asoncsts.multi.gymtrack.ui._app
 
+import br.com.asoncsts.multi.gymtrack._mock.data.auth.AuthRepositoryMock
 import br.com.asoncsts.multi.gymtrack.data._utils.Wrapper
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState
 import br.com.asoncsts.multi.gymtrack.data.exercise.repository.ExerciseRepository
@@ -10,7 +11,9 @@ class AppViewModelImpl(
 ) : AppViewModel() {
 
     private val _stateAuth = MutableStateFlow<AuthState>(
-        AuthState.Unknown
+        AuthState.LoggedIn(
+            AuthRepositoryMock.mockUser
+        ) // TODO Remove mock // AuthState.Unknown
     )
     override val stateAuth = _stateAuth
         .asStateFlow()

@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import br.com.asoncsts.multi.gymtrack._mock.data.auth.AuthRepositoryMock
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
 import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.Unknown
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
@@ -20,7 +21,9 @@ fun AppScreen(
     val hasBottomBar by navController.appNavHasBottomBarState()
     val userState by appViewModel
         .stateAuth
-        .collectAsState(null)
+        .collectAsState(
+            AuthRepositoryMock.mockUser // TODO Remove mock // null
+        )
 
     val user = (userState as? LoggedIn)?.user
 

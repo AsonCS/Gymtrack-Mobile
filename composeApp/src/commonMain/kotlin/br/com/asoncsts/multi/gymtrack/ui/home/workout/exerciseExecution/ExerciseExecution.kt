@@ -33,11 +33,6 @@ fun ExerciseExecutionScreen(
                 onExecutionConfirm()
             }
         },
-        onExecutionFinish = { execution ->
-            args.viewModel.launch {
-                onExecutionFinish(execution)
-            }
-        },
         onExecutionRemove = { executionId ->
             args.viewModel.launch {
                 onExecutionRemove(executionId)

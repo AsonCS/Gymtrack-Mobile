@@ -1,16 +1,12 @@
 package br.com.asoncsts.multi.gymtrack.ui.execution
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.OutlinedCard
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import br.com.asoncsts.multi.gymtrack.ui._components.*
-import br.com.asoncsts.multi.gymtrack.ui._theme.shapes
+import br.com.asoncsts.multi.gymtrack.ui._components.EditDialog
+import br.com.asoncsts.multi.gymtrack.ui._components.TextField
 import gymtrack.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
@@ -23,117 +19,93 @@ internal fun EditExecutionDialog(
     ) -> Unit,
     stateFields: EditStateFields
 ) {
-    if (stateFields.isDialogVisible.not()) return
+    EditDialog(
+        buttonNegative = if (stateFields.idParent == null && stateFields.id != null)
+            Pair(
+                stringResource(
+                    Res.string.label_remove
+                )
+            ) {
+                onRemove(
+                    stateFields.id
+                )
+            }
+        else null,
+        buttonPositive = Pair(
+            stringResource(
+                when {
+                    stateFields.idParent != null ->
+                        Res.string.label_finish
 
-    Dialog(
-        onDismissRequest = onDismissRequest
+                    stateFields.id != null ->
+                        Res.string.label_update
+
+                    else ->
+                        Res.string.label_create
+                }
+            ),
+            onConfirm
+        ),
+        onDismissRequest = onDismissRequest,
+        stateFields.isDialogVisible
     ) {
-        OutlinedCard(
-            Modifier
-                .fillMaxWidth(),
-            border = border(),
-            shape = shapes().medium
-        ) {
-            Column(
+        if (stateFields.idParent == null) {
+            val labelOrder = stringResource(
+                Res.string.execution_label_order
+            )
+            TextField(
+                KeyboardType.Number,
+                labelOrder,
+                { stateFields.order = it },
+                labelOrder,
+                stateFields.order,
                 Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement
-                    .spacedBy(16.dp)
-            ) {
-                if (stateFields.idParent == null) {
-                    val labelOrder = stringResource(
-                        Res.string.execution_label_order
-                    )
-                    TextField(
-                        KeyboardType.Number,
-                        labelOrder,
-                        { stateFields.order = it },
-                        labelOrder,
-                        stateFields.order,
-                        Modifier
-                            .fillMaxWidth()
-                    )
+            )
 
-                    val labelNotes = stringResource(
-                        Res.string.execution_label_notes
-                    )
-                    TextField(
-                        KeyboardType.Text,
-                        labelNotes,
-                        { stateFields.notes = it },
-                        labelNotes,
-                        stateFields.notes,
-                        Modifier
-                            .fillMaxWidth(),
-                        capitalization = KeyboardCapitalization.Sentences
-                    )
-                }
-
-                val labelReps = stringResource(
-                    Res.string.execution_label_reps
-                )
-                TextField(
-                    KeyboardType.Number,
-                    labelReps,
-                    { stateFields.reps = it },
-                    labelReps,
-                    stateFields.reps,
-                    Modifier
-                        .fillMaxWidth()
-                )
-
-                val labelWeight = stringResource(
-                    Res.string.execution_label_weight
-                )
-                TextField(
-                    KeyboardType.Number,
-                    labelWeight,
-                    { stateFields.weight = it },
-                    labelWeight,
-                    stateFields.weight,
-                    Modifier
-                        .fillMaxWidth(),
-                    onDone = {
-                        onConfirm()
-                    }
-                )
-
-                Row(
-                    horizontalArrangement = Arrangement
-                        .spacedBy(8.dp)
-                ) {
-                    Button(
-                        stringResource(
-                            when {
-                                stateFields.idParent != null ->
-                                    Res.string.label_finish
-
-                                stateFields.id != null ->
-                                    Res.string.label_update
-
-                                else ->
-                                    Res.string.label_create
-                            }
-                        ),
-                        onClick = onConfirm
-                    )
-                    if (stateFields.idParent == null && stateFields.id != null) {
-                        Button(
-                            stringResource(
-                                Res.string.label_remove
-                            ),
-                            onClick = {
-                                onRemove(
-                                    stateFields.id
-                                )
-                            }
-                        )
-                    }
-                }
-            }
+            val labelNotes = stringResource(
+                Res.string.execution_label_notes
+            )
+            TextField(
+                KeyboardType.Text,
+                labelNotes,
+                { stateFields.notes = it },
+                labelNotes,
+                stateFields.notes,
+                Modifier
+                    .fillMaxWidth(),
+                capitalization = KeyboardCapitalization.Sentences
+            )
         }
+
+        val labelReps = stringResource(
+            Res.string.execution_label_reps
+        )
+        TextField(
+            KeyboardType.Number,
+            labelReps,
+            { stateFields.reps = it },
+            labelReps,
+            stateFields.reps,
+            Modifier
+                .fillMaxWidth()
+        )
+
+        val labelWeight = stringResource(
+            Res.string.execution_label_weight
+        )
+        TextField(
+            KeyboardType.Number,
+            labelWeight,
+            { stateFields.weight = it },
+            labelWeight,
+            stateFields.weight,
+            Modifier
+                .fillMaxWidth(),
+            onDone = {
+                onConfirm()
+            }
+        )
     }
 }
 

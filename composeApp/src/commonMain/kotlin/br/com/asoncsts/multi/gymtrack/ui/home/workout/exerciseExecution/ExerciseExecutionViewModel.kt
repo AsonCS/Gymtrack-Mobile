@@ -12,6 +12,7 @@ import br.com.asoncsts.multi.gymtrack.ui.execution.EditStateFields
 import kotlinx.coroutines.flow.*
 
 abstract class ExerciseExecutionViewModel : ViewModel() {
+
     class Impl(
         private val exercisesSource: ExercisesSource,
         private val exerciseExecutionRepo: ExerciseExecutionRepository,
@@ -99,39 +100,6 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
             }
         }
 
-        override suspend fun onExecutionFinish(
-            execution: Execution
-        ) {
-            val result = executionRepo.putExecution(
-                execution.copy(
-                    id = "",
-                    idParent = execution.id
-                ),
-                exerciseExecution
-            )
-            when (result) {
-                is Wrapper.Error -> {
-                    _shared.emit(
-                        ExerciseExecutionShared.ErrorOnEditExecution(
-                            result.error.message
-                                ?: "Error on finishing execution"
-                        )
-                    )
-                }
-
-                is Wrapper.Success -> {
-                    _stateFields.update {
-                        it.copy(
-                            isDialogVisible = false
-                        )
-                    }
-                    _shared.emit(
-                        ExerciseExecutionShared.SuccessOnEditExecution
-                    )
-                }
-            }
-        }
-
         override suspend fun onExecutionRemove(
             executionId: String
         ) {
@@ -197,10 +165,6 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
     )
 
     internal abstract suspend fun onExecutionConfirm()
-
-    internal abstract suspend fun onExecutionFinish(
-        execution: Execution
-    )
 
     internal abstract suspend fun onExecutionRemove(
         executionId: String

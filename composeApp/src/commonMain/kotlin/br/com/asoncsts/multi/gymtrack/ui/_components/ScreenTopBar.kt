@@ -18,8 +18,7 @@ import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 fun ScreenTopBar(
     onNavigateUp: (() -> Unit)?,
     title: String,
-    modifier: Modifier = Modifier,
-    content: (@Composable () -> Unit)? = null
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier
@@ -50,6 +49,5 @@ fun ScreenTopBar(
             style = typography().headlineLarge,
             textAlign = TextAlign.Start
         )
-        content?.invoke()
     }
 }

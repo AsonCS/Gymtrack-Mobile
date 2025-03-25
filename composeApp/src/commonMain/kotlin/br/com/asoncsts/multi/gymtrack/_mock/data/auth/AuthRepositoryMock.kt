@@ -32,8 +32,7 @@ object AuthRepositoryMock : AuthRepository, KoinComponent {
         emit: (AuthState) -> Unit
     ) {
         AuthRepositoryMock.emit = emit
-        emit(LoggedIn(mockUser))
-        //emit(LoggedOut)
+        // emit(LoggedOut)
     }
 
     override suspend fun login(

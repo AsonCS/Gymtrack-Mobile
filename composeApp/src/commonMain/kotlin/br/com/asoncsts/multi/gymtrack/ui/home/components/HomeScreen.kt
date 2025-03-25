@@ -1,6 +1,5 @@
 package br.com.asoncsts.multi.gymtrack.ui.home.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,13 +15,13 @@ import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeState
+import br.com.asoncsts.multi.gymtrack.ui.workout.CreateWorkout
 import gymtrack.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
 internal data class HomeScreenProps(
     val labelNew: String,
     val labelTitle: String,
-    val navigateToNewWorkout: () -> Unit,
     val navigateToWorkout: (
         workout: Workout
     ) -> Unit
@@ -30,7 +29,6 @@ internal data class HomeScreenProps(
 
 @Composable
 internal fun homeScreenProps(
-    navigateToNewWorkout: () -> Unit,
     navigateToWorkout: (
         workout: Workout
     ) -> Unit,
@@ -39,7 +37,6 @@ internal fun homeScreenProps(
 ) = HomeScreenProps(
     labelNew,
     labelTitle,
-    navigateToNewWorkout,
     navigateToWorkout
 )
 
@@ -63,17 +60,7 @@ internal fun HomeScreen(
         ScreenTopBar(
             onNavigateUp = null,
             title = props.labelTitle
-        ) {
-            Text(
-                props.labelNew,
-                Modifier
-                    .clickable {
-                        props.navigateToNewWorkout()
-                    },
-                color = colors().secondary,
-                style = typography().headlineSmall
-            )
-        }
+        )
 
         when (state) {
             is HomeState.Error -> {
@@ -115,6 +102,10 @@ private fun Success(
     ) -> Unit,
     state: HomeState.Success
 ) {
+    CreateWorkout(
+        navigateToWorkout
+    )
+
     LazyColumn(
         modifier,
         verticalArrangement = Arrangement
