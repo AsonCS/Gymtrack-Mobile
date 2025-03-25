@@ -12,53 +12,60 @@ import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.extension.capitalized
 import br.com.asoncsts.multi.gymtrack.extension.capitalizedWords
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
+import br.com.asoncsts.multi.gymtrack.ui._components.ButtonDelete
+import br.com.asoncsts.multi.gymtrack.ui._components.ButtonEdit
 import br.com.asoncsts.multi.gymtrack.ui._theme.*
 import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.home_label_amount
 import org.jetbrains.compose.resources.stringResource
 
-internal data class WorkoutProps(
-    val labelAmount: String,
-    val navigateToWorkout: () -> Unit,
-    val workout: Workout
-)
-
-@Composable
-internal fun workoutProps(
-    workout: Workout,
-    navigateToWorkout: () -> Unit,
-    labelAmount: String = stringResource(
-        Res.string.home_label_amount
-    )
-) = WorkoutProps(
-    labelAmount,
-    navigateToWorkout,
-    workout
-)
-
 @Composable
 internal fun Workout(
-    props: WorkoutProps,
+    onDeleteWorkout: () -> Unit,
+    onEditWorkout: () -> Unit,
+    navigateToWorkout: () -> Unit,
+    workout: Workout,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
-        props.navigateToWorkout,
+        navigateToWorkout,
         modifier
             .fillMaxWidth(),
         shape = shapes().extraSmall
     ) {
         Column(
             Modifier
+                .fillMaxWidth()
                 .padding(6.dp)
         ) {
-            Text(
-                props.workout.name.capitalizedWords(),
-                color = colors().onBackground,
-                fontWeight = FontWeight.Bold,
-                style = typography().titleLarge
-            )
+            Row(
+                Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    workout.name.capitalizedWords(),
+                    color = colors().onBackground,
+                    fontWeight = FontWeight.Bold,
+                    style = typography().titleLarge
+                )
 
-            val description = props.workout.description
+                Spacer(
+                    Modifier
+                        .weight(1f)
+                )
+
+                ButtonEdit(
+                    null,
+                    onClick = onEditWorkout
+                )
+
+                ButtonDelete(
+                    null,
+                    onClick = onDeleteWorkout
+                )
+            }
+
+            val description = workout.description
             if (!description.isNullOrEmpty()) {
                 Text(
                     description.capitalized(),
@@ -77,7 +84,11 @@ internal fun Workout(
 
             Text(
                 buildAnnotatedString {
-                    append(props.labelAmount)
+                    append(
+                        stringResource(
+                            Res.string.home_label_amount
+                        )
+                    )
                     append(" ")
 
                     withStyle(
@@ -85,7 +96,7 @@ internal fun Workout(
                             fontWeight = FontWeight.Bold
                         )
                     ) {
-                        append(props.workout.amount)
+                        append(workout.amount)
                     }
                 },
                 color = colors().onBackground,

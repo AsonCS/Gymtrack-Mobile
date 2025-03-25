@@ -5,6 +5,7 @@ import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 internal data class StateFields(
     private val _name: String? = null,
     private val _description: String? = null,
+    val id: String? = null,
     val isDialogVisible: Boolean = false,
     var update: (
         StateFields.() -> StateFields
@@ -38,6 +39,7 @@ internal data class StateFields(
             copy(
                 _name = null,
                 _description = null,
+                id = null,
                 isDialogVisible = false
             )
         }
@@ -48,16 +50,36 @@ internal data class StateFields(
             copy(
                 _name = null,
                 _description = null,
+                id = null,
                 isDialogVisible = true
             )
         }
     }
 
-    fun toWorkout() = Workout(
-        description = _description,
-        exerciseExecutionIds = emptyList(),
-        name = _name
-            ?: throw IllegalStateException("Name cannot be empty")
-    )
+    fun onEdit(
+        workout: Workout
+    ) {
+        update {
+            copy(
+                _name = workout.name,
+                _description = workout.description,
+                id = workout.id,
+                isDialogVisible = true
+            )
+        }
+    }
+
+    fun toWorkout(): Workout {
+        val workout = Workout(
+            description = _description,
+            id = id
+                ?: "",
+            exerciseExecutionIds = emptyList(),
+            name = _name
+                ?: throw IllegalStateException("Name cannot be empty")
+        )
+        onClose()
+        return workout
+    }
 
 }

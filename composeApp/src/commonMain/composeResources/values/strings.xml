@@ -10,8 +10,10 @@
     <string name="home_label_new">+ New</string>
     <string name="home_label_title">Your workouts</string>
 
+    <string name="label_cancel">Cancel</string>
     <string name="label_create">Create</string>
     <string name="label_description">Description</string>
+    <string name="label_edit">Edit</string>
     <string name="label_finish">Finish</string>
     <string name="label_name">Name</string>
     <string name="label_remove">Remove</string>

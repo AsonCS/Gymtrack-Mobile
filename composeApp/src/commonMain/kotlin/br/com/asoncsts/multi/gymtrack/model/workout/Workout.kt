@@ -6,18 +6,6 @@ data class Workout(
     val id: String,
     val name: String
 ) {
-
-    constructor(
-        description: String?,
-        exerciseExecutionIds: List<String>,
-        name: String
-    ) : this(
-        description = description,
-        exerciseExecutionIds = exerciseExecutionIds,
-        id = "",
-        name = name
-    )
-
     val amount: String
         get() = exerciseExecutionIds.size.toString()
 

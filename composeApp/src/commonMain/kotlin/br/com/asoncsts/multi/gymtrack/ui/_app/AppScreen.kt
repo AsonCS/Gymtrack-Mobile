@@ -7,8 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import br.com.asoncsts.multi.gymtrack._mock.data.auth.AuthRepositoryMock
-import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.LoggedIn
-import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState.Unknown
+import br.com.asoncsts.multi.gymtrack.data.auth.model.AuthState
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._navigation.*
 
@@ -22,10 +21,12 @@ fun AppScreen(
     val userState by appViewModel
         .stateAuth
         .collectAsState(
-            AuthRepositoryMock.mockUser // TODO Remove mock // null
+            AuthState.LoggedIn(
+                AuthRepositoryMock.mockUser
+            ) // TODO Remove mock // null
         )
 
-    val user = (userState as? LoggedIn)?.user
+    val user = (userState as? AuthState.LoggedIn)?.user
 
     Scaffold(
         modifier,
@@ -43,7 +44,7 @@ fun AppScreen(
             }
         }
     ) {
-        if (userState !is Unknown) {
+        if (userState !is AuthState.Unknown) {
             AppNavHost(
                 appViewModel = appViewModel,
                 isLoggedIn = user != null,

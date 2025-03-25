@@ -12,13 +12,12 @@ import br.com.asoncsts.multi.gymtrack.ui._components.ButtonAdd
 import gymtrack.composeapp.generated.resources.Res
 import gymtrack.composeapp.generated.resources.new_workout_label_new
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun CreateWorkout(
+internal fun CreateWorkout(
     navigateToWorkout: (Workout) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: WorkoutViewModel = koinViewModel()
+    viewModel: WorkoutViewModel,
+    modifier: Modifier = Modifier
 ) {
     val sharedState by viewModel
         .shared
@@ -56,7 +55,13 @@ fun CreateWorkout(
 
     sharedState.let { shared ->
         when (shared) {
-            is Shared.ErrorOnCreateWorkout -> {
+            is Shared.ErrorOnCreateOrEditWorkout -> {
+                Toast(
+                    shared.message
+                )
+            }
+
+            is Shared.ErrorOnDeleteWorkout -> {
                 Toast(
                     shared.message
                 )
@@ -68,6 +73,8 @@ fun CreateWorkout(
                 )
             }
 
+            Shared.SuccessOnDeleteWorkout,
+            Shared.SuccessOnEditWorkout,
             null -> {
             }
         }

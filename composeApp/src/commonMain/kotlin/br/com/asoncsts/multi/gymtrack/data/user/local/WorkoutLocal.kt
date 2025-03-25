@@ -28,6 +28,16 @@ interface WorkoutLocal {
             )
         }
 
+        override suspend fun deleteWorkout(
+            workout: Workout
+        ) {
+            dao.delete(
+                WorkoutEntity(
+                    workout
+                )
+            )
+        }
+
         override suspend fun getWorkouts(): Flow<List<Workout>> {
             return withExerciseExecutionsDao.getWorkoutWithExerciseExecutions()
                 .map { list ->
@@ -51,6 +61,10 @@ interface WorkoutLocal {
 
     suspend fun addExerciseExecution(
         exerciseExecution: ExerciseExecution,
+        workout: Workout
+    )
+
+    suspend fun deleteWorkout(
         workout: Workout
     )
 

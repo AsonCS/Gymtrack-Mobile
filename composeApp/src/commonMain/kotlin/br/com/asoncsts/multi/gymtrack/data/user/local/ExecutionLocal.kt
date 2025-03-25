@@ -11,6 +11,17 @@ interface ExecutionLocal {
         private val dao: ExecutionDao
     ) : ExecutionLocal {
 
+        override suspend fun deleteExecution(
+            executionId: String
+        ) {
+            dao.delete(
+                *dao.getExecutionsById(
+                    executionId
+                ).toTypedArray()
+            )
+            insertOrderedEntities()
+        }
+
         override suspend fun putExecution(
             execution: Execution,
             exerciseExecution: ExerciseExecution
@@ -41,17 +52,6 @@ interface ExecutionLocal {
             )
         }
 
-        override suspend fun deleteExecution(
-            executionId: String
-        ) {
-            dao.delete(
-                *dao.getExecutionsById(
-                    executionId
-                ).toTypedArray()
-            )
-            insertOrderedEntities()
-        }
-
         private suspend fun insertOrderedEntities(
             applyBlock: List<ExecutionEntity>.() -> List<ExecutionEntity> = { this }
         ) {
@@ -69,13 +69,13 @@ interface ExecutionLocal {
 
     }
 
+    suspend fun deleteExecution(
+        executionId: String
+    )
+
     suspend fun putExecution(
         execution: Execution,
         exerciseExecution: ExerciseExecution
     ): Execution
-
-    suspend fun deleteExecution(
-        executionId: String
-    )
 
 }

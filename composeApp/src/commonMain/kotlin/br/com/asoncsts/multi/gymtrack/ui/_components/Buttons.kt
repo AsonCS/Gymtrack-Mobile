@@ -3,8 +3,7 @@ package br.com.asoncsts.multi.gymtrack.ui._components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -57,6 +56,36 @@ fun ButtonCheck(
     ButtonIcon(
         "Check icon",
         Icons.Filled.Check,
+        label,
+        onClick,
+        modifier
+    )
+}
+
+@Composable
+fun ButtonDelete(
+    label: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ButtonIcon(
+        "Delete icon",
+        Icons.Filled.Delete,
+        label,
+        onClick,
+        modifier
+    )
+}
+
+@Composable
+fun ButtonEdit(
+    label: String?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ButtonIcon(
+        "Edit icon",
+        Icons.Filled.Edit,
         label,
         onClick,
         modifier

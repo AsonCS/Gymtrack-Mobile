@@ -4,20 +4,22 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack._mock.data.user.workout.WorkoutMock
+import br.com.asoncsts.multi.gymtrack.extension.launch
 import br.com.asoncsts.multi.gymtrack.model.workout.Workout
 import br.com.asoncsts.multi.gymtrack.ui._components.Loading
 import br.com.asoncsts.multi.gymtrack.ui._components.ScreenTopBar
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import br.com.asoncsts.multi.gymtrack.ui.home.HomeState
-import br.com.asoncsts.multi.gymtrack.ui.workout.CreateWorkout
+import br.com.asoncsts.multi.gymtrack.ui.workout.*
 import gymtrack.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 internal data class HomeScreenProps(
     val labelNew: String,
@@ -100,10 +102,29 @@ private fun Success(
     navigateToWorkout: (
         workout: Workout
     ) -> Unit,
-    state: HomeState.Success
+    state: HomeState.Success,
+    viewModel: WorkoutViewModel = koinViewModel()
 ) {
+    var workoutToDelete by remember {
+        mutableStateOf<Workout?>(null)
+    }
+
     CreateWorkout(
-        navigateToWorkout
+        navigateToWorkout,
+        viewModel
+    )
+
+    DeleteWorkoutDialog(
+        workoutToDelete != null,
+        onDelete = {
+            viewModel.launch {
+                onDelete(workoutToDelete!!)
+            }
+            workoutToDelete = null
+        },
+        onDismissRequest = {
+            workoutToDelete = null
+        }
     )
 
     LazyColumn(
@@ -116,14 +137,20 @@ private fun Success(
             key = { it.id }
         ) { workout ->
             Workout(
-                workoutProps(
-                    navigateToWorkout = {
-                        navigateToWorkout(
-                            workout
-                        )
-                    },
-                    workout = workout
-                )
+                onDeleteWorkout = {
+                    workoutToDelete = workout
+                },
+                onEditWorkout = {
+                    viewModel.stateFields
+                        .value
+                        .onEdit(workout)
+                },
+                navigateToWorkout = {
+                    navigateToWorkout(
+                        workout
+                    )
+                },
+                workout = workout
             )
         }
     }

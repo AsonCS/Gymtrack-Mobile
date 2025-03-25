@@ -6,6 +6,11 @@ import br.com.asoncsts.multi.gymtrack.data.user.local.entities.ExecutionEntity
 @Dao
 interface ExecutionDao {
 
+    @Delete
+    suspend fun delete(
+        vararg execution: ExecutionEntity
+    )
+
     @Query("SELECT * FROM execution")
     suspend fun getExecutions(): List<ExecutionEntity>
 
@@ -16,11 +21,6 @@ interface ExecutionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(
-        vararg execution: ExecutionEntity
-    )
-
-    @Delete
-    suspend fun delete(
         vararg execution: ExecutionEntity
     )
 
