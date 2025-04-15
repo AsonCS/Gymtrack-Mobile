@@ -167,7 +167,7 @@ private fun List<Execution>.text(
         buildAnnotatedString {
             val list = take(5)
             list.forEachIndexed { index, execution ->
-                val updated = execution.updated > getTimeSeconds() - 60 * 24
+                val updated = execution.updated > getTimeSeconds() - 60 * 60 * 24
                 withStyle(
                     SpanStyle(
                         fontWeight = if (updated)
