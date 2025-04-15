@@ -47,7 +47,18 @@ interface Platform {
 
 expect val platform: Platform
 
+val json = Json {
+    classDiscriminator = "#class"
+    encodeDefaults = true
+    ignoreUnknownKeys = true
+    prettyPrint = true
+}
+
 internal fun dataModule() = module {
+    // region Json
+    single { json }
+    // endregion
+
     // region Coil
     single<ImageLoader> {
         ImageLoader.Builder(platform.coilContext)
@@ -94,13 +105,7 @@ internal fun dataModule() = module {
                 }
             }
             install(ContentNegotiation) {
-
-                json(Json {
-                    ignoreUnknownKeys = true
-                    prettyPrint = true
-                    encodeDefaults = true
-                    classDiscriminator = "#class"
-                })
+                json(get<Json>())
             }
             install(HttpCache)
         }

@@ -72,9 +72,9 @@ internal data class StateFields(
     fun toWorkout(): Workout {
         val workout = Workout(
             description = _description,
+            exerciseExecutions = emptyList(),
             id = id
                 ?: "",
-            exerciseExecutionIds = emptyList(),
             name = _name
                 ?: throw IllegalStateException("Name cannot be empty")
         )

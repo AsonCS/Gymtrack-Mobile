@@ -11,8 +11,10 @@ interface ExecutionDao {
         vararg execution: ExecutionEntity
     )
 
-    @Query("SELECT * FROM execution")
-    suspend fun getExecutions(): List<ExecutionEntity>
+    @Query("SELECT * FROM execution WHERE exerciseExecutionId = :exerciseExecutionId")
+    suspend fun getExecutionsByExerciseExecutionId(
+        exerciseExecutionId: String
+    ): List<ExecutionEntity>
 
     @Query("SELECT * FROM execution WHERE executionId = :id OR executionIdParent = :id")
     suspend fun getExecutionsById(

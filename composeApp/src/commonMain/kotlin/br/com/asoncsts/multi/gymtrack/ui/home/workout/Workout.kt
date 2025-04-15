@@ -56,6 +56,9 @@ fun WorkoutScreen(
 
     LaunchedEffect(Unit) {
         args.viewModel.launch {
+            getExerciseExecutions()
+        }
+        args.viewModel.launch {
             getWorkout(workout)
         }
     }
@@ -74,6 +77,8 @@ abstract class WorkoutViewModel : ViewModel() {
         exerciseExecution: ExerciseExecution,
         workout: Workout
     )
+
+    internal abstract suspend fun getExerciseExecutions()
 
     internal abstract suspend fun getWorkout(
         workout: Workout

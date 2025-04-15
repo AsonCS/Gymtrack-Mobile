@@ -8,7 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import br.com.asoncsts.multi.gymtrack.extension.getTimeSeconds
 import br.com.asoncsts.multi.gymtrack.extension.toStringReplacingDotZero
 import br.com.asoncsts.multi.gymtrack.model.exercise.Execution
 import br.com.asoncsts.multi.gymtrack.ui._components.ButtonAdd
@@ -67,31 +70,13 @@ internal fun Execution(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             execution.text(
                 Modifier
                     .weight(1f)
             )
-
-            execution.children
-                .take(3)
-                .joinToString(" | ") {
-                    "${it.reps} x ${it.weight.toStringReplacingDotZero()}"
-                }.takeIf { it.isNotEmpty() }
-                ?.let {
-                    Text(
-                        execution.children
-                            .take(3)
-                            .joinToString(" | ") {
-                                "${it.reps} x ${it.weight.toStringReplacingDotZero()}"
-                            },
-                        Modifier
-                            .weight(2f),
-                        color = colors().onBackground
-                            .copy(.7f),
-                        style = typography().bodyMedium
-                    )
-                }
 
             ButtonCheck(
                 null,
@@ -105,6 +90,10 @@ internal fun Execution(
                 }
             )
         }
+
+        execution.children.text(
+            Modifier
+        )
 
         execution.notes?.let { notes ->
             Text(
@@ -167,6 +156,45 @@ private fun Execution.text(
         modifier,
         color = colors().onBackground,
         style = typography().headlineLarge
+    )
+}
+
+@Composable
+private fun List<Execution>.text(
+    modifier: Modifier
+) {
+    Text(
+        buildAnnotatedString {
+            val list = take(5)
+            list.forEachIndexed { index, execution ->
+                val updated = execution.updated > getTimeSeconds() - 60 * 24
+                withStyle(
+                    SpanStyle(
+                        fontWeight = if (updated)
+                            FontWeight.Bold
+                        else
+                            FontWeight.Normal,
+                        textDecoration = if (updated)
+                            TextDecoration.Underline
+                        else
+                            TextDecoration.None
+                    )
+                ) {
+                    append(
+                        "${execution.reps} x ${execution.weight.toStringReplacingDotZero()}"
+                    )
+                }
+                if (index < list.size - 1) {
+                    append(" | ")
+                }
+            }
+        },
+        modifier,
+        color = colors().onBackground
+            .copy(.7f),
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        style = typography().bodyMedium
     )
 }
 

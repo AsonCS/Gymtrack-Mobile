@@ -103,7 +103,10 @@ abstract class ExerciseExecutionViewModel : ViewModel() {
         override suspend fun onExecutionRemove(
             executionId: String
         ) {
-            val result = executionRepo.deleteExecution(executionId)
+            val result = executionRepo.deleteExecution(
+                executionId,
+                exerciseExecution
+            )
             when (result) {
                 is Wrapper.Error -> {
                     _shared.emit(

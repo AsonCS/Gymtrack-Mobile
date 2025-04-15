@@ -12,14 +12,15 @@ interface ExecutionLocal {
     ) : ExecutionLocal {
 
         override suspend fun deleteExecution(
-            executionId: String
+            executionId: String,
+            exerciseExecution: ExerciseExecution
         ) {
             dao.delete(
                 *dao.getExecutionsById(
                     executionId
                 ).toTypedArray()
             )
-            insertOrderedEntities()
+            insertOrderedEntities(exerciseExecution.id)
         }
 
         override suspend fun putExecution(
@@ -31,7 +32,7 @@ interface ExecutionLocal {
                 exerciseExecution
             )
 
-            insertOrderedEntities {
+            insertOrderedEntities(exerciseExecution.id) {
                 toMutableList().apply {
                     remove(entity)
                     if (entity.executionIdParent != null) {
@@ -53,10 +54,11 @@ interface ExecutionLocal {
         }
 
         private suspend fun insertOrderedEntities(
+            exerciseExecutionId: String,
             applyBlock: List<ExecutionEntity>.() -> List<ExecutionEntity> = { this }
         ) {
             dao.insert(
-                *dao.getExecutions()
+                *dao.getExecutionsByExerciseExecutionId(exerciseExecutionId)
                     .sortedBy { it.order }
                     .applyBlock()
                     .mapIndexed { index, executionEntity ->
@@ -70,7 +72,8 @@ interface ExecutionLocal {
     }
 
     suspend fun deleteExecution(
-        executionId: String
+        executionId: String,
+        exerciseExecution: ExerciseExecution
     )
 
     suspend fun putExecution(

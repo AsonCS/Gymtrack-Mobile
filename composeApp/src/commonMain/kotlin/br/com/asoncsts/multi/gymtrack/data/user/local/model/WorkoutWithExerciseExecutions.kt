@@ -19,8 +19,8 @@ data class WorkoutWithExerciseExecutions(
     fun toWorkout(): Workout {
         return Workout(
             description = workout.description,
-            exerciseExecutionIds = exerciseExecutions
-                .map { it.exerciseExecutionId },
+            exerciseExecutions = exerciseExecutions
+                .map { it.toExerciseExecution() },
             id = workout.workoutId,
             name = workout.name
         )

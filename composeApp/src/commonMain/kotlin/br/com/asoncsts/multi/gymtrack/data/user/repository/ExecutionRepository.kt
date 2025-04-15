@@ -14,12 +14,14 @@ interface ExecutionRepository {
     ) : ExecutionRepository {
 
         override suspend fun deleteExecution(
-            executionId: String
+            executionId: String,
+            exerciseExecution: ExerciseExecution
         ): Wrapper<Unit> {
             return try {
                 Wrapper.Success(
                     local.deleteExecution(
-                        executionId
+                        executionId,
+                        exerciseExecution
                     )
                 )
             } catch (t: Throwable) {
@@ -48,7 +50,8 @@ interface ExecutionRepository {
     }
 
     suspend fun deleteExecution(
-        executionId: String
+        executionId: String,
+        exerciseExecution: ExerciseExecution
     ): Wrapper<Unit>
 
     suspend fun putExecution(

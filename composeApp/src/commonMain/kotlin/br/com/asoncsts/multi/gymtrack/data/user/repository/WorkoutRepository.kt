@@ -52,6 +52,22 @@ interface WorkoutRepository {
             }
         }
 
+        override suspend fun getWorkout(
+            workout: Workout
+        ): Wrapper<Flow<Workout>> {
+            return try {
+                Wrapper.Success(
+                    local.getWorkout(workout)
+                )
+            } catch (t: Throwable) {
+                TAG_DATA.error(
+                    "WorkoutRepository.local.getWorkout",
+                    t
+                )
+                Wrapper.Error(t)
+            }
+        }
+
         override suspend fun getWorkouts(): Wrapper<Flow<List<Workout>>> {
             return try {
                 Wrapper.Success(
@@ -112,6 +128,10 @@ interface WorkoutRepository {
     suspend fun deleteWorkout(
         workout: Workout
     ): Wrapper<Unit>
+
+    suspend fun getWorkout(
+        workout: Workout
+    ): Wrapper<Flow<Workout>>
 
     suspend fun getWorkouts(): Wrapper<Flow<List<Workout>>>
 

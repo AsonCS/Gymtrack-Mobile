@@ -14,8 +14,14 @@ interface WorkoutWithExerciseExecutionsDao {
     )
 
     @Transaction
+    @Query("SELECT * FROM workout WHERE workoutId = :workoutId")
+    fun getWorkoutWithExerciseExecutions(
+        workoutId: String
+    ): Flow<WorkoutWithExerciseExecutions>
+
+    @Transaction
     @Query("SELECT * FROM workout")
-    fun getWorkoutWithExerciseExecutions(): Flow<List<WorkoutWithExerciseExecutions>>
+    fun getWorkoutsWithExerciseExecutions(): Flow<List<WorkoutWithExerciseExecutions>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(
