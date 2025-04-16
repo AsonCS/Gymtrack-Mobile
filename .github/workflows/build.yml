@@ -25,8 +25,10 @@ jobs:
 
     - name: "Generate Google Services json"
       env:
-        DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: echo $DATA > ./composeApp/src/google-services.json
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        TEST_SECRET: ${{ secrets.TEST }}
+        TEST_VARIABLE: ${{ variables.TEST }}
+      run: echo $TEST_SECRET && echo $TEST_SECRET && echo $GOOGLE_SERVICES_JSON && echo $GOOGLE_SERVICES_JSON > ./composeApp/src/google-services.json
 
     - name: "Generate Build Config"
       run: ./gradlew buildConfigGenerator
