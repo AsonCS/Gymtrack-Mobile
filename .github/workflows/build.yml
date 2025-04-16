@@ -23,10 +23,15 @@ jobs:
     - name: "Grant execute permission for gradlew"
       run: chmod +x gradlew
 
+    - name: "Test"
+      env:
+        TEST: ${{ vars.TEST }}
+      run: echo $TEST && echo $TEST > ./test.txt && more ./test.txt
+
     - name: "Generate Google Services json"
       env:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: echo $GOOGLE_SERVICES_JSON > ./composeApp/src/google-services.json && cat ./composeApp/src/google-services.json
+      run: echo $GOOGLE_SERVICES_JSON > ./composeApp/src/google-services.json
 
     - name: "Generate Build Config"
       run: ./gradlew buildConfigGenerator
