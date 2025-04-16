@@ -1,0 +1,16 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: ls ./composeApp/build/outputs/bundle/release
