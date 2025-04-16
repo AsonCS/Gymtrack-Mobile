@@ -23,15 +23,15 @@ jobs:
       - name: "Grant execute permission for gradlew"
         run: chmod +x gradlew
 
-      - name: "Generate Google Services json"
+      - name: "Generate Protected Files"
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
           UPLOAD_JKS: ${{ secrets.UPLOAD_JKS }}
         run: |
-          echo $GOOGLE_SERVICES_JSON > ./composeApp/src/google-services.json
-          echo $KEYSTORE_PROPERTIES > ./keystore/keystore.properties
-          echo $UPLOAD_JKS > ./keystore/upload.jks
+          echo $GOOGLE_SERVICES_JSON | base64 -di > ./composeApp/src/google-services.json
+          echo $KEYSTORE_PROPERTIES | base64 -di > ./keystore/keystore.properties
+          echo $UPLOAD_JKS | base64 -di > ./keystore/upload.jks
 
       - name: "Generate Build Config"
         run: ./gradlew buildConfigGenerator
