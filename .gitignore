@@ -21,5 +21,6 @@ captures
 kotlin-js-store/yarn.lock
 /composeApp/src/commonMain/kotlin/br/com/asoncsts/multi/gymtrack/generated
 /composeApp/src/google-services.json
-keystore/
+keystore/*
+!keystore/upload.jks.png
 release/

@@ -2,8 +2,11 @@ package br.com.asoncsts.multi.gymtrack
 
 import br.com.asoncsts.multi.gymtrack.extension.deviceLanguage
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import org.junit.Assert
 import org.junit.Test
+import java.io.FileReader
 
 class GenericTest {
 
@@ -37,6 +40,16 @@ class GenericTest {
         )
         // */
         println(lang)
+    }
+
+    @Test
+    fun `Print Google Services json`() = runBlocking {
+        /*
+        FileReader("./src/google-services.json").use {
+            val json = Json.decodeFromString<JsonObject>(it.readText())
+            println(json)
+        }
+        // */
     }
 
 }
