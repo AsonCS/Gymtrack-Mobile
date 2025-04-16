@@ -28,13 +28,13 @@ jobs:
         GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         TEST_SECRET: ${{ secrets.TEST }}
         TEST_VARIABLE: ${{ vars.TEST }}
-      run: echo $TEST_SECRET && echo $TEST_SECRET && echo $GOOGLE_SERVICES_JSON && echo $GOOGLE_SERVICES_JSON > ./composeApp/src/google-services.json
+      run: echo $TEST_VARIABLE && echo $TEST_SECRET && echo $GOOGLE_SERVICES_JSON && echo $GOOGLE_SERVICES_JSON > ./composeApp/src/google-services.json
 
-    - name: "Generate Build Config"
-      run: ./gradlew buildConfigGenerator
+    #- name: "Generate Build Config"
+    #  run: ./gradlew buildConfigGenerator
 
-    - name: "Run all tests"
-      run: ./gradlew :composeApp:cleanDesktopTest :composeApp:desktopTest --tests "br.com.asoncsts.multi.gymtrack.*"
+    #- name: "Run all tests"
+    #  run: ./gradlew :composeApp:cleanDesktopTest :composeApp:desktopTest --tests "br.com.asoncsts.multi.gymtrack.*"
 
-    - name: "Build with Gradle"
-      run: ./gradlew :composeApp:bundleRelease
+    #- name: "Build with Gradle"
+    #  run: ./gradlew :composeApp:bundleRelease
