@@ -24,5 +24,5 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICES_ACCOUNT_JSON }}
           packageName: br.com.asoncsts.multi.gymtrack
-          releaseFiles: "${{ github.workspace }}/app-release.aab"
+          releaseFiles: "${{ github.workspace }}/composeApp-release.aab"
           track: production

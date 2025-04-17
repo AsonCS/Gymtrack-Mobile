@@ -47,6 +47,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-bundle
-          path: "./composeApp/build/outputs/bundle/release/app-release.aab"
+          path: "./composeApp/build/outputs/bundle/release/composeApp-release.aab"
+          if-no-files-found: error
+          retention-days: 1
+          overwrite: true
 
       - run: echo "Build status report=${{ job.status }}"
