@@ -48,5 +48,8 @@ jobs:
         with:
           name: app-bundle
           path: "./composeApp/build/outputs/bundle/release/composeApp-release.aab"
+          if-no-files-found: error
+          retention-days: 1
+          overwrite: true
 
       - run: echo "Build status report=${{ job.status }}"
