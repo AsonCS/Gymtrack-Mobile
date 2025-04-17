@@ -19,10 +19,17 @@ jobs:
         with:
           name: app-bundle
 
+      - name: "Create Services Account json"
+        env:
+          GOOGLE_SERVICES_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICES_ACCOUNT_JSON }}
+        run: |
+          echo $GOOGLE_SERVICES_ACCOUNT_JSON | base64 -di > ./services-account.json
+          ls ${{ github.workspace }}
+
       - name: "Publish to Play Store"
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_SERVICES_ACCOUNT_JSON }}
+          serviceAccountJson: ./services-account.json
           packageName: br.com.asoncsts.multi.gymtrack
           releaseFiles: "${{ github.workspace }}/composeApp-release.aab"
           track: production
