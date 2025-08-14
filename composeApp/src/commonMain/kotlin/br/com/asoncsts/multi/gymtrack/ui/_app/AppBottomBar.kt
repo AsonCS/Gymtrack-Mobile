@@ -2,9 +2,6 @@ package br.com.asoncsts.multi.gymtrack.ui._app
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.asoncsts.multi.gymtrack.data.auth.model.User
 import br.com.asoncsts.multi.gymtrack.ui._components.UserIcon
+import gymtrack.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.painterResource
 
 internal data class AppBottomBarProps(
     val navigateToHome: () -> Unit,
@@ -79,7 +78,7 @@ internal fun AppBottomBar(
                 ) {
                     IconButton(onClickHome) {
                         Icon(
-                            Icons.Filled.Home,
+                            painterResource(Res.drawable.home),
                             "Home",
                             Modifier
                                 .size(size)
@@ -95,7 +94,7 @@ internal fun AppBottomBar(
             ) {
                 IconButton(onClickSearch) {
                     Icon(
-                        Icons.Filled.Search,
+                        painterResource(Res.drawable.search),
                         "Search",
                         Modifier
                             .size(size)

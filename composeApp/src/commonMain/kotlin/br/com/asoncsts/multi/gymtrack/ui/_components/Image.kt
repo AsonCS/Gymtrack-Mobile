@@ -37,7 +37,7 @@ fun ImageWithCache(
 ) {
     val height = (width * ratio.value)
     val url = if (imageUrl != null)
-        "${BuildConfig.HOST_IMAGE}/$imageUrl&height=${height.toPx()}&width=${width.toPx()}"
+        "${BuildConfig.hostImage}/$imageUrl&height=${height.toPx()}&width=${width.toPx()}"
     else
         null
 

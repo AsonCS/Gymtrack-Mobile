@@ -4,7 +4,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.com.asoncsts.multi.gymtrack.database.AppDatabase
 import coil3.PlatformContext
-import io.ktor.client.engine.apache5.Apache5
 import java.io.File
 
 actual val platform = object : Platform {
@@ -22,8 +21,6 @@ actual val platform = object : Platform {
                 name = dbFile.absolutePath,
             )
         }
-
-    override val engine = Apache5
 
     override val type = Platform.Type.Desktop
 

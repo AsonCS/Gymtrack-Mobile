@@ -7,10 +7,10 @@ android-targetSdk = "36"
 
 agp = "8.12.0"
 androidx-activity = "1.10.1"
-androidx-lifecycle = "2.9.1"
+androidx-lifecycle = "2.8.3"
 androidx-navigation = "2.8.0-alpha10"
 coil3 = "3.0.0-rc01"
-compose-hot-reload = "1.0.0-beta04"
+compose-hot-reload = "1.0.0-beta05"
 compose-multiplatform = "1.8.2"
 firebase-appdistribution = "5.0.0"
 firebase-crashlytics = "3.0.2"
@@ -21,7 +21,7 @@ koin = "4.0.0-RC2"
 kotlin = "2.2.10"
 kotlinx-coroutines = "1.10.2"
 ksp = "2.2.0-2.0.2"
-ktor = "3.0.0"
+ktor = "3.2.3"
 room = "2.7.0-alpha12"
 sqlite = "2.5.0-alpha12"
 
@@ -52,6 +52,7 @@ koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = 
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 ktor-apache5 = { group = "io.ktor", name = "ktor-client-apache5", version.ref = "ktor" }
+ktor-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }

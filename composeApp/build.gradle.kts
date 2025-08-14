@@ -122,6 +122,9 @@ kotlin {
             implementation(libs.test.junit)
         }
 
+        nativeMain.dependencies {
+            implementation(libs.ktor.darwin)
+        }
     }
 }
 
@@ -213,17 +216,17 @@ val buildConfigGenerator by tasks.registering(Sync::class) {
             |package $lApplicationId.generated
             |
             |object BuildConfig {
-            |   const val APPLICATION_ID = "$lApplicationId"
-            |   const val APPLICATION_VERSION = "$lApplicationVersion"
-            |   const val APPLICATION_VERSION_CODE = "$lApplicationVersionCode"
+            |   const val applicationId = "$lApplicationId"
+            |   const val applicationVersion = "$lApplicationVersion"
+            |   const val applicationVersionCode = "$lApplicationVersionCode"
             |
-            |   const val DEBUG = true
+            |   const val debug = true
             |
-            |   const val FIREBASE_DEFAULT_WEB_CLIENT_ID = "${keystoreProperties["firebaseDefaultWebClientId"]}"
+            |   const val firebaseDefaultWebClientId = "${keystoreProperties["firebaseDefaultWebClientId"]}"
             |   
-            |   const val HOST = "https://gymtrack-sigma.vercel.app/api"
-            |   //const val HOST = "http://$ip:3000/api"
-            |   const val HOST_IMAGE = "https://gymtrack-sigma.vercel.app/image"
+            |   const val host = "https://gymtrack-sigma.vercel.app/api"
+            |   //const val host = "http://$ip:3000/api"
+            |   const val hostImage = "https://gymtrack-sigma.vercel.app/image"
             |
             |}
             |

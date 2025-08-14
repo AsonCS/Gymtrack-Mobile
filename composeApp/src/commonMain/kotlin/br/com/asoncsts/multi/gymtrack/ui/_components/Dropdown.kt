@@ -6,9 +6,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,6 +16,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.shapes
+import gymtrack.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun <Item> Dropdown(
@@ -146,7 +145,7 @@ fun <Item> Dialog(
                             .fillMaxWidth(),
                         trailingIcon = {
                             Icon(
-                                Icons.Filled.Search,
+                                painterResource(Res.drawable.search),
                                 "Search"
                             )
                         }
@@ -216,7 +215,7 @@ fun Field(
                     .align(Alignment.Center)
             )
             Icon(
-                Icons.Filled.ArrowDropDown,
+                painterResource(Res.drawable.arrow_drop_down),
                 label,
                 Modifier
                     .align(Alignment.CenterEnd)

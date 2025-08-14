@@ -18,7 +18,6 @@ import coil3.memory.MemoryCache
 import coil3.request.*
 import coil3.util.DebugLogger
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.*
@@ -38,7 +37,6 @@ interface Platform {
 
     val coilContext: PlatformContext
     val databaseBuilder: RoomDatabase.Builder<AppDatabase>
-    val engine: HttpClientEngineFactory<*>
     val type: Type
 
     val isDesktop
@@ -94,7 +92,7 @@ internal fun dataModule() = module {
 
     // region Ktor
     single {
-        HttpClient(platform.engine) {
+        HttpClient {
             install(Logging) {
                 level = LogLevel.INFO
 
@@ -127,7 +125,7 @@ internal fun dataModule() = module {
     single<ExerciseApi> {
         ExerciseApi.Impl(
             client = get(),
-            host = BuildConfig.HOST
+            host = BuildConfig.host
         )
     }
     // endregion
