@@ -10,6 +10,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeHotReload)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.firebaseAppdistribution)
     alias(libs.plugins.firebaseCrashlytics)
@@ -89,8 +90,8 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.ui)
 
-            implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.coil3.compose)
             implementation(libs.koin.core)

@@ -1,35 +1,41 @@
 [versions]
 applicationId = "br.com.asoncsts.multi.gymtrack"
-applicationVersion = "1.0.0" # Just one digit for minor and point versions
-android-compileSdk = "34"
+applicationVersion = "1.0.1" # Just one digit each
+android-compileSdk = "36"
 android-minSdk = "24"
-android-targetSdk = "34"
+android-targetSdk = "36"
 
-agp = "8.5.2"
-androidx-activityCompose = "1.9.3"
-androidx-lifecycle = "2.8.3"
+agp = "8.12.0"
+androidx-activity = "1.10.1"
+androidx-lifecycle = "2.9.1"
 androidx-navigation = "2.8.0-alpha10"
 coil3 = "3.0.0-rc01"
-compose-multiplatform = "1.7.0"
+compose-hot-reload = "1.0.0-beta04"
+compose-multiplatform = "1.8.2"
 firebase-appdistribution = "5.0.0"
 firebase-crashlytics = "3.0.2"
 firebase-ui = "8.0.2"
 google-id = "1.1.1"
 google-services = "4.4.2"
 koin = "4.0.0-RC2"
-kotlin = "2.0.21"
-kotlinx-coroutines = "1.9.0"
-ksp = "2.0.20-1.0.25"
+kotlin = "2.2.10"
+kotlinx-coroutines = "1.10.2"
+ksp = "2.2.0-2.0.2"
 ktor = "3.0.0"
 room = "2.7.0-alpha12"
 sqlite = "2.5.0-alpha12"
 
 test-junit = "4.13.2"
 
+#agp = "8.7.3"
+#androidx-core = "1.16.0"
+#androidx-testExt = "1.2.1"
+#kotlin = "2.2.0"
+
 [libraries]
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil3-jvm = { module = "io.coil-kt.coil3:coil-network-okhttp-jvm", version.ref = "coil3" }
@@ -57,10 +63,16 @@ sqlite = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sq
 
 test-junit = { group = "junit", name = "junit", version.ref = "test-junit" }
 
+#kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+#kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+#androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+#androidx-testExt-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-testExt" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hot-reload" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 firebaseAppdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebase-appdistribution" }
 firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
