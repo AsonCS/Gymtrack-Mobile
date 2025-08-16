@@ -21,8 +21,6 @@ actual val platform = object : Platform {
             )
         }
 
-    override val type = Platform.Type.IOS
-
 }
 
 private val documentDirectory: String

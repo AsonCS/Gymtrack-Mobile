@@ -9,6 +9,7 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidxRoom)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.composeMultiplatform)
@@ -17,7 +18,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 val keystoreProperties = Properties().apply {
@@ -37,8 +38,12 @@ val lApplicationVersionCode = libs.versions.applicationVersion
     .replace(".", "")
     .toInt()
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
+//ksp {
+//    arg("room.schemaLocation", "$projectDir/schemas")
+//}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 kotlin {
@@ -192,6 +197,10 @@ dependencies {
     add("kspCommonMainMetadata", libs.room.compiler)
     add("kspAndroid", libs.room.compiler)
     add("kspDesktop", libs.room.compiler)
+    //add("kspNative", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
     debugImplementation(compose.uiTooling)
 }
 

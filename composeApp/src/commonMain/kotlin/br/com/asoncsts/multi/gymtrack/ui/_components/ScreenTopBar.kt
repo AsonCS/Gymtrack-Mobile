@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import br.com.asoncsts.multi.gymtrack.di.platform
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.typography
 import gymtrack.composeapp.generated.resources.Res
@@ -28,7 +27,7 @@ fun ScreenTopBar(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (platform.isDesktop && onNavigateUp != null) {
+        if (onNavigateUp != null) {
             IconButton(
                 onNavigateUp,
                 Modifier
