@@ -38,10 +38,6 @@ val lApplicationVersionCode = libs.versions.applicationVersion
     .replace(".", "")
     .toInt()
 
-//ksp {
-//    arg("room.schemaLocation", "$projectDir/schemas")
-//}
-
 room {
     schemaDirectory("$projectDir/schemas")
 }
@@ -76,7 +72,6 @@ kotlin {
             implementation(compose.preview)
 
             implementation(libs.androidx.activity.compose)
-            implementation(libs.coil3.okhttp)
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.auth)
             implementation(libs.firebase.crashlytics)
@@ -99,13 +94,16 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.coil3.compose)
+            implementation(libs.coil3.ktor)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.ktor.core)
             implementation(libs.ktor.logging)
             implementation(libs.ktor.negotiation)
+            implementation(libs.ktor.serialization)
             implementation(libs.ktor.serialization.json)
+            implementation(libs.ktor.utils)
             implementation(libs.room.runtime)
             implementation(libs.sqlite)
         }
@@ -114,7 +112,6 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
 
-            implementation(libs.coil3.jvm)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.apache5)
         }

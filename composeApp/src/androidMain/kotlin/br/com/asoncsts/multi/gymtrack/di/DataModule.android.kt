@@ -5,7 +5,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.com.asoncsts.multi.gymtrack.database.AppDatabase
 import coil3.PlatformContext
-import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -25,9 +24,5 @@ actual val platform: Platform = object : Platform, KoinComponent {
                 name = dbFile.absolutePath
             )
         }
-
-    override val engine = OkHttp
-
-    override val type = Platform.Type.Android
 
 }

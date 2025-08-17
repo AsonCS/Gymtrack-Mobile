@@ -9,7 +9,7 @@ agp = "8.12.0"
 androidx-activity = "1.10.1"
 androidx-lifecycle = "2.8.3"
 androidx-navigation = "2.8.0-alpha10"
-coil3 = "3.0.0-rc01"
+coil3 = "3.3.0"
 compose-hot-reload = "1.0.0-beta05"
 compose-multiplatform = "1.8.2"
 firebase-appdistribution = "5.0.0"
@@ -38,8 +38,7 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
-coil3-jvm = { module = "io.coil-kt.coil3:coil-network-okhttp-jvm", version.ref = "coil3" }
-coil3-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil3" }
+coil3-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version = "3.0.0-alpha08" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = "com.google.firebase:firebase-bom:33.7.0"
@@ -57,7 +56,9 @@ ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor"
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-serialization = { group = "io.ktor", name = "ktor-serialization", version.ref = "ktor" }
 ktor-serialization-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-utils = { group = "io.ktor", name = "ktor-utils", version.ref = "ktor" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 sqlite = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
