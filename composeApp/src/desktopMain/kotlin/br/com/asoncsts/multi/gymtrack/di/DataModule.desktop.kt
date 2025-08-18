@@ -22,6 +22,4 @@ actual val platform = object : Platform {
             )
         }
 
-    override val type = Platform.Type.Desktop
-
 }
