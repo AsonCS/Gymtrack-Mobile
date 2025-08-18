@@ -32,5 +32,4 @@ jobs:
           packageName: br.com.asoncsts.multi.gymtrack
           releaseFiles: "${{ github.workspace }}/composeApp-release.aab"
           track: production
-          userFraction: 1.0
           whatsNewDirectory: deploy/whatsnew
