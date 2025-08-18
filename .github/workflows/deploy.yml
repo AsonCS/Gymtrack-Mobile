@@ -24,7 +24,6 @@ jobs:
           GOOGLE_SERVICES_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICES_ACCOUNT_JSON }}
         run: |
           echo $GOOGLE_SERVICES_ACCOUNT_JSON | base64 -di > ./services-account.json
-          ls ${{ github.workspace }}
 
       - name: "Publish to Play Store"
         uses: r0adkll/upload-google-play@v1
@@ -33,3 +32,5 @@ jobs:
           packageName: br.com.asoncsts.multi.gymtrack
           releaseFiles: "${{ github.workspace }}/composeApp-release.aab"
           track: production
+          userFraction: 1.0
+          whatsNewDirectory: deploy/whatsnew

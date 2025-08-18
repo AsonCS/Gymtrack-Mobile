@@ -9,14 +9,16 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidxRoom)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeHotReload)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.firebaseAppdistribution)
     alias(libs.plugins.firebaseCrashlytics)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 val keystoreProperties = Properties().apply {
@@ -36,8 +38,8 @@ val lApplicationVersionCode = libs.versions.applicationVersion
     .replace(".", "")
     .toInt()
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 kotlin {
@@ -70,7 +72,6 @@ kotlin {
             implementation(compose.preview)
 
             implementation(libs.androidx.activity.compose)
-            implementation(libs.coil3.okhttp)
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.auth)
             implementation(libs.firebase.crashlytics)
@@ -89,17 +90,20 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.ui)
 
-            implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.coil3.compose)
+            implementation(libs.coil3.ktor)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.ktor.core)
             implementation(libs.ktor.logging)
             implementation(libs.ktor.negotiation)
+            implementation(libs.ktor.serialization)
             implementation(libs.ktor.serialization.json)
+            implementation(libs.ktor.utils)
             implementation(libs.room.runtime)
             implementation(libs.sqlite)
         }
@@ -108,7 +112,6 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
 
-            implementation(libs.coil3.jvm)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.apache5)
         }
@@ -121,6 +124,9 @@ kotlin {
             implementation(libs.test.junit)
         }
 
+        nativeMain.dependencies {
+            implementation(libs.ktor.darwin)
+        }
     }
 }
 
@@ -188,6 +194,10 @@ dependencies {
     add("kspCommonMainMetadata", libs.room.compiler)
     add("kspAndroid", libs.room.compiler)
     add("kspDesktop", libs.room.compiler)
+    //add("kspNative", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
     debugImplementation(compose.uiTooling)
 }
 
@@ -212,17 +222,17 @@ val buildConfigGenerator by tasks.registering(Sync::class) {
             |package $lApplicationId.generated
             |
             |object BuildConfig {
-            |   const val APPLICATION_ID = "$lApplicationId"
-            |   const val APPLICATION_VERSION = "$lApplicationVersion"
-            |   const val APPLICATION_VERSION_CODE = "$lApplicationVersionCode"
+            |   const val applicationId = "$lApplicationId"
+            |   const val applicationVersion = "$lApplicationVersion"
+            |   const val applicationVersionCode = "$lApplicationVersionCode"
             |
-            |   const val DEBUG = true
+            |   const val debug = true
             |
-            |   const val FIREBASE_DEFAULT_WEB_CLIENT_ID = "${keystoreProperties["firebaseDefaultWebClientId"]}"
+            |   const val firebaseDefaultWebClientId = "${keystoreProperties["firebaseDefaultWebClientId"]}"
             |   
-            |   const val HOST = "https://gymtrack-sigma.vercel.app/api"
-            |   //const val HOST = "http://$ip:3000/api"
-            |   const val HOST_IMAGE = "https://gymtrack-sigma.vercel.app/image"
+            |   const val host = "https://gymtrack-sigma.vercel.app/api"
+            |   //const val host = "http://$ip:3000/api"
+            |   const val hostImage = "https://gymtrack-sigma.vercel.app/image"
             |
             |}
             |

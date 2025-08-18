@@ -54,7 +54,7 @@ class AndroidAuthRepository(
         val credentialManager = CredentialManager
             .create(context)
         val googleIdOption = GetSignInWithGoogleOption
-            .Builder(BuildConfig.FIREBASE_DEFAULT_WEB_CLIENT_ID)
+            .Builder(BuildConfig.firebaseDefaultWebClientId)
             .build()
         val request = GetCredentialRequest
             .Builder()

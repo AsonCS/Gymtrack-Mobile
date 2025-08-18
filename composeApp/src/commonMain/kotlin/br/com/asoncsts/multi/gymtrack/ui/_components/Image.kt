@@ -10,6 +10,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import br.com.asoncsts.multi.gymtrack.di.platform
+import br.com.asoncsts.multi.gymtrack.extension.error
 import br.com.asoncsts.multi.gymtrack.generated.BuildConfig
 import br.com.asoncsts.multi.gymtrack.ui._theme.colors
 import br.com.asoncsts.multi.gymtrack.ui._theme.shapes
@@ -37,7 +38,7 @@ fun ImageWithCache(
 ) {
     val height = (width * ratio.value)
     val url = if (imageUrl != null)
-        "${BuildConfig.HOST_IMAGE}/$imageUrl&height=${height.toPx()}&width=${width.toPx()}"
+        "${BuildConfig.hostImage}/$imageUrl&height=${height.toPx()}&width=${width.toPx()}"
     else
         null
 
@@ -64,9 +65,21 @@ fun ImageWithCache(
         .data(url)
         .memoryCacheKey(url)
         .diskCacheKey(url)
+        .listener(
+            onError = { req, error ->
+                "ImageWithCache".error(
+                    error.throwable
+                        .message
+                        ?: "Error",
+                    error.throwable
+                )
+            }
+        )
         .target(
             onError = {
-                image = it?.asPainter(platform.coilContext)
+                image = it
+                    ?.asPainter(platform.coilContext)
+                    ?: placeholder
             },
             onSuccess = {
                 image = it.asPainter(platform.coilContext)
