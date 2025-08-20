@@ -71,7 +71,7 @@ internal fun dataModule() = module {
     }
     factory<ImageRequest.Builder> {
         val builder = ImageRequest.Builder(platform.coilContext)
-            .coroutineContext(Dispatchers.IO)
+            // .coroutineContext(Dispatchers.IO)
             .memoryCachePolicy(CachePolicy.ENABLED)
             .diskCachePolicy(CachePolicy.ENABLED)
             .networkCachePolicy(CachePolicy.ENABLED)

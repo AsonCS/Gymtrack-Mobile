@@ -93,19 +93,14 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.navigation.compose)
-            implementation(libs.coil3.compose)
-            implementation(libs.coil3.ktor)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-            implementation(libs.ktor.core)
-            implementation(libs.ktor.logging)
-            implementation(libs.ktor.negotiation)
-            implementation(libs.ktor.serialization)
-            implementation(libs.ktor.serialization.json)
-            implementation(libs.ktor.utils)
             implementation(libs.room.runtime)
             implementation(libs.sqlite)
+
+            implementation(libs.bundles.coil3)
+            implementation(libs.bundles.ktor)
         }
 
         val desktopMain by getting
